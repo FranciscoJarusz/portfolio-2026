@@ -2,13 +2,13 @@
 import experiencia from '@/data/experiencia.json';
 ---
 
-<section id="exp-container" class="flex flex-col gap-20 justify-start items-start h-[calc(100vh-210px)] overflow-hidden">
+<section id="exp-container" class="flex flex-col gap-40 justify-start items-start h-[calc(100vh-210px)] overflow-hidden">
 
     <h1 id="experiencia" class="text-black font-black text-7xl text-left">
         Experiencia
     </h1>
 
-    <div class="flex gap-16 mt-8">
+    <div class="flex gap-22.5">
         {experiencia.map((item) => (
             <div class="exp-card relative rounded-3xl p-8 flex flex-col gap-4 w-170 shrink-0 h-full justify-between" style={`background-color: ${item.color}; color: ${item.colorTexto}`}>
 
@@ -52,7 +52,7 @@ import experiencia from '@/data/experiencia.json';
 
     if (section && cards.length > 0) {
         const widthCard = cards[0].offsetWidth;
-        const gap = 64;
+        const gap = 90;
         const widthVisible = 31;
 
         const tl = gsap.timeline({
@@ -61,7 +61,7 @@ import experiencia from '@/data/experiencia.json';
                 pin: true,
                 scrub: 1,
                 start: "top 22%",
-                end: () => `+=${cards.length * 800}`, 
+                end: () => `+=${cards.length * 600}`, 
                 invalidateOnRefresh: true,
             }
         });
