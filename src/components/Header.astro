@@ -7,7 +7,7 @@
         <p class="text-md font-semibold italic text-black">FRANSZ</p>
     </div>
 
-    <nav>
+    <nav class="nav-link">
         <ul class="flex gap-12">
             <li><a href="#hero" class="text-md font-semibold text-grey">Inicio</a></li>
             <li><a href="#experiencia" class="text-md font-semibold text-grey">Experiencia</a></li>
@@ -19,3 +19,59 @@
     <a href="#" class="text-md font-semibold py-2 px-5 bg-black text-white rounded-xl">Contacto</a>
 
 </header>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import lenis from "@/scripts/lenis";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('nav ul li a');
+
+    const setActiveLink = (activeLink: HTMLElement) => {
+        navLinks.forEach(link => {
+            link.classList.remove('text-black', 'font-extrabold');
+            link.classList.add('text-grey', 'font-semibold');
+        });
+        
+        activeLink.classList.add('text-black', 'font-extrabold');
+        activeLink.classList.remove('text-grey', 'font-semibold');
+    };
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href;
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    setActiveLink(link);
+
+                    lenis.scrollTo(targetElement as HTMLElement, {
+                        duration: 1.2,
+                        offset: -80,
+                    });
+                }
+            }
+        });
+
+        const sectionId = link.getAttribute('href');
+        if (sectionId && sectionId.startsWith('#')) {
+            const section = document.querySelector(sectionId);
+            if (section) {
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 40%",
+                    end: "bottom 40%",
+                    onToggle: (self) => {
+                        if (self.isActive) setActiveLink(link);
+                    }
+                });
+            }
+        }
+    });
+</script>
