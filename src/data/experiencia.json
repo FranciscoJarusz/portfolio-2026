@@ -1,0 +1,62 @@
+[
+    {
+        "fecha": "Ene 2026 - Actualidad",
+        "cargo": "Desarrollador Front-end y Diseñador gráfico",
+        "empresa": "Cirugía JF S.A.",
+        "descripcion": "Lideré la evolución de la <strong>identidad visual</strong> y la <strong>optimización técnica</strong> del sitio institucional. Logré elevar el rendimiento en <strong>Lighthouse de 86 a 100 puntos</strong> y estandaricé la <strong>línea gráfica</strong> para el lanzamiento de <strong>canales oficiales en redes sociales</strong>, asegurando una experiencia de usuario fluida y profesional.",
+        "pills": ["WordPress", "Bootstrap", "Photoshop", "Illustrator", "After Effects"],
+        "color": "#437479",
+        "colorTexto": "#f8f9fa",
+        "colorBoton": "#f8f9fa",
+        "link": true,
+        "url": "https://www.cjf.ar/"
+    },
+    {
+        "fecha": "Nov 2025 - Actualidad",
+        "cargo": "Desarrollador Web Full Stack",
+        "empresa": "Ethigy",
+        "descripcion": "<strong>Lideré el desarrollo integral</strong> del sitio desde cero y actualmente encabezo su <strong>mantenimiento y optimización</strong>. Implementé una arquitectura moderna que eliminó deuda técnica, logrando un rendimiento de <strong>100/100 en Lighthouse</strong> y consolidando una plataforma <strong>altamente eficiente, escalable y centrada en el rendimiento</strong>.",
+        "pills": ["Astro", "Tailwind CSS", "JavaScript", "GSAP", "Lenis"],
+        "color": "#ebd389",
+        "colorTexto": "#1a1a1a",
+        "colorBoton": "#1a1a1a",
+        "link": true,
+        "url": "https://ethigy.com/es/"
+    },
+    {
+        "fecha": "Jul 2025 - Oct 2025",
+        "cargo": "Desarrollador Front-end",
+        "empresa": "Ethigy",
+        "descripcion": "Dirigí la <strong>modernización</strong> de la interfaz y la arquitectura de la información, logrando <strong>optimizar la navegación</strong> y fortalecer la percepción visual de la marca. Me enfoqué en entregar un <strong>código limpio y modular</strong> de fácil mantenimiento, asegurando una experiencia de usuario fluida y <strong>totalmente adaptable</strong> a cualquier dispositivo.",
+        "pills": ["HTML", "CSS", "JavaScript"],
+        "color": "#2c2f33",
+        "colorTexto": "#f8f9fa",
+        "colorBoton": "#f8f9fa",
+        "link": false,
+        "url": "#"
+    },
+    {
+        "fecha": "Ago 2025 - Nov 2025",
+        "cargo": "Desarrollador Front-end y Diseñador de identidad",
+        "empresa": "Synerbio",
+        "descripcion": "<strong>Lideré el desarrollo </strong> de la identidad digital y una plataforma optimizada para la <strong>captación de leads</strong>. Creé el <strong>ecosistema visual de la marca</strong> y una arquitectura técnica robusta, logrando <strong>maximizar la conversión</strong> y asegurando una experiencia fluida en todos los dispositivos.",
+        "pills": ["HTML", "CSS", "JavaScript", "Photoshop", "Illustrator"],
+        "color": "#3e5047",
+        "colorTexto": "#f8f9fa",
+        "colorBoton": "#f8f9fa",
+        "link": true,
+        "url": "https://www.synerbio.us/es/"
+    },
+    {
+        "fecha": "Mar 2025 - Ago 2025",
+        "cargo": "Desarrollador de .NET MAUI",
+        "empresa": "Global Dynamics SRL",
+        "descripcion": "<strong>Colaboré en el desarrollo</strong> de una solución móvil para optimizar procesos comerciales. Participé en la creación de interfaces y en la <strong>lógica interna</strong>, integrando módulos de <strong>gestión de inventarios y saldos</strong> que mejoraron la eficiencia operativa del usuario final.",
+        "pills": [".NET MAUI", "XAML", "C#"],
+        "color": "#2e3a47",
+        "colorTexto": "#f8f9fa",
+        "colorBoton": "#f8f9fa",
+        "link": false,
+        "url": "#"
+    }
+]
