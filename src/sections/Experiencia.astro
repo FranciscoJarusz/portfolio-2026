@@ -1,0 +1,42 @@
+---
+import experiencia from '@/data/experiencia.json';
+---
+
+<section id="experiencia" class="flex flex-col gap-20 justify-start items-start h-[calc(100vh-210px)]">
+
+    <h1 class="text-black font-black text-7xl text-left">
+        Experiencia
+    </h1>
+
+    <div class="flex gap-4 mt-8">
+        {experiencia.map((item) => (
+            <div class="relative rounded-3xl p-8 flex flex-col gap-4 w-170 shrink-0 h-full justify-between" style={`background-color: ${item.color}; color: ${item.colorTexto}`}>
+
+                {item.link && (
+                    <a href={item.url} target="_blank" class="absolute top-6 right-6 rounded-full w-10 h-10 flex items-center justify-center hover:rotate-45 transition-all duration-300" style={`background-color: ${item.colorBoton}; color: ${item.color}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7" />
+                            <polyline points="7 7 17 7 17 17" />
+                        </svg>
+                    </a>
+                )}
+
+                <span class="text-sm">{item.fecha}</span>
+
+                <h2 class="text-4xl font-black max-w-150">{item.cargo}</h2>
+
+                <p class="text-base opacity-80">{item.empresa}</p>
+
+                <p class="text-base max-w-150" set:html={item.descripcion}></p>
+
+                <div class="flex flex-wrap gap-4 mt-2">
+                    {item.pills.map((pill) => (
+                        <span class="text-xs font-semibold border-[1.5px] rounded-xl px-4 py-1" style="border-color: currentColor;">{pill}</span>
+                    ))}
+                </div>
+
+            </div>
+        ))}
+    </div>
+    
+</section>

@@ -28,8 +28,12 @@ import '../styles/global.css';
 
 	</head>
 
-	<body class="flex flex-col px-30 h-dvh overflow-hidden">
+	<body class="h-dvh overflow-y-scroll snap-y snap-mandatory px-30">
 		<slot />
 	</body>
+
+	<script>
+		import '@/scripts/lenis.ts';
+	</script>
 
 </html>
