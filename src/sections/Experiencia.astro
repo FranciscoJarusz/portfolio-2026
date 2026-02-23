@@ -2,15 +2,15 @@
 import experiencia from '@/data/experiencia.json';
 ---
 
-<section id="exp-container" class="flex flex-col gap-40 justify-start items-start h-[calc(100vh-210px)] overflow-hidden">
+<section id="exp-container" class="flex flex-col gap-40 justify-start items-start h-[calc(100vh-210px)]">
 
     <h1 id="experiencia" class="text-black font-black text-7xl text-left">
         Experiencia
     </h1>
 
-    <div class="flex gap-22.5">
+    <div class="flex gap-22.5 exp-card">
         {experiencia.map((item) => (
-            <div class="exp-card relative rounded-3xl p-8 flex flex-col gap-4 w-170 shrink-0 h-full justify-between" style={`background-color: ${item.color}; color: ${item.colorTexto}`}>
+            <div class="relative rounded-3xl p-8 flex flex-col gap-4 w-170 shrink-0 h-full justify-between" style={`background-color: ${item.color}; color: ${item.colorTexto}`}>
 
                 {item.link && (
                     <a href={item.url} target="_blank" class="absolute top-6 right-6 rounded-full w-10 h-10 flex items-center justify-center hover:rotate-45 transition-all duration-300" style={`background-color: ${item.colorBoton}; color: ${item.color}`}>
@@ -42,39 +42,27 @@ import experiencia from '@/data/experiencia.json';
 </section>
 
 <script>
-    import { gsap } from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    gsap.registerPlugin(ScrollTrigger);
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-    const section = document.querySelector("#exp-container");
-    const cards = gsap.utils.toArray<HTMLElement>(".exp-card");
+    const cards = document.querySelectorAll('.exp-card');
+    let cardsWidth = (cards[0] as HTMLElement)?.offsetWidth;
+    let cantidadAScrollear = cardsWidth - window.innerWidth + 255;
 
-    if (section && cards.length > 0) {
-        const widthCard = cards[0].offsetWidth;
-        const gap = 90;
-        const widthVisible = 31;
+    const mostrarCards = gsap.to(cards, {
+        x: -cantidadAScrollear,
+        duration: 3,
+        ease: 'none',
+    });
 
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                pin: true,
-                scrub: 1,
-                start: "top 22%",
-                end: () => `+=${cards.length * 600}`, 
-                invalidateOnRefresh: true,
-            }
-        });
+    ScrollTrigger.create({
+        trigger: '#exp-container',
+        start: 'top 22%',
+        end: "+=" + cantidadAScrollear,
+        pin: true,
+        animation: mostrarCards,
+        scrub: 1,
+    });
 
-        cards.forEach((card, i) => {
-            if (i === 0) return;
-
-            const targetX = -( (widthCard + gap) * i ) + (i * widthVisible);
-
-            tl.to(card, {
-                x: targetX,
-                ease: "power1.inOut",
-            }, "-=0.2");
-        });
-    }
 </script>
