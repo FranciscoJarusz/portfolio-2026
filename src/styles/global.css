@@ -25,3 +25,8 @@ body {
 	height: 100%;
 	background-color: var(--color-white);
 }
+
+::selection {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
