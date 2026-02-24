@@ -41,6 +41,16 @@
         activeLink.classList.remove('text-grey', 'font-semibold');
     };
 
+    document.addEventListener('expTerminada', () => {
+        const sobreMiLink = document.querySelector<HTMLAnchorElement>('a[href="#sobre-mi"]');
+        if (sobreMiLink) setActiveLink(sobreMiLink);
+    });
+
+    document.addEventListener('expActiva', () => {
+        const expLink = document.querySelector<HTMLAnchorElement>('a[href="#experiencia"]');
+        if (expLink) setActiveLink(expLink);
+    });
+
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
@@ -70,7 +80,10 @@
                     start: "top 40%",
                     end: "bottom 40%",
                     onToggle: (self) => {
-                        if (self.isActive) setActiveLink(link);
+                        if (self.isActive) {
+                            if (sectionId === '#sobre-mi' && (window as any).__expAnimando) return;
+                            setActiveLink(link);
+                        }
                     }
                 });
             }
