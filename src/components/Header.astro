@@ -1,3 +1,7 @@
+---
+import RollText from '@/components/ui/RollText.jsx';
+---
+
 <header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center py-6 px-30 bg-white">
 
 
@@ -11,14 +15,14 @@
 
     <nav class="nav-link">
         <ul class="flex gap-12">
-            <li><a href="#hero" class="text-md font-semibold text-grey">Inicio</a></li>
-            <li><a href="#experiencia" class="text-md font-semibold text-grey">Experiencia</a></li>
-            <li><a href="#sobre-mi" class="text-md font-semibold text-grey">Sobre mí</a></li>
-            <li><a href="#proyectos" class="text-md font-semibold text-grey">Proyectos</a></li>
+            <li><a href="#hero" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Inicio" client:load /></a></li>
+            <li><a href="#experiencia" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Experiencia" client:load /></a></li>
+            <li><a href="#sobre-mi" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Sobre mí" client:load /></a></li>
+            <li><a href="#proyectos" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Proyectos" client:load /></a></li>
         </ul>
     </nav>
 
-    <a href="#" class="text-md font-semibold py-2 px-5 bg-black text-white rounded-xl">Contacto</a>
+    <a href="#" class="text-md font-semibold py-2 px-6 bg-black text-white rounded-xl"><RollText text="Contacto" client:load /></a>
 
 </header>
 

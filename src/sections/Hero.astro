@@ -1,19 +1,28 @@
+---
+import RollText from '@/components/ui/RollText.jsx';
+import ShinyText from '@/components/ui/ShinyText.jsx';
+---
+
 <section id="hero" class="px-30 h-[calc(100vh+96px)]">
 
     <div class="flex flex-col gap-14 justify-center items-start h-full max-w-188">
 
-        <h1 class="text-black font-black text-7xl text-left leading-19">Transformando conceptos <span class="text-[70px] font-playfair">creativos</span> en experiencias digitales funcionales.</h1>
+        <h1 class="text-black font-black text-7xl text-left leading-19 hero-title">Transformando conceptos <ShinyText text="creativos" className="text-[70px] font-playfair opacity-100" client:load/> en experiencias digitales funcionales.</h1>
         
-        <div class="max-w-200 flex flex-col gap-14">
+        <div class="max-w-200 flex flex-col gap-14 hero-content">
 
             <p class="text-lg text-light-grey max-w-md">Desarrollador <span class="text-primary font-extrabold">Front-end</span> y <span class="text-primary font-extrabold">Diseñador UI</span> enfocado
                 en crear productos digitales que <span class="text-primary font-extrabold">escalan y 
                 convierten</span>.
             </p>
 
-            <div class="flex gap-8 items-center justify-between">
-                <a href="#experiencia" class="text-sm font-semibold py-3 px-12 bg-secondary text-white rounded-xl">Trayectoria</a>
-                <a href="#sobre-mi" class="text-sm font-semibold py-3 px-12 ring-2 ring-secondary ring-inset text-secondary rounded-xl">Conóceme</a>
+            <div class="flex gap-12 items-center hero-buttons">
+                <a href="#experiencia" class="text-sm font-semibold py-3 px-6 bg-secondary text-white rounded-xl">
+                    <RollText text="Trayectoria" client:load />
+                </a>
+                <a href="#sobre-mi" class="text-sm font-semibold py-3 px-6 ring-2 ring-secondary ring-inset text-secondary rounded-xl">
+                    <RollText text="Conóceme" client:load />
+                </a>
             </div>  
 
         </div>    
@@ -21,3 +30,41 @@
     </div>
 
 </section>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const playAnimation = () => {
+        const tl = gsap.timeline();
+
+        tl.from('.hero-title', {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            ease: 'power3.out'
+        })
+        .from('.hero-content > p', {
+            opacity: 0,
+            y: 30,
+            duration: 0.6,
+            ease: 'power3.out'
+        }, '-=0.4')
+        .from('.hero-buttons a', {
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            ease: 'power3.out',
+            stagger: 0.1
+        }, '-=0.3');
+    };
+
+    ScrollTrigger.create({
+        trigger: '#hero',
+        start: 'top 60%',
+        onEnter: playAnimation,
+        onEnterBack: playAnimation
+    });
+</script>
