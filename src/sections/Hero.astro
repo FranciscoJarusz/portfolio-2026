@@ -1,6 +1,7 @@
 ---
-import RollText from '@/components/ui/RollText.jsx';
 import ShinyText from '@/components/ui/ShinyText.jsx';
+import RollText from '@/components/ui/RollText.jsx';
+import FillButton from '@/components/ui/FillButton.jsx';
 ---
 
 <section id="hero" class="px-30 h-[calc(100vh+96px)]">
@@ -20,9 +21,14 @@ import ShinyText from '@/components/ui/ShinyText.jsx';
                 <a href="#experiencia" class="text-sm font-semibold py-3 px-6 bg-secondary text-white rounded-xl">
                     <RollText text="Trayectoria" client:load />
                 </a>
-                <a href="#sobre-mi" class="text-sm font-semibold py-3 px-6 ring-2 ring-secondary ring-inset text-secondary rounded-xl">
-                    <RollText text="Conóceme" client:load />
-                </a>
+                <FillButton
+                    href="#sobre-mi"
+                    text="Conóceme"
+                    className="text-sm font-semibold py-3 px-6 ring-2 ring-secondary ring-inset text-secondary rounded-xl"
+                    fillClassName="bg-secondary"
+                    fillTextColor="#f8f9fa"
+                    client:load
+                />
             </div>  
 
         </div>    
