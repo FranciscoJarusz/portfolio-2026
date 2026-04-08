@@ -4,7 +4,13 @@
         "cargo": "Desarrollador Front-end y Diseñador gráfico",
         "empresa": "Cirugía JF S.A.",
         "descripcion": "Lideré la evolución de la <strong>identidad visual</strong> y la <strong>optimización técnica</strong> del sitio institucional. Logré elevar el rendimiento en <strong>Lighthouse de 86 a 100 puntos</strong> y estandaricé la <strong>línea gráfica</strong> para el lanzamiento de <strong>canales oficiales en redes sociales</strong>, asegurando una experiencia de usuario fluida y profesional.",
-        "pills": ["WordPress", "Bootstrap", "Photoshop", "Illustrator", "After Effects"],
+        "pills": [
+            "WordPress",
+            "Bootstrap",
+            "Photoshop",
+            "Illustrator",
+            "After Effects"
+        ],
         "color": "#437479",
         "colorTexto": "#f8f9fa",
         "colorBoton": "#f8f9fa",
@@ -36,7 +42,23 @@
         "url": "#"
     },
     {
-        "fecha": "Ago 2025 - Nov 2025",
+        "fecha": "Jul 2025 - Actualidad",
+        "cargo": "Desarrollador Web Freelance",
+        "empresa": "Autónomo",
+        "descripcion": "Desarrollo de sitios y soluciones web personalizadas para clientes, adaptando bases propias a necesidades comerciales reales. Trabajo con foco en rendimiento, experiencia responsive, integración de herramientas modernas y autonomía del cliente para gestionar contenido.",
+        "pills": [
+            "Diseño UI/UX",
+            "Diseño de Interfaces Web",
+            "Desarollo Web Adaptable"
+        ],
+        "color": "#504e3e",
+        "colorTexto": "#f8f9fa",
+        "colorBoton": "#f8f9fa",
+        "link": false,
+        "url": "#"
+    },
+    {
+        "fecha": "Jul 2025 - Nov 2025",
         "cargo": "Desarrollador Front-end y Diseñador de identidad",
         "empresa": "Synerbio",
         "descripcion": "<strong>Lideré el desarrollo </strong> de la identidad digital y una plataforma optimizada para la <strong>captación de leads</strong>. Creé el <strong>ecosistema visual de la marca</strong> y una arquitectura técnica robusta, logrando <strong>maximizar la conversión</strong> y asegurando una experiencia fluida en todos los dispositivos.",
