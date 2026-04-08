@@ -6,21 +6,27 @@ const lenis = new Lenis({
 });
 
 document.addEventListener('click', (e: MouseEvent) => {
+    if (e.defaultPrevented) return;
+
     const target = e.target as HTMLElement;
-    
+
     const link = target.closest<HTMLAnchorElement>('a[href^="#"]');
-    
+
     if (link) {
         const href = link.getAttribute('href');
-        
+
         if (href && href !== '#') {
             e.preventDefault();
-            
+
             const element = document.querySelector<HTMLElement>(href);
-            
+
             if (element) {
+                const header = document.querySelector<HTMLElement>('#site-header');
+                const headerHeight = header?.offsetHeight ?? 0;
+
                 lenis.scrollTo(element, {
                     duration: 1.2,
+                    offset: -(headerHeight + 24),
                 });
             }
         }
