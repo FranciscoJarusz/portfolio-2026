@@ -2,9 +2,9 @@
 import RollText from '@/components/ui/RollText.jsx';
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center py-6 px-30 bg-white">
+<header id="site-header" class="site-header fixed top-0 left-0 right-0 z-50 flex justify-between items-center py-6 px-30 bg-white transition-colors duration-300">
 
-    <a href="/" class="flex gap-4 text-black items-center justify-center font-semibold italic hover:scale-105 transition-transform duration-300">        
+    <a href="/" class="site-header__brand flex gap-4 text-black items-center justify-center font-semibold italic hover:scale-105 transition-transform duration-300">
         <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 909.51 740.15">
             <path class="cls-1" d="M709.21,215.05L816.42,0H302.34L119.95,365.8h66.69L0,740.15,909.51,215.05h-200.3ZM158.37,571.8l135.92-272.61h-66.69l115.96-232.58h365.23l-81.25,162.95h-164.08l-25.98,52.1h223.43l-170.66,98.53h-101.9l-41.19,82.61-188.8,109Z" fill="currentColor"/>
         </svg>
@@ -14,14 +14,14 @@ import RollText from '@/components/ui/RollText.jsx';
 
     <nav class="nav-link">
         <ul class="flex gap-12">
-            <li><a href="#hero" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Inicio" client:load /></a></li>
-            <li><a href="#experiencia" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Experiencia" client:load /></a></li>
-            <li><a href="#sobre-mi" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Sobre mí" client:load /></a></li>
-            <li><a href="#proyectos" class="text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Proyectos" client:load /></a></li>
+            <li><a href="#hero" class="site-header__link text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Inicio" client:load /></a></li>
+            <li><a href="#experiencia" class="site-header__link text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Experiencia" client:load /></a></li>
+            <li><a href="#sobre-mi" class="site-header__link text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Sobre mí" client:load /></a></li>
+            <li><a href="#proyectos" class="site-header__link text-md font-semibold text-grey hover:text-black transition-all duration-300"><RollText text="Proyectos" client:load /></a></li>
         </ul>
     </nav>
 
-    <a href="#" class="text-md font-semibold py-2 px-6 bg-black text-white rounded-xl"><RollText text="Contacto" client:load /></a>
+    <a href="#" class="site-header__cta text-md font-semibold py-2 px-6 bg-black text-white rounded-xl transition-colors duration-300"><RollText text="Contacto" client:load /></a>
 
 </header>
 
@@ -32,32 +32,73 @@ import RollText from '@/components/ui/RollText.jsx';
 
     gsap.registerPlugin(ScrollTrigger);
 
+    const header = document.querySelector<HTMLElement>('#site-header');
     const navLinks = document.querySelectorAll<HTMLAnchorElement>('nav ul li a');
+    const getScrollOffset = () => {
+        const headerHeight = header?.offsetHeight ?? 0;
+        return -(headerHeight + 96);
+    };
+
+    const setHeaderTheme = (isDark: boolean) => {
+        if (!header) return;
+        header.classList.toggle('site-header--dark', isDark);
+    };
 
     const setActiveLink = (activeLink: HTMLElement) => {
         navLinks.forEach(link => {
             link.classList.remove('text-black', 'font-extrabold');
             link.classList.add('text-grey', 'font-semibold');
         });
-        
+
         activeLink.classList.add('text-black', 'font-extrabold');
         activeLink.classList.remove('text-grey', 'font-semibold');
     };
 
-    document.addEventListener('expTerminada', () => {
-        const sobreMiLink = document.querySelector<HTMLAnchorElement>('a[href="#sobre-mi"]');
-        if (sobreMiLink) setActiveLink(sobreMiLink);
-    });
+    const updateHeaderState = () => {
+        if (!header) return;
 
-    document.addEventListener('expActiva', () => {
-        const expLink = document.querySelector<HTMLAnchorElement>('a[href="#experiencia"]');
-        if (expLink) setActiveLink(expLink);
-    });
+        const headerRect = header.getBoundingClientRect();
+        const sampleX = Math.round(window.innerWidth / 2);
+        const sampleY = Math.min(
+            window.innerHeight - 1,
+            Math.round(headerRect.bottom + 24)
+        );
+
+        const elementBelowHeader = document.elementFromPoint(sampleX, sampleY);
+        const activeSection = elementBelowHeader?.closest('section');
+
+        if (!activeSection) return;
+
+        if (activeSection.id === 'hero') {
+            const heroLink = document.querySelector<HTMLAnchorElement>('a[href="#hero"]');
+            if (heroLink) setActiveLink(heroLink);
+            setHeaderTheme(false);
+            return;
+        }
+
+        if (activeSection.id === 'exp-container') {
+            const expLink = document.querySelector<HTMLAnchorElement>('a[href="#experiencia"]');
+            if (expLink) setActiveLink(expLink);
+            setHeaderTheme(false);
+            return;
+        }
+
+        if (activeSection.querySelector('#sobre-mi')) {
+            const sobreMiLink = document.querySelector<HTMLAnchorElement>('a[href="#sobre-mi"]');
+            if (sobreMiLink) setActiveLink(sobreMiLink);
+            setHeaderTheme(true);
+            return;
+        }
+
+        if (activeSection.id === 'estadisticas') {
+            setHeaderTheme(true);
+        }
+    };
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            
+
             if (href && href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href;
@@ -68,7 +109,7 @@ import RollText from '@/components/ui/RollText.jsx';
 
                     lenis.scrollTo(targetElement as HTMLElement, {
                         duration: 1.2,
-                        offset: -80,
+                        offset: getScrollOffset(),
                     });
                 }
             }
@@ -84,12 +125,23 @@ import RollText from '@/components/ui/RollText.jsx';
                     end: "bottom 40%",
                     onToggle: (self) => {
                         if (self.isActive) {
-                            if (sectionId === '#sobre-mi' && (window as any).__expAnimando) return;
-                            setActiveLink(link);
+                            updateHeaderState();
                         }
                     }
                 });
             }
         }
     });
+
+    ScrollTrigger.addEventListener('refresh', updateHeaderState);
+    ScrollTrigger.create({
+        trigger: document.body,
+        start: 0,
+        end: "max",
+        onUpdate: updateHeaderState,
+    });
+
+    window.addEventListener('resize', updateHeaderState);
+    requestAnimationFrame(updateHeaderState);
+
 </script>
