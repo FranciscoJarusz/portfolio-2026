@@ -4,7 +4,7 @@ import RollText from '@/components/ui/RollText.jsx';
 
 <header id="site-header" class="site-header fixed top-0 left-0 right-0 z-50 flex justify-between items-center py-6 px-30 bg-white transition-colors duration-300">
 
-    <a href="/" class="site-header__brand flex gap-4 text-black items-center justify-center font-semibold italic hover:scale-105 transition-transform duration-300">
+    <a href="/" class="site-header__brand flex gap-4 text-black items-center justify-center font-semibold italic hover:scale-105 active:scale-95 transition-transform duration-300">
         <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 909.51 740.15">
             <path class="cls-1" d="M709.21,215.05L816.42,0H302.34L119.95,365.8h66.69L0,740.15,909.51,215.05h-200.3ZM158.37,571.8l135.92-272.61h-66.69l115.96-232.58h365.23l-81.25,162.95h-164.08l-25.98,52.1h223.43l-170.66,98.53h-101.9l-41.19,82.61-188.8,109Z" fill="currentColor"/>
         </svg>
@@ -21,7 +21,7 @@ import RollText from '@/components/ui/RollText.jsx';
         </ul>
     </nav>
 
-    <a href="#" class="site-header__cta text-md font-semibold py-2 px-6 bg-black text-white rounded-xl transition-colors duration-300"><RollText text="Contacto" client:load /></a>
+    <a href="#" class="site-header__cta text-md font-semibold py-2 px-6 bg-black text-white rounded-xl transition-all duration-300 hover:scale-105 active:scale-95"><RollText text="Contacto" client:load /></a>
 
 </header>
 
@@ -54,45 +54,49 @@ import RollText from '@/components/ui/RollText.jsx';
         activeLink.classList.remove('text-grey', 'font-semibold');
     };
 
+    // Siempre resuelve al <section> contenedor, aunque el selector apunte a un hijo
+    const resolveSection = (selector: string): HTMLElement | null => {
+        const el = document.querySelector<HTMLElement>(selector);
+        if (!el) return null;
+        return el.tagName === 'SECTION' ? el : (el.closest<HTMLElement>('section') ?? el);
+    };
+
+    const sectionNavMap: { selector: string; linkSelector: string }[] = [
+        { selector: '#hero',          linkSelector: 'a[href="#hero"]' },
+        { selector: '#exp-container', linkSelector: 'a[href="#experiencia"]' },
+        { selector: '#sobre-mi',      linkSelector: 'a[href="#sobre-mi"]' },
+        { selector: '#proyectos',     linkSelector: 'a[href="#proyectos"]' },
+    ];
+
+    const DARK_SECTIONS = ['#sobre-mi', '#estadisticas'];
+
     const updateHeaderState = () => {
         if (!header) return;
 
-        const headerRect = header.getBoundingClientRect();
-        const sampleX = Math.round(window.innerWidth / 2);
-        const sampleY = Math.min(
-            window.innerHeight - 1,
-            Math.round(headerRect.bottom + 24)
-        );
+        // Línea de detección: justo debajo del header. La sección que la cruza es la activa.
+        const line = header.getBoundingClientRect().bottom + 8;
 
-        const elementBelowHeader = document.elementFromPoint(sampleX, sampleY);
-        const activeSection = elementBelowHeader?.closest('section');
-
-        if (!activeSection) return;
-
-        if (activeSection.id === 'hero') {
-            const heroLink = document.querySelector<HTMLAnchorElement>('a[href="#hero"]');
-            if (heroLink) setActiveLink(heroLink);
-            setHeaderTheme(false);
-            return;
+        let activeEntry = sectionNavMap[0];
+        for (const entry of sectionNavMap) {
+            const sec = resolveSection(entry.selector);
+            if (!sec) continue;
+            const rect = sec.getBoundingClientRect();
+            // La sección cruza la línea (su top ya pasó el header, su bottom todavía no)
+            if (rect.top <= line && rect.bottom > line) {
+                activeEntry = entry;
+            }
         }
+        const activeLink = document.querySelector<HTMLAnchorElement>(activeEntry.linkSelector);
+        if (activeLink) setActiveLink(activeLink);
 
-        if (activeSection.id === 'exp-container') {
-            const expLink = document.querySelector<HTMLAnchorElement>('a[href="#experiencia"]');
-            if (expLink) setActiveLink(expLink);
-            setHeaderTheme(false);
-            return;
-        }
-
-        if (activeSection.querySelector('#sobre-mi')) {
-            const sobreMiLink = document.querySelector<HTMLAnchorElement>('a[href="#sobre-mi"]');
-            if (sobreMiLink) setActiveLink(sobreMiLink);
-            setHeaderTheme(true);
-            return;
-        }
-
-        if (activeSection.id === 'estadisticas') {
-            setHeaderTheme(true);
-        }
+        // Tema: oscuro cuando la sección que cruza la línea es dark (sincronizado con el nav)
+        const isDark = DARK_SECTIONS.some(sel => {
+            const sec = resolveSection(sel);
+            if (!sec) return false;
+            const rect = sec.getBoundingClientRect();
+            return rect.top <= line && rect.bottom > line;
+        });
+        setHeaderTheme(isDark);
     };
 
     navLinks.forEach(link => {
@@ -115,9 +119,11 @@ import RollText from '@/components/ui/RollText.jsx';
             }
         });
 
+        const hrefToSelector: Record<string, string> = { '#experiencia': '#exp-container' };
         const sectionId = link.getAttribute('href');
-        if (sectionId && sectionId.startsWith('#')) {
-            const section = document.querySelector(sectionId);
+        const sectionSelector = (sectionId && hrefToSelector[sectionId]) || sectionId;
+        if (sectionSelector && sectionSelector.startsWith('#')) {
+            const section = document.querySelector(sectionSelector);
             if (section) {
                 ScrollTrigger.create({
                     trigger: section,
