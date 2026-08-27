@@ -18,7 +18,7 @@
         "url": "https://www.cjf.ar/"
     },
     {
-        "fecha": "Nov 2025 - Actualidad",
+        "fecha": "Jul 2025 - Actualidad",
         "cargo": "Desarrollador Web Full Stack",
         "empresa": "Ethigy",
         "descripcion": "<strong>Lideré el desarrollo integral</strong> del sitio desde cero y actualmente encabezo su <strong>mantenimiento y optimización</strong>. Implementé una arquitectura moderna que eliminó deuda técnica, logrando un rendimiento de <strong>100/100 en Lighthouse</strong> y consolidando una plataforma <strong>altamente eficiente, escalable y centrada en el rendimiento</strong>.",
@@ -28,34 +28,6 @@
         "colorBoton": "#1a1a1a",
         "link": true,
         "url": "https://ethigy.com/es/"
-    },
-    {
-        "fecha": "Jul 2025 - Oct 2025",
-        "cargo": "Desarrollador Front-end",
-        "empresa": "Ethigy",
-        "descripcion": "Dirigí la <strong>modernización</strong> de la interfaz y la arquitectura de la información, logrando <strong>optimizar la navegación</strong> y fortalecer la percepción visual de la marca. Me enfoqué en entregar un <strong>código limpio y modular</strong> de fácil mantenimiento, asegurando una experiencia de usuario fluida y <strong>totalmente adaptable</strong> a cualquier dispositivo.",
-        "pills": ["HTML", "CSS", "JavaScript"],
-        "color": "#2c2f33",
-        "colorTexto": "#f8f9fa",
-        "colorBoton": "#f8f9fa",
-        "link": false,
-        "url": "#"
-    },
-    {
-        "fecha": "Jul 2025 - Actualidad",
-        "cargo": "Desarrollador Web Freelance",
-        "empresa": "Autónomo",
-        "descripcion": "<strong>Desarrollo de sitios y soluciones web personalizadas</strong> para clientes, adaptando bases propias a necesidades comerciales reales. Trabajo con foco en <strong>rendimiento, experiencia responsive</strong> e integración de herramientas modernas, garantizando la <strong>autonomía del cliente</strong> para gestionar contenido.",
-        "pills": [
-            "Diseño UI/UX",
-            "Diseño de Interfaces Web",
-            "Desarollo Web Adaptable"
-        ],
-        "color": "#504e3e",
-        "colorTexto": "#f8f9fa",
-        "colorBoton": "#f8f9fa",
-        "link": false,
-        "url": "#"
     },
     {
         "fecha": "Jul 2025 - Nov 2025",

@@ -1,36 +1,12 @@
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const lenis = new Lenis({
-    duration: 1.2,
+    duration: 2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-});
-
-document.addEventListener('click', (e: MouseEvent) => {
-    if (e.defaultPrevented) return;
-
-    const target = e.target as HTMLElement;
-
-    const link = target.closest<HTMLAnchorElement>('a[href^="#"]');
-
-    if (link) {
-        const href = link.getAttribute('href');
-
-        if (href && href !== '#') {
-            e.preventDefault();
-
-            const element = document.querySelector<HTMLElement>(href);
-
-            if (element) {
-                const header = document.querySelector<HTMLElement>('#site-header');
-                const headerHeight = header?.offsetHeight ?? 0;
-
-                lenis.scrollTo(element, {
-                    duration: 1.2,
-                    offset: -(headerHeight + 24),
-                });
-            }
-        }
-    }
 });
 
 function raf(time: number) {

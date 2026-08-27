@@ -1,14 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/geist';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --color-primary: #e5c359;
+    --color-yellow: #ffd23f;
+    --color-coral-pink: #ff6b6b;
+    --color-sky-blue: #74b9ff;
+    --color-dark-green: #7ebc8b;
+    --color-soft-green: #bbfda3;
+    --color-orange: #ffa552;
+    --color-lavander: #b8a9fa;
+
+    /**/
     --color-secondary: #0d3b3f;
 
     --color-white: #f8f9fa;
@@ -17,47 +24,43 @@
 
     --color-black: #1a1a1a;
 
-    --font-playfair: 'Playfair Display', serif;
+    --font-bricolage: 'Bricolage Grotesque', sans-serif;
+}
+
+@utility shadow-brutal {
+    box-shadow: var(--brutal-offset, 4px) var(--brutal-offset, 4px) 0 0
+        var(--brutal-color, var(--color-black));
+}
+
+@utility shadow-brutal-sm {
+    box-shadow: 2px 2px 0 0 var(--brutal-color, var(--color-black));
+}
+
+@utility text-shadow-brutal {
+    text-shadow: var(--brutal-offset, 4px) var(--brutal-offset, 4px) 0
+        var(--brutal-color, var(--color-black));
 }
 
 html,
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Work Sans', sans-serif;
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--color-white);
     overflow-x: clip;
+    background-color: var(--color-white);
 }
 
 ::selection {
-    background-color: var(--color-secondary);
-    color: var(--color-white);
-}
-
-.site-header {
+    background-color: var(--color-yellow);
     color: var(--color-black);
 }
 
-.site-header--dark {
-    background-color: var(--color-black);
-    color: var(--color-white);
+* {
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-yellow) transparent;
 }
 
-.site-header--dark .site-header__brand {
-    color: var(--color-white);
-}
-
-.site-header--dark .site-header__link {
-    color: var(--color-grey);
-}
-
-.site-header--dark .site-header__link:hover,
-.site-header--dark .site-header__link.text-black {
-    color: var(--color-white);
-}
-
-.site-header--dark .site-header__cta {
-    background-color: var(--color-white);
-    color: var(--color-black);
+::-webkit-scrollbar-track {
+    background: var(--color-black) !important;
 }

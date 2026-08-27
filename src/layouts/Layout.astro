@@ -1,39 +1,71 @@
 ---
 import '../styles/global.css';
+import ClickSpark from '@/components/ClickSpark.jsx';
 ---
 
 <!doctype html>
-
 <html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta
+            name="description"
+            content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI."
+        />
+        <meta name="author" content="Fransz" />
+        <meta
+            name="keywords"
+            content="Fransz, portfolio, desarrollador, Front-end, Diseñador UI"
+        />
 
-	<head>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Fransz" />
+        <meta
+            property="og:description"
+            content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI."
+        />
 
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI." />
-		<meta name="author" content="Fransz" />
-		<meta name="keywords" content="Fransz, portfolio, desarrollador, Front-end, Diseñador UI" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Fransz" />
+        <meta
+            name="twitter:description"
+            content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI."
+        />
 
-		<meta property="og:type" content="website" />
-		<meta property="og:title" content="Fransz" />
-		<meta property="og:description" content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI." />
-		
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="Fransz" />
-		<meta name="twitter:description" content="Portfolio de Fransz, desarrollador Front-end y Diseñador UI." />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		
-		<title>Fransz</title>
+        <link
+            rel="preload"
+            href="/fonts/grefal-display.otf"
+            as="font"
+            type="font/otf"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="/fonts/sg-display.otf"
+            as="font"
+            type="font/otf"
+            crossorigin
+        />
 
-	</head>
+        <title>Fransz</title>
+    </head>
 
-	<body class="h-dvh">
-		<slot />
-	</body>
+    <body class="h-dvh">
+        <ClickSpark
+            sparkColor="#1a1a1a"
+            sparkSize={12}
+            sparkRadius={22}
+            sparkCount={8}
+            duration={450}
+            client:load
+        >
+            <slot />
+        </ClickSpark>
+    </body>
 
-	<script>
-		import '@/scripts/lenis.ts';
-	</script>
-
+    <script>
+        import '@/scripts/lenis.ts';
+    </script>
 </html>

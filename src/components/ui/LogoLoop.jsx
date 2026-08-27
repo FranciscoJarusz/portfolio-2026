@@ -286,7 +286,7 @@ export const LogoLoop = memo(
             () => ({
                 '--logoloop-gap': `${gap}px`,
                 '--logoloop-logoHeight': `${logoHeight}px`,
-                '--logoloop-primaryFilter':
+                '--logoloop-yellowFilter':
                     'brightness(0) saturate(100%) invert(83%) sepia(31%) saturate(723%) hue-rotate(357deg) brightness(94%) contrast(92%)',
                 ...(fadeOutColor && { '--logoloop-fadeColor': fadeOutColor }),
             }),
@@ -349,7 +349,7 @@ export const LogoLoop = memo(
                             'inline-flex items-center text-white cursor-pointer',
                             'transition-colors duration-300',
                             'motion-reduce:transition-none',
-                            'group-hover/item:text-primary',
+                            'group-hover/item:text-yellow',
                             scaleOnHover &&
                                 'transition-transform duration-300 ease-in-out group-hover/item:scale-120'
                         )}
@@ -391,7 +391,7 @@ export const LogoLoop = memo(
                                 'absolute inset-0 h-(--logoloop-logoHeight) w-auto object-contain',
                                 '[-webkit-user-drag:none] pointer-events-none',
                                 '[image-rendering:-webkit-optimize-contrast]',
-                                '[filter:var(--logoloop-primaryFilter)]',
+                                'filter-(--logoloop-yellowFilter)',
                                 'opacity-0 transition-opacity duration-300',
                                 'motion-reduce:transition-none',
                                 'group-hover/item:opacity-100'

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:reactbits.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "PowerShell(npm run dev)",
+      "WebFetch(domain:use.typekit.net)",
+      "PowerShell(npm run build 2>&1)",
+      "PowerShell(npm run build)",
+      "Bash(curl -s http://localhost:4321/ -o /dev/null -w \"%{http_code}\\\\n\")"
+    ]
+  }
+}
