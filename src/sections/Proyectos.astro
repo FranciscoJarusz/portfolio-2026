@@ -1,0 +1,120 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import proyectos from '@/data/proyectos.json';
+import RollText from '@/components/ui/RollText.jsx';
+import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
+
+const imagenes = import.meta.glob<{ default: ImageMetadata }>(
+    '/src/assets/projects/*.{png,jpg,jpeg,webp,avif}',
+    { eager: true }
+);
+---
+
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            document.documentElement.style.setProperty(
+                '--header-h',
+                header.getBoundingClientRect().height + 'px'
+            );
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>
+
+<section
+    id="proyectos"
+    data-accent="yellow"
+    class="z-0 bg-white px-30 py-10 flex flex-col gap-20 justify-center items-center"
+>
+    <h2
+        class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] max-w-xl"
+    >
+        Proyectos
+    </h2>
+
+    <div class="grid grid-cols-1 gap-16 lg:grid-cols-2">
+        {
+            proyectos.map((item) => {
+                const imagen =
+                    imagenes[`/src/assets/projects/${item.imagen}`]?.default;
+
+                return (
+                    <article class="border-3 shadow-brutal flex flex-col overflow-hidden rounded-3xl border-black bg-white">
+                        {imagen && (
+                            <Image
+                                src={imagen}
+                                alt={`Captura del sitio ${item.nombre}`}
+                                class="h-auto w-full border-b-3 border-black"
+                            />
+                        )}
+
+                        <div class="flex flex-col gap-5 p-7">
+                            <div class="flex flex-col gap-1.5">
+                                <p class="text-sm uppercase opacity-75">
+                                    {item.categoria}
+                                </p>
+                                <h3 class="font-bricolage text-3xl font-bold">
+                                    {item.nombre}
+                                </h3>
+                            </div>
+
+                            <p class="text-sm" set:html={item.descripcion} />
+
+                            <div class="flex flex-col gap-7">
+                                <ul class="flex flex-wrap gap-2">
+                                    {item.tecnologias.map((tec) => (
+                                        <li class="border-2 shadow-brutal-sm rounded-full border-black bg-clip-padding px-3 py-1 text-xs uppercase">
+                                            {tec}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <a
+                                    href={item.url}
+                                    class="text-md inline-flex w-fit items-center gap-4 text-black transition-all duration-300 active:scale-97"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <RollText text="Ver sitio" client:load />
+                                    <FlechaDibujo class="w-3" />
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                );
+            })
+        }
+    </div>
+</section>
+
+<script>
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    import '@/scripts/lenis';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>('#proyectos');
+    const next = document.querySelector<HTMLElement>('#sobre-mi');
+
+    if (section && next) {
+        const mm = gsap.matchMedia();
+
+        mm.add('(min-width: 1024px)', () => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'bottom bottom',
+                end: () => `+=${next.offsetHeight}`,
+                pin: true,
+                pinSpacing: false,
+                invalidateOnRefresh: true,
+            });
+        });
+    }
+</script>

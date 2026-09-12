@@ -1,0 +1,109 @@
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            document.documentElement.style.setProperty(
+                '--header-h',
+                header.getBoundingClientRect().height + 'px'
+            );
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>
+
+<section
+    id="hero"
+    data-accent="yellow"
+    class="relative flex min-h-dvh items-center px-30 pt-(--header-h,88px)"
+>
+    <svg
+        data-hero-star
+        class="shadow-brutal-shape [--brutal-offset:12px] pointer-events-none absolute top-[15dvh] right-[-34%] z-0 w-310 will-change-transform"
+        viewBox="-1 -1 244.59 228.56"
+        aria-hidden="true"
+    >
+        <path
+            d="M75.98,226.56l-50.89-36.95,66.92-62.74-.7-4.18L0,105.96l18.82-60.65,82.96,46.01,2.79-2.79L89.93,0h62.74l-14.64,88.53,3.49,2.79,82.26-46.01,18.82,60.65-90.62,16.73-.7,3.49,69.01,62.74-50.19,36.95-46.01-80.17h-4.18l-43.92,80.86Z"
+            fill="var(--color-yellow)"
+            stroke="var(--color-black)"
+            stroke-width="6"
+            stroke-linejoin="miter"
+            vector-effect="non-scaling-stroke"></path>
+    </svg>
+
+    <div class="flex justify-between items-center z-20">
+        <div class="flex flex-col gap-7">
+            <div class="flex flex-col gap-3.5">
+                <p class="text-sm text-black uppercase">
+                    Desarrollador Web & Diseñador UX/UI
+                </p>
+
+                <h1
+                    class="font-bricolage text-9xl leading-[0.85] font-extrabold text-black uppercase"
+                >
+                    Francisco Jarusz
+                </h1>
+            </div>
+
+            <p class="max-w-2xl text-lg text-black/75">
+                +1 año de experiencia. Estudiante de la Licenciatura en Gestión
+                de Tecnología de la Información en UADE, Buenos Aires,
+                Argentina. Apasionado por el desarrollo de aplicaciones web
+                únicas.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-6">
+                <a
+                    href="#contacto"
+                    class="bg-soft-green shadow-brutal-sm rounded-full border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                    >Trabajemos juntos</a
+                >
+                <a
+                    href="#proyectos"
+                    class="bg-coral-pink shadow-brutal-sm rounded-full border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                    >Ver proyectos</a
+                >
+            </div>
+        </div>
+
+        <svg
+            class="shadow-brutal-shape w-200 justify-self-center lg:justify-self-end"
+            viewBox="-5 -5 796.3 797.9"
+            role="img"
+            aria-label="Foto de Francisco Jarusz"
+        >
+            <defs>
+                <path
+                    id="star-foto"
+                    d="M465.9,787.7c-49.5,2.8-61.6-37.6-108.6-45.9-57.6-10.1-74.8,44.5-134.3,45.9-78.3,1.8-171.4-89.8-174.2-174.6-2.3-69.4,56.7-102.4,34.3-151.8-14.8-32.5-47.7-34.5-70.1-85.3-5.5-12.6-14-32-12.8-55.2,3-56.8,63.1-111.9,125.6-125.9,73.5-16.5,114.7,31.9,150.9,4.7,29.9-22.5,8.4-60.5,37.3-112C341.2,39,401.8,0,465.9,0c96.6,0,170.1,99,174.2,174.6,2.2,40.7-16.5,59.7-18.1,91.4-.7,14.7.7,22.1,3.6,30.7,15.4,45.1,72,41.8,114.5,81.5,32.4,30.4,52,81.5,44.6,127.6-10.7,66.4-77.5,123.2-134.9,124.6-22.2.5-37.3-7.1-61.1,2.9-24.2,10.1-49.7,35.2-48.1,60,.3,4.8,1.3,4.2,2.1,10.8,3.6,29.6-15,53.6-16.3,55.2-20.9,26.2-54.3,28.1-60.5,28.4Z"
+                ></path>
+                <clipPath id="star-foto-clip">
+                    <use href="#star-foto"></use>
+                </clipPath>
+            </defs>
+
+            <use href="#star-foto" fill="var(--color-black)"></use>
+
+            <image
+                href="/image.png"
+                x="0"
+                y="0"
+                width="786.3"
+                height="787.9"
+                preserveAspectRatio="xMidYMid slice"
+                clip-path="url(#star-foto-clip)"
+            />
+
+            <use
+                href="#star-foto"
+                fill="none"
+                stroke="var(--color-black)"
+                stroke-width="5"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"></use>
+        </svg>
+    </div>
+</section>

@@ -1,0 +1,315 @@
+---
+import RollText from '@/components/ui/RollText.jsx';
+import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
+
+const email = 'franszdev.web@gmail.com';
+const redes = [
+    { nombre: 'GitHub', url: 'https://github.com/FranciscoJarusz' },
+    { nombre: 'LinkedIn', url: 'https://www.linkedin.com/in/franciscojarusz/' },
+    {
+        nombre: 'Descargar CV',
+        url: '/CV_Francisco_Jarusz_2026.pdf',
+        descarga: true,
+    },
+];
+
+const campos = [
+    { id: 'nombre', label: 'Nombre', tipo: 'text', auto: 'name' },
+    { id: 'email', label: 'Email', tipo: 'email', auto: 'email' },
+];
+---
+
+<section
+    id="contacto"
+    data-accent="orange"
+    data-accent-antes="25"
+    class="bg-orange px-30 py-24 border-t-4 border-b-4 border-black min-h-screen"
+>
+    <div class="flex flex-col gap-12">
+        <h2
+            class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px]"
+        >
+            Hablemos
+        </h2>
+
+        <div class="flex flex-wrap items-center gap-6">
+            <a
+                href={`mailto:${email}`}
+                class="font-bricolage text-4xl font-bold break-all text-black transition-all duration-300 hover:text-black/75 md:text-5xl lg:text-6xl"
+            >
+                {email}
+            </a>
+
+            <button
+                type="button"
+                data-copiar
+                data-email={email}
+                class="cursor-pointer border-2 shadow-brutal shrink-0 rounded-full border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+            >
+                Copiar
+            </button>
+        </div>
+
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+            <ul class="flex h-fit flex-col items-start gap-4">
+                {
+                    redes.map((red) => (
+                        <li>
+                            <a
+                                href={red.url}
+                                target={red.descarga ? undefined : '_blank'}
+                                rel={
+                                    red.descarga
+                                        ? undefined
+                                        : 'noopener noreferrer'
+                                }
+                                download={red.descarga ? '' : undefined}
+                                class="shadow-brutal-sm inline-flex items-center gap-8 rounded-full border-2 border-black bg-white bg-clip-padding px-6 py-2 text-lg text-black transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                            >
+                                <RollText text={red.nombre} client:load />
+                                <FlechaDibujo class="w-3" />
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+
+            <form
+                data-form-contacto
+                novalidate
+                class="border-3 shadow-brutal relative flex flex-col gap-5 rounded-3xl border-black bg-white p-7"
+            >
+                <div class="absolute -left-2499.75" aria-hidden="true">
+                    <label for="sitio-web">No completar</label>
+                    <input
+                        id="sitio-web"
+                        name="sitio-web"
+                        type="text"
+                        tabindex="-1"
+                        autocomplete="off"
+                    />
+                </div>
+
+                <div class="grid gap-5 md:grid-cols-2">
+                    {
+                        campos.map((campo) => (
+                            <div class="flex flex-col gap-2">
+                                <label
+                                    for={campo.id}
+                                    class="text-lg font-bold uppercase font-bricolage"
+                                >
+                                    {campo.label}
+                                </label>
+                                <input
+                                    id={campo.id}
+                                    name={campo.id}
+                                    type={campo.tipo as 'text' | 'email'}
+                                    autocomplete={campo.auto}
+                                    required
+                                    class="campo border-3 rounded-2xl border-black bg-white px-5 py-3 text-base transition-all duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
+                                />
+                                <p
+                                    data-error-de={campo.id}
+                                    class="hidden text-xs font-bold"
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label
+                        for="mensaje"
+                        class="text-lg font-bold uppercase font-bricolage"
+                    >
+                        Mensaje
+                    </label>
+                    <textarea
+                        id="mensaje"
+                        name="mensaje"
+                        rows="5"
+                        required
+                        class="campo border-3 resize-none rounded-2xl border-black bg-white px-5 py-3 text-base transition-all duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
+                    ></textarea>
+                    <p data-error-de="mensaje" class="hidden text-xs font-bold">
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <p
+                        data-estado
+                        role="status"
+                        aria-live="polite"
+                        class="border-2 hidden rounded-full border-black px-4 py-1.5 text-sm"
+                    >
+                    </p>
+
+                    <button
+                        type="submit"
+                        class="cursor-pointer ml-auto text-md font-bold py-2 px-7 text-black bg-orange border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
+                    >
+                        ENVIAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .campo[aria-invalid='true'] {
+        background-color: color-mix(
+            in srgb,
+            var(--color-coral-pink) 30%,
+            white
+        );
+    }
+</style>
+
+<script>
+    const seccion = document.getElementById('contacto');
+    const form = seccion?.querySelector<HTMLFormElement>(
+        '[data-form-contacto]'
+    );
+    const boton = seccion?.querySelector<HTMLButtonElement>(
+        'button[data-copiar]'
+    );
+
+    if (boton) {
+        const original = boton.textContent?.trim() ?? 'Copiar';
+        boton.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(boton.dataset.email ?? '');
+                boton.textContent = '¡Copiado!';
+            } catch {
+                boton.textContent = 'No se pudo';
+            }
+            setTimeout(() => (boton.textContent = original), 2000);
+        });
+    }
+
+    if (form) {
+        const estado = form.querySelector<HTMLElement>('[data-estado]')!;
+        const enviar = form.querySelector<HTMLButtonElement>(
+            'button[type="submit"]'
+        )!;
+        const campos = [
+            ...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+                '.campo'
+            ),
+        ];
+
+        const mostrarEstado = (texto: string, ok: boolean) => {
+            estado.textContent = texto;
+            estado.classList.remove('hidden', 'bg-soft-green', 'bg-coral-pink');
+            estado.classList.add(ok ? 'bg-soft-green' : 'bg-coral-pink');
+        };
+
+        let intentoDeEnvio = false;
+
+        const faltante: Record<string, string> = {
+            nombre: 'Completá este campo, es obligatorio',
+            email: 'Completá este campo, es obligatorio',
+            mensaje: 'Completá este campo, es obligatorio',
+        };
+
+        const revisarEmail = (valor: string): string | null => {
+            if (/\s/.test(valor)) return 'La dirección no puede tener espacios';
+
+            const partes = valor.split('@');
+            if (partes.length === 1)
+                return 'Falta el @, por ejemplo tunombre@gmail.com';
+            if (partes.length > 2)
+                return 'Sobra un @, tiene que haber uno solo';
+
+            const [usuario, dominio] = partes;
+            if (!usuario)
+                return 'Falta tu nombre antes del @, por ejemplo tunombre@gmail.com';
+            if (!dominio)
+                return 'Falta el dominio después del @, por ejemplo gmail.com';
+            if (!dominio.includes('.'))
+                return `A "${dominio}" le falta la terminación, por ejemplo ${dominio}.com`;
+            if (dominio.endsWith('.'))
+                return `Falta la terminación después del punto, por ejemplo ${dominio}com`;
+
+            return null;
+        };
+
+        const problemaDe = (
+            campo: HTMLInputElement | HTMLTextAreaElement,
+            vacio: boolean
+        ): string | null => {
+            if (vacio) return faltante[campo.id] ?? 'Este campo es obligatorio';
+            if (campo.id === 'email') return revisarEmail(campo.value.trim());
+            return campo.checkValidity() ? null : 'Revisá el formato';
+        };
+
+        const validar = (
+            campo: HTMLInputElement | HTMLTextAreaElement,
+            exigirCompleto: boolean
+        ) => {
+            const error = form.querySelector<HTMLElement>(
+                `[data-error-de="${campo.id}"]`
+            )!;
+            const vacio = campo.value.trim() === '';
+
+            if (vacio && !exigirCompleto) {
+                campo.setAttribute('aria-invalid', 'false');
+                error.classList.add('hidden');
+                return true;
+            }
+
+            const problema = problemaDe(campo, vacio);
+            const valido = !problema;
+
+            campo.setAttribute('aria-invalid', String(!valido));
+            error.textContent = problema ?? '';
+            error.classList.toggle('hidden', valido);
+
+            return valido;
+        };
+
+        for (const campo of campos) {
+            campo.addEventListener('blur', () =>
+                validar(campo, intentoDeEnvio)
+            );
+            campo.addEventListener('input', () => {
+                if (campo.getAttribute('aria-invalid') === 'true')
+                    validar(campo, intentoDeEnvio);
+            });
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            intentoDeEnvio = true;
+
+            if (!campos.map((c) => validar(c, true)).every(Boolean)) {
+                mostrarEstado('Revisá los campos marcados', false);
+                return;
+            }
+
+            const datos = new FormData(form);
+            if (datos.get('sitio-web')) return;
+
+            enviar.disabled = true;
+            enviar.textContent = 'Enviando...';
+
+            try {
+                const res = await fetch('/api/contacto', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(datos)),
+                });
+                if (!res.ok) throw new Error(String(res.status));
+
+                form.reset();
+                mostrarEstado('¡Listo! Te respondo a la brevedad', true);
+            } catch {
+                mostrarEstado('No se pudo enviar. Escribime por mail', false);
+            } finally {
+                enviar.disabled = false;
+                enviar.textContent = 'Enviar';
+            }
+        });
+    }
+</script>

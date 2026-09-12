@@ -1,0 +1,34 @@
+[
+    {
+        "categoria": "Estudio creativo",
+        "nombre": "Dalú  Marketing Digital",
+        "descripcion": "Sitio completo para un estudio de marketing digital y producción audiovisual. Construí un <strong>sistema de animaciones con GSAP, ScrollTrigger y Lenis</strong> —hero fijado con video, scroll horizontal y entradas encadenadas— y un <strong>flujo de contacto con Nodemailer y React Email</strong> que dispara aviso interno y confirmación al usuario.",
+        "imagen": "Dalú.png",
+        "tecnologias": ["Astro", "TypeScript", "Tailwind", "GSAP"],
+        "url": "https://dalustudios.com/"
+    },
+    {
+        "categoria": "Turismo",
+        "nombre": "Villa Huertecilla",
+        "descripcion": "Landing page para una casa de campo en España con <strong>reservas integradas sin servicios externos</strong>. Integré la <strong>API de Google Calendar con OAuth y JWT</strong> para exponer la disponibilidad en tiempo real desde un endpoint propio, bloqueando las fechas ocupadas en el calendario del formulario y armando la consulta lista para enviar por WhatsApp.",
+        "imagen": "VillaHuertecilla.png",
+        "tecnologias": ["Astro", "TypeScript", "Tailwind", "Google Calendar"],
+        "url": "https://www.villahuertecilla.com/"
+    },
+    {
+        "categoria": "Plataforma Web3",
+        "nombre": "Primal Cult Cultomizer",
+        "descripcion": "Plataforma de personalización de activos Web3 que tomé en su etapa final para <strong>rescatar el proyecto y saldar la deuda técnica</strong>. Reconstruí el diseño responsive y la arquitectura de componentes, implementé el <strong>linking de wallets con visualización dinámica de NFTs por tokenId</strong> y la exportación de assets en GIF, y me encargué del <strong>despliegue integral (Vercel + Railway)</strong>.",
+        "imagen": "Cultomizer.png",
+        "tecnologias": ["Next.js", "TypeScript", "React", "Tailwind"],
+        "url": "https://cultomizer.primalcult.xyz/customizer?tokenId=1"
+    },
+    {
+        "categoria": "Tienda online",
+        "nombre": "B&B Kicks",
+        "descripcion": "Plataforma web para una marca de sneakers y streetwear, partiendo de una base propia que adapté a la identidad del cliente. Integré <strong>Supabase para productos, talles, stock e imágenes en tiempo real</strong> y desarrollé un <strong>panel de administración</strong> para que el cliente cargue y edite contenido sin tocar código.",
+        "imagen": "B&BKicks.png",
+        "tecnologias": ["Astro", "React", "Tailwind", "Supabase"],
+        "url": "https://www.bybkicks.com/"
+    }
+]

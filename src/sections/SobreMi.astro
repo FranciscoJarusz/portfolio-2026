@@ -1,0 +1,93 @@
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            document.documentElement.style.setProperty(
+                '--header-h',
+                header.getBoundingClientRect().height + 'px'
+            );
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>
+
+<section
+    id="sobre-mi"
+    data-accent="sky-blue"
+    data-accent-antes="25"
+    class="relative z-10 border-t-4 min-h-dvh border-black bg-sky-blue bg-[url('/fondo.svg')] bg-size-[100%_100%] bg-center bg-no-repeat px-30 py-10 flex flex-col gap-6 justify-center items-center"
+>
+    <div>
+        <img src="/fondo.svg" alt="" />
+    </div>
+
+    <h2
+        class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] mb-20 max-w-xl"
+    >
+        Sobre Mí
+    </h2>
+
+    <div class="flex min-h-[40dvh] w-full items-stretch gap-15">
+        <div
+            class="shadow-brutal relative basis-1/2 2xl:basis-[30%] shrink-0 self-stretch overflow-hidden rounded-3xl border-4 border-black"
+        >
+            <img
+                src="/image.png"
+                alt="Francisco Jarusz"
+                class="absolute inset-0 h-full w-full object-cover"
+            />
+        </div>
+
+        <div
+            class="shadow-brutal relative flex flex-col justify-center rounded-3xl border-4 border-black bg-white px-10 py-15"
+        >
+            <div
+                class="flex flex-col items-center justify-center h-full gap-6 text-base"
+            >
+                <!-- <p>
+                    ¡Hola! Soy Francisco Jarusz. Empecé con Photoshop siendo
+                    chico, sin ningún objetivo más que por diversión, y empezó
+                    mi pasión por lo visual.
+                </p>
+                <p>
+                    De adolescente apareció la programación y me enganchó tanto
+                    que elegí mi carrera por eso, hoy voy por el segundo año de
+                    la Licenciatura en Gestión de Tecnología de la Información.
+                </p>
+                <p>
+                    Descubrir el diseño web fue lo que terminó de acomodar todo:
+                    era el único lugar donde podía hacer las dos cosas que más
+                    me gustan sin tener que elegir una.
+                </p>
+                <p>
+                    Me tomo en serio los detalles porque son los que hacen que
+                    algo se sienta bien hecho, aunque nadie sepa explicar por
+                    qué. Esa distancia entre "está bien" y "está terminado" es,
+                    para mí, la mejor parte del trabajo.
+                </p> -->
+                <p>
+                    ¡Hola! Soy Francisco Jarusz. Mi pasión por lo visual empezó
+                    de chico, jugando con Photoshop, pero cuando descubrí la
+                    programación supe que quería dedicarme a la tecnología.
+                </p>
+                <p>
+                    Hoy, cursando el segundo año de la Licenciatura en Gestión
+                    de Tecnología de la Información, encontré en el Front-end y
+                    el diseño UX/UI el punto de equilibrio perfecto: el
+                    ecosistema donde la creatividad y la lógica conviven sin
+                    tener que elegir una.
+                </p>
+                <p>
+                    Creo que los detalles no son un extra, son lo que define a
+                    una buena experiencia. Esa atención es lo que hace que un
+                    proyecto pase de sentirse simplemente bien, a sentirse
+                    terminado. Esa última parte es la parte que más disfruto de
+                    mi trabajo.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

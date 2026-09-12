@@ -1,0 +1,363 @@
+---
+import experiencia from '@/data/experiencia.json';
+---
+
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            document.documentElement.style.setProperty(
+                '--header-h',
+                header.getBoundingClientRect().height + 'px'
+            );
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>
+
+<section
+    id="experiencia"
+    data-accent="yellow"
+    data-timeline
+    class="relative h-dvh overflow-hidden pt-[calc(2.5rem+var(--header-h,88px))] pb-10"
+>
+    <div
+        data-timeline-track
+        class="relative flex h-full w-max items-center gap-64 px-120 max-lg:overflow-x-auto"
+    >
+        <span
+            data-timeline-line
+            aria-hidden="true"
+            class="absolute top-1/2 right-0 left-0 -mt-0.5 h-1 bg-black"></span>
+
+        <div
+            data-timeline-arrow
+            aria-hidden="true"
+            class="border-3 shadow-brutal-sm absolute top-1/2 -mt-5 right-120 grid size-10 place-items-center rounded-full border-black bg-white"
+        >
+            <img src="/arrow.svg" alt="" class="h-3.5 w-3.5" />
+        </div>
+
+        <h2
+            data-timeline-title
+            class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] absolute top-[calc(6rem-var(--header-h,88px))] left-30 z-20 max-w-xl"
+        >
+            Experiencia Laboral
+        </h2>
+
+        {
+            experiencia.map((item, i) => {
+                const arriba = i % 2 !== 0;
+                const stem = 'calc(50% + 3rem)';
+
+                return (
+                    <article
+                        data-timeline-item
+                        data-pos={arriba ? 'arriba' : 'abajo'}
+                        class="relative h-full w-190 shrink-0"
+                    >
+                        <span
+                            data-timeline-stem
+                            aria-hidden="true"
+                            class="absolute left-1/2 -ml-0.5 h-12 w-1 bg-black"
+                            style={arriba ? 'bottom:50%' : 'top:50%'}
+                        />
+
+                        <span
+                            data-timeline-dot
+                            aria-hidden="true"
+                            class="border-3 bg-lavander absolute top-1/2 left-1/2 z-10 -mt-2.5 -ml-2.5 size-5 rounded-full border-black"
+                        />
+
+                        <div
+                            class="absolute left-1/2 w-170 -translate-x-1/2"
+                            style={arriba ? `bottom:${stem}` : `top:${stem}`}
+                        >
+                            <div
+                                data-timeline-card
+                                class="border-3 shadow-brutal rounded-3xl border-black p-7 flex flex-col gap-3.5"
+                                style={`background-color:${item.color};color:${item.colorTexto}`}
+                                data-base={item.color}
+                                data-activo={item.colorActivo}
+                            >
+                                <div class="flex flex-col gap-1.5">
+                                    <div class="flex items-center justify-between gap-5">
+                                        <h3 class="font-bricolage text-3xl max-w-sm font-bold">
+                                            {item.cargo}
+                                        </h3>
+                                        {item.link && (
+                                            <a
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={`Ver ${item.empresa}`}
+                                                class="border-3 p-2 shadow-brutal [--brutal-offset:2px] group grid shrink-0 place-items-center rounded-full border-black transition-all duration-300 active:scale-95 active:shadow-none bg-clip-padding"
+                                                style={`color:${item.colorBoton};background-color:${item.color}`}
+                                            >
+                                                <img
+                                                    src="/arrow.svg"
+                                                    alt="Flecha mirando hacia la derecha"
+                                                    class="w-3 -rotate-45 transition-transform duration-300 group-hover:rotate-0"
+                                                />
+                                            </a>
+                                        )}{' '}
+                                    </div>
+                                    <p class="text-lg">{item.empresa}</p>
+                                    <p class="text-sm opacity-75">
+                                        {item.fecha}
+                                    </p>{' '}
+                                </div>
+                                <p
+                                    class="text-sm"
+                                    set:html={item.descripcion}
+                                />
+                            </div>
+                        </div>
+                    </article>
+                );
+            })
+        }
+    </div>
+</section>
+
+<script>
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    import '@/scripts/lenis';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>('[data-timeline]');
+    const track = document.querySelector<HTMLElement>('[data-timeline-track]');
+    const line = document.querySelector<HTMLElement>('[data-timeline-line]');
+    const title = document.querySelector<HTMLElement>('[data-timeline-title]');
+    const arrow = document.querySelector<HTMLElement>('[data-timeline-arrow]');
+    const star = document.querySelector<HTMLElement>('[data-hero-star]');
+
+    if (section && track && line) {
+        const items = gsap.utils.toArray<HTMLElement>('[data-timeline-item]');
+
+        const PUNTA = 0.62;
+
+        const RAMPA = 300;
+
+        const DOT = 90;
+        const STEM = 110;
+        const CARD = 140;
+        const DELAY_STEM = 30;
+        const DELAY_CARD = 60;
+        const COLA = 80;
+        const FLECHA = 150;
+
+        let ctx: gsap.Context | undefined;
+        let ancho = window.innerWidth;
+
+        const build = () => {
+            ctx?.revert();
+            ctx = undefined;
+
+            if (window.innerWidth < 1024) return;
+
+            ctx = gsap.context(() => {
+                const anchoItem = items[0]?.offsetWidth ?? 0;
+                const anchoCard =
+                    items[items.length - 1]?.querySelector<HTMLElement>(
+                        '[data-timeline-card]'
+                    )?.offsetWidth ?? 0;
+
+                const cierre = Math.max(
+                    DELAY_CARD + CARD,
+                    anchoCard / 2 + COLA + FLECHA
+                );
+
+                const punta = window.innerWidth * PUNTA;
+
+                gsap.set(track, {
+                    paddingLeft: punta,
+                    paddingRight: Math.max(
+                        0,
+                        window.innerWidth - punta - anchoItem / 2
+                    ),
+                });
+
+                const largo = track.scrollWidth;
+                const overflow = Math.max(0, largo - window.innerWidth);
+
+                const inicio = line.offsetLeft;
+
+                const centros = items.map(
+                    (item) => item.offsetLeft + item.offsetWidth / 2
+                );
+
+                const ultimo = Math.max(...centros);
+
+                const finLinea = ultimo + anchoCard / 2 + COLA;
+
+                const total = ultimo + cierre;
+
+                const largoPin = total - punta;
+                const recorrido = Math.min(ultimo - punta, overflow);
+
+                const dibujado = (scroll: number) =>
+                    scroll <= RAMPA
+                        ? inicio + (scroll * (punta - inicio + RAMPA)) / RAMPA
+                        : punta + scroll;
+
+                const tl = gsap.timeline({
+                    paused: true,
+                    defaults: { ease: 'none' },
+                });
+
+                gsap.set(line, {
+                    width: finLinea - inicio,
+                    transformOrigin: 'left center',
+                });
+                tl.fromTo(
+                    line,
+                    { scaleX: 0 },
+                    { scaleX: 1, duration: finLinea - inicio },
+                    inicio
+                );
+
+                if (arrow) {
+                    gsap.set(arrow, {
+                        left: finLinea - 2,
+                        transformOrigin: 'left center',
+                    });
+                    tl.fromTo(
+                        arrow,
+                        { scale: 0 },
+                        {
+                            scale: 1,
+                            duration: FLECHA,
+                            ease: 'back.out(2.2)',
+                        },
+                        finLinea
+                    );
+                }
+
+                items.forEach((item, index) => {
+                    const arriba = item.dataset.pos === 'arriba';
+                    const dot = item.querySelector<HTMLElement>(
+                        '[data-timeline-dot]'
+                    );
+                    const stem = item.querySelector<HTMLElement>(
+                        '[data-timeline-stem]'
+                    );
+                    const card = item.querySelector<HTMLElement>(
+                        '[data-timeline-card]'
+                    );
+                    if (!dot || !stem || !card) return;
+
+                    const origen = arriba ? 'center bottom' : 'center top';
+                    gsap.set(stem, { transformOrigin: origen });
+                    gsap.set(card, { transformOrigin: origen });
+
+                    const t = centros[index];
+
+                    tl.fromTo(
+                        dot,
+                        { scale: 0 },
+                        { scale: 1, duration: DOT, ease: 'back.out(2.4)' },
+                        t
+                    );
+
+                    tl.fromTo(
+                        stem,
+                        { scaleY: 0 },
+                        { scaleY: 1, duration: STEM, ease: 'power2.out' },
+                        t + DELAY_STEM
+                    );
+
+                    tl.fromTo(
+                        card,
+                        { opacity: 0, scale: 0.94, y: arriba ? 48 : -48 },
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            y: 0,
+                            duration: CARD,
+                            ease: 'power3.out',
+                        },
+                        t + DELAY_CARD
+                    );
+
+                    const activo = card.dataset.activo;
+                    const base = card.dataset.base;
+                    if (activo && base) {
+                        tl.fromTo(
+                            [card, dot],
+                            { backgroundColor: base },
+                            { backgroundColor: activo, duration: CARD },
+                            t + DELAY_CARD
+                        );
+
+                        const siguiente = centros[index + 1];
+                        const apagado =
+                            siguiente !== undefined
+                                ? siguiente + DELAY_CARD
+                                : total - CARD;
+
+                        tl.to(
+                            [card, dot],
+                            { backgroundColor: base, duration: CARD },
+                            apagado
+                        );
+                    }
+                });
+
+                const aplicar = (self: ScrollTrigger) => {
+                    const scroll = self.progress * largoPin;
+                    const corrido = Math.min(scroll, recorrido);
+                    tl.time(Math.min(dibujado(scroll), total));
+                    gsap.set(track, { x: -corrido });
+
+                    if (star) {
+                        gsap.set(star, { x: -corrido, y: scroll });
+                    }
+                };
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: 'top top',
+                    end: `+=${largoPin}`,
+                    pin: true,
+                    onUpdate: aplicar,
+                    onRefresh: aplicar,
+                });
+
+                if (title) {
+                    gsap.fromTo(
+                        title,
+                        { opacity: 0, y: 60 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1.1,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: section,
+                                start: 'top 70%',
+                            },
+                        }
+                    );
+                }
+            }, section);
+        };
+
+        build();
+
+        let pendiente: number | undefined;
+        window.addEventListener('resize', () => {
+            if (pendiente) window.clearTimeout(pendiente);
+            pendiente = window.setTimeout(() => {
+                if (window.innerWidth === ancho) return;
+                ancho = window.innerWidth;
+                build();
+            }, 250);
+        });
+    }
+</script>

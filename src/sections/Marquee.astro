@@ -1,0 +1,67 @@
+---
+const tecnologias = [
+    'ASTRO',
+    'REACT',
+    'TAILWIND',
+    'JAVASCRIPT',
+    'TYPESCRIPT',
+    'GSAP',
+    'LENIS',
+];
+
+const COPIAS = 6;
+
+const copias = Array.from({ length: COPIAS }, () => tecnologias);
+---
+
+<section
+    aria-label="Tecnologias"
+    data-accent="yellow"
+    class="overflow-hidden py-16"
+>
+    <div
+        class="bg-yellow shadow-brutal relative -left-[5vw] w-[110vw] -rotate-3 border-4 border-black py-3 bg-clip-padding"
+    >
+        <div class="marquee-track flex w-max" style={`--copias:${COPIAS}`}>
+            {
+                copias.map((lista, copia) => (
+                    <ul
+                        class="flex shrink-0 items-center"
+                        aria-hidden={copia !== 0 ? 'true' : undefined}
+                    >
+                        {lista.map((tec) => (
+                            <li class="flex items-center gap-10 pr-10">
+                                <span class="text-2xl text-black uppercase">
+                                    {tec}
+                                </span>
+                                <img
+                                    src="/star.svg"
+                                    alt=""
+                                    class="size-5 shrink-0"
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .marquee-track {
+        animation: marquee 60s linear infinite;
+    }
+
+    @keyframes marquee {
+        to {
+            transform: translateX(calc(-100% / var(--copias)));
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marquee-track {
+            animation: none;
+        }
+    }
+</style>
