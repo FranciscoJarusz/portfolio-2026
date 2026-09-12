@@ -48,20 +48,41 @@ export default function RollText({
             0
         );
 
+        // Una vuelta completa disparada desde afuera (el header la usa cuando
+        // entras a la seccion). Las dos copias dicen lo mismo, asi que volver a
+        // cero al terminar no se ve.
+        let solo = false;
+
         const handleMouseEnter = () => {
+            solo = false;
             tl.play();
         };
 
         const handleMouseLeave = () => {
+            solo = false;
             tl.reverse();
         };
 
+        const handleRoll = () => {
+            if (tl.isActive()) return;
+            solo = true;
+            tl.play(0);
+        };
+
+        tl.eventCallback('onComplete', () => {
+            if (!solo) return;
+            solo = false;
+            tl.pause(0);
+        });
+
         hoverTarget.addEventListener('mouseenter', handleMouseEnter);
         hoverTarget.addEventListener('mouseleave', handleMouseLeave);
+        hoverTarget.addEventListener('rolltext:play', handleRoll);
 
         return () => {
             hoverTarget.removeEventListener('mouseenter', handleMouseEnter);
             hoverTarget.removeEventListener('mouseleave', handleMouseLeave);
+            hoverTarget.removeEventListener('rolltext:play', handleRoll);
             tl.kill();
         };
     }, [text, stagger]);
