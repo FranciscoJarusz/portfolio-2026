@@ -1,8 +1,4 @@
 ---
-// La flecha de public/arrow.svg, inline y partida en sus dos subpaths (el palo
-// y la punta) para poder dibujarlos en dos tiempos al hacer hover. Va inline y
-// no como <img> porque un <img> se rasteriza una sola vez al tamano de layout
-// y el scale de la punta estiraria ese bitmap; inline se redibuja el vector.
 interface Props {
     class?: string;
 }
@@ -17,15 +13,17 @@ const { class: clase = 'w-3' } = Astro.props;
     role="img"
     aria-label="Flecha mirando hacia la derecha"
 >
-    <path class="flecha-palo" d="M0,81.02h98.5c11.65,0,21.87.28,30.66.83,8.78.55,16.6,1.21,23.45,1.94l16.65,8.32-16.65,8.32c-6.85.74-14.66,1.39-23.45,1.94-8.79.55-19.01.83-30.66.83H0v-22.2Z"></path>
-    <path class="flecha-punta" d="M85.46,14.43L102.94,0c9.06,14.61,17.85,27.38,26.36,38.29,8.51,10.92,17.29,20.58,26.36,28.99,9.06,8.42,18.77,16.42,29.13,24v1.67c-10.36,7.4-20.07,15.36-29.13,23.86-9.06,8.51-17.85,18.17-26.36,28.99-8.51,10.82-17.3,23.63-26.36,38.43l-17.48-14.43c7.58-11.65,15.21-22.15,22.89-31.49,7.67-9.34,15.3-17.52,22.89-24.55,7.58-7.03,14.98-12.76,22.2-17.2s14.15-7.49,20.81-9.16v9.43c-6.66-1.66-13.6-4.72-20.81-9.16-7.21-4.44-14.61-10.17-22.2-17.2-7.59-7.03-15.22-15.21-22.89-24.55-7.68-9.34-15.31-19.84-22.89-31.49Z"></path>
+    <path
+        class="flecha-palo"
+        d="M0,81.02h98.5c11.65,0,21.87.28,30.66.83,8.78.55,16.6,1.21,23.45,1.94l16.65,8.32-16.65,8.32c-6.85.74-14.66,1.39-23.45,1.94-8.79.55-19.01.83-30.66.83H0v-22.2Z"
+    ></path>
+    <path
+        class="flecha-punta"
+        d="M85.46,14.43L102.94,0c9.06,14.61,17.85,27.38,26.36,38.29,8.51,10.92,17.29,20.58,26.36,28.99,9.06,8.42,18.77,16.42,29.13,24v1.67c-10.36,7.4-20.07,15.36-29.13,23.86-9.06,8.51-17.85,18.17-26.36,28.99-8.51,10.82-17.3,23.63-26.36,38.43l-17.48-14.43c7.58-11.65,15.21-22.15,22.89-31.49,7.67-9.34,15.3-17.52,22.89-24.55,7.58-7.03,14.98-12.76,22.2-17.2s14.15-7.49,20.81-9.16v9.43c-6.66-1.66-13.6-4.72-20.81-9.16-7.21-4.44-14.61-10.17-22.2-17.2-7.59-7.03-15.22-15.21-22.89-24.55-7.68-9.34-15.31-19.84-22.89-31.49Z"
+    ></path>
 </svg>
 
 <style>
-    /* La flecha se ve siempre; el hover la vuelve a dibujar en dos tiempos:
-       primero el palo, despues la punta. Va por animation y no por transition
-       porque el reposo y el final son el mismo estado (flecha entera): una
-       transition no tendria entre que y que interpolar. */
     @keyframes dibujar-palo {
         from {
             clip-path: inset(0 100% 0 0);
@@ -35,9 +33,6 @@ const { class: clase = 'w-3' } = Astro.props;
         }
     }
 
-    /* La punta brota desde donde termina el palo: en scale(0) es un punto
-       apoyado en la union, asi que nunca se la ve flotando adelante del
-       trazo. El pelin de pasada del cubic-bezier es lo que le da el golpe. */
     @keyframes brotar-punta {
         from {
             transform: scale(0);
@@ -52,24 +47,15 @@ const { class: clase = 'w-3' } = Astro.props;
         transform-origin: left center;
     }
 
-    /* Un solo pomo para todo el gesto. Los tres tiempos van multiplicados por
-       esta variable, asi escalan juntos: subirla hace la animacion mas lenta
-       sin descoordinar el relevo. Tocar un tiempo suelto rompe el orden — el
-       delay de la punta tiene que caer donde el palo esta terminando. */
     .flecha {
         --dibujo: 1.6;
     }
 
-    /* El <a> que dispara vive en el componente de afuera, asi que no lleva el
-       scope de este archivo: por eso va con :global. Solo los paths quedan
-       scopeados. */
     :global(a:hover) .flecha-palo,
     :global(a:focus-visible) .flecha-palo {
         animation: dibujar-palo calc(260ms * var(--dibujo, 1)) ease-out;
     }
 
-    /* backwards para que durante el delay se quede en scale(0) y no aparezca
-       antes de que el palo llegue. */
     :global(a:hover) .flecha-punta,
     :global(a:focus-visible) .flecha-punta {
         animation: brotar-punta calc(220ms * var(--dibujo, 1))

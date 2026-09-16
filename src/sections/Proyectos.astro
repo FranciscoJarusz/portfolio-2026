@@ -33,7 +33,7 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
     class="z-0 bg-white px-30 py-10 flex flex-col gap-20 justify-center items-center"
 >
     <h2
-        class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] max-w-xl"
+        class="font-bold font-bricolage text-yellow text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] max-w-xl"
     >
         Proyectos
     </h2>
@@ -46,13 +46,20 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
 
                 return (
                     <article class="border-3 shadow-brutal flex flex-col overflow-hidden rounded-3xl border-black bg-white">
-                        {imagen && (
-                            <Image
-                                src={imagen}
-                                alt={`Captura del sitio ${item.nombre}`}
-                                class="h-auto w-full border-b-3 border-black"
-                            />
-                        )}
+                        <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group block overflow-hidden border-b-3 border-black"
+                        >
+                            {imagen && (
+                                <Image
+                                    src={imagen}
+                                    alt={`Captura del sitio ${item.nombre}`}
+                                    class="h-auto w-full transition-all duration-300 group-hover:scale-102"
+                                />
+                            )}
+                        </a>
 
                         <div class="flex flex-col gap-5 p-7">
                             <div class="flex flex-col gap-1.5">

@@ -18,7 +18,7 @@
     {
         "categoria": "Plataforma Web3",
         "nombre": "Primal Cult Cultomizer",
-        "descripcion": "Plataforma de personalización de activos Web3 que tomé en su etapa final para <strong>rescatar el proyecto y saldar la deuda técnica</strong>. Reconstruí el diseño responsive y la arquitectura de componentes, implementé el <strong>linking de wallets con visualización dinámica de NFTs por tokenId</strong> y la exportación de assets en GIF, y me encargué del <strong>despliegue integral (Vercel + Railway)</strong>.",
+        "descripcion": "Plataforma de personalización de activos Web3 que tomé en su etapa final para rescatar el proyecto y saldar la deuda técnica. Implementé <strong>autenticación por firma de wallet y verificación de propiedad on-chain (ApeChain)</strong>, <strong>composición server-side de GIFs animados</strong> con optimización de paleta que redujo el peso a la mitad, y la publicación de metadata que hace que la personalización se vea en la wallet del holder. Migré los ~2 GB de assets de la colección y me encargué del despliegue integral (Vercel + Railway).",
         "imagen": "Cultomizer.png",
         "tecnologias": ["Next.js", "TypeScript", "React", "Tailwind"],
         "url": "https://cultomizer.primalcult.xyz/customizer?tokenId=1"

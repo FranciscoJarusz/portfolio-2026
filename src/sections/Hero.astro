@@ -1,18 +1,6 @@
-<script is:inline>
-    (() => {
-        const setHeaderHeight = () => {
-            const header = document.getElementById('site-header');
-            if (!header) return;
-            document.documentElement.style.setProperty(
-                '--header-h',
-                header.getBoundingClientRect().height + 'px'
-            );
-        };
-        setHeaderHeight();
-        window.addEventListener('resize', setHeaderHeight);
-        window.addEventListener('load', setHeaderHeight);
-    })();
-</script>
+---
+import RollText from '@/components/ui/RollText';
+---
 
 <section
     id="hero"
@@ -59,12 +47,12 @@
                 <a
                     href="#contacto"
                     class="bg-soft-green shadow-brutal-sm rounded-full border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
-                    >Trabajemos juntos</a
+                    ><RollText text="Trabajemos juntos" client:load /></a
                 >
                 <a
                     href="#proyectos"
                     class="bg-coral-pink shadow-brutal-sm rounded-full border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
-                    >Ver proyectos</a
+                    ><RollText text="Ver proyectos" client:load /></a
                 >
             </div>
         </div>
@@ -107,3 +95,19 @@
         </svg>
     </div>
 </section>
+
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            document.documentElement.style.setProperty(
+                '--header-h',
+                header.getBoundingClientRect().height + 'px'
+            );
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>

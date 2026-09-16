@@ -1,11 +1,20 @@
 ---
 import RollText from '@/components/ui/RollText.jsx';
 import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
+import IconoRed from '@/components/ui/IconoRed.astro';
 
 const email = 'franszdev.web@gmail.com';
 const redes = [
-    { nombre: 'GitHub', url: 'https://github.com/FranciscoJarusz' },
-    { nombre: 'LinkedIn', url: 'https://www.linkedin.com/in/franciscojarusz/' },
+    {
+        nombre: 'GitHub',
+        url: 'https://github.com/FranciscoJarusz',
+        icono: 'github' as const,
+    },
+    {
+        nombre: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/franciscojarusz/',
+        icono: 'linkedin' as const,
+    },
     {
         nombre: 'Descargar CV',
         url: '/CV_Francisco_Jarusz_2026.pdf',
@@ -26,11 +35,50 @@ const campos = [
     class="bg-orange px-30 py-24 border-t-4 border-b-4 border-black min-h-screen"
 >
     <div class="flex flex-col gap-12">
-        <h2
-            class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px]"
-        >
-            Hablemos
-        </h2>
+        <div class="flex flex-row justify-between items-center">
+            <h2
+                class="font-bold font-bricolage text-white text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px]"
+            >
+                Hablemos
+            </h2>
+
+            <ul class="flex h-fit items-start gap-4">
+                {
+                    redes.map((red) => (
+                        <li>
+                            <a
+                                href={red.url}
+                                target={red.descarga ? undefined : '_blank'}
+                                rel={
+                                    red.descarga
+                                        ? undefined
+                                        : 'noopener noreferrer'
+                                }
+                                download={red.descarga ? '' : undefined}
+                                aria-label={red.icono ? red.nombre : undefined}
+                                class:list={[
+                                    'shadow-brutal-sm rounded-full border-2 border-black bg-white bg-clip-padding text-black transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none',
+                                    red.icono
+                                        ? 'grid size-10 place-items-center will-change-transform backface-hidden'
+                                        : 'inline-flex items-center gap-4 px-6 py-2 text-sm font-bold uppercase',
+                                ]}
+                            >
+                                {red.icono ? (
+                                    <IconoRed nombre={red.icono} />
+                                ) : (
+                                    <>
+                                        <RollText
+                                            text={red.nombre}
+                                            client:load
+                                        />
+                                    </>
+                                )}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
 
         <div class="flex flex-wrap items-center gap-6">
             <a
@@ -44,36 +92,13 @@ const campos = [
                 type="button"
                 data-copiar
                 data-email={email}
-                class="cursor-pointer border-2 shadow-brutal shrink-0 rounded-full border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                class="cursor-pointer border-2 shadow-brutal-sm shrink-0 rounded-full border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
             >
                 Copiar
             </button>
         </div>
 
-        <div class="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
-            <ul class="flex h-fit flex-col items-start gap-4">
-                {
-                    redes.map((red) => (
-                        <li>
-                            <a
-                                href={red.url}
-                                target={red.descarga ? undefined : '_blank'}
-                                rel={
-                                    red.descarga
-                                        ? undefined
-                                        : 'noopener noreferrer'
-                                }
-                                download={red.descarga ? '' : undefined}
-                                class="shadow-brutal-sm inline-flex items-center gap-8 rounded-full border-2 border-black bg-white bg-clip-padding px-6 py-2 text-lg text-black transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
-                            >
-                                <RollText text={red.nombre} client:load />
-                                <FlechaDibujo class="w-3" />
-                            </a>
-                        </li>
-                    ))
-                }
-            </ul>
-
+        <div class="w-full">
             <form
                 data-form-contacto
                 novalidate
@@ -146,9 +171,9 @@ const campos = [
 
                     <button
                         type="submit"
-                        class="cursor-pointer ml-auto text-md font-bold py-2 px-7 text-black bg-orange border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
+                        class="cursor-pointer ml-auto text-md font-bold py-2 px-7 uppercase text-black bg-orange border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
                     >
-                        ENVIAR
+                        <RollText text="Enviar" client:load />
                     </button>
                 </div>
             </form>

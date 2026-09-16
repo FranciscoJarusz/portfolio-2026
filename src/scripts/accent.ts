@@ -1,5 +1,3 @@
-import gsap from 'gsap';
-
 const raiz = document.documentElement;
 const secciones = [...document.querySelectorAll<HTMLElement>('[data-accent]')];
 
@@ -26,13 +24,6 @@ const marcarEnlace = (seccion: HTMLElement) => {
         if (esActivo && !primera) {
             enlace.dispatchEvent(new CustomEvent('rolltext:play'));
         }
-
-        gsap.to(enlace, {
-            fontWeight: esActivo ? 600 : 400,
-            duration: primera ? 0 : 0.35,
-            ease: 'power2.out',
-            overwrite: true,
-        });
     }
 
     primera = false;
