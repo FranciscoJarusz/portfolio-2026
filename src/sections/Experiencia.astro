@@ -22,7 +22,7 @@ import experiencia from '@/data/experiencia.json';
     id="experiencia"
     data-accent="yellow"
     data-timeline
-    class="relative h-dvh overflow-hidden pt-[calc(2.5rem+var(--header-h,88px))] pb-10"
+    class="relative pt-[calc(2.5rem+var(--header-h,88px))] pb-16 lg:h-dvh lg:overflow-hidden lg:pb-10"
 >
     <div
         data-timeline-deco
@@ -68,24 +68,24 @@ import experiencia from '@/data/experiencia.json';
 
     <div
         data-timeline-track
-        class="relative flex h-full w-max items-center gap-64 px-120 max-lg:overflow-x-auto"
+        class="relative flex flex-col gap-10 px-(--gutter) lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-64 lg:px-120"
     >
         <span
             data-timeline-line
             aria-hidden="true"
-            class="absolute top-1/2 right-0 left-0 -mt-0.5 h-1 bg-black"></span>
+            class="absolute top-1/2 right-0 left-0 -mt-0.5 h-1 bg-black max-lg:hidden"></span>
 
         <div
             data-timeline-arrow
             aria-hidden="true"
-            class="border-3 shadow-brutal-sm absolute top-1/2 -mt-5 right-120 grid size-10 place-items-center rounded-full border-black bg-white"
+            class="border-3 shadow-brutal-sm absolute top-1/2 -mt-5 right-120 grid size-10 place-items-center rounded-full border-black bg-white max-lg:hidden"
         >
             <img src="/arrow.svg" alt="" class="h-3.5 w-3.5" />
         </div>
 
         <h2
             data-timeline-title
-            class="font-bold font-bricolage text-yellow text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] absolute top-[calc(6rem-var(--header-h,88px))] left-30 z-20 max-w-xl"
+            class="font-bold font-bricolage text-yellow text-5xl sm:text-7xl lg:text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] relative lg:absolute lg:top-[calc(6rem-var(--header-h,88px))] lg:left-(--gutter) z-20 max-w-xl"
         >
             Experiencia Laboral
         </h2>
@@ -93,30 +93,47 @@ import experiencia from '@/data/experiencia.json';
         {
             experiencia.map((item, i) => {
                 const arriba = i % 2 !== 0;
-                const stem = 'calc(50% + 3rem)';
+                const primero = i === 0;
+                const ultimo = i === experiencia.length - 1;
 
                 return (
                     <article
                         data-timeline-item
                         data-pos={arriba ? 'arriba' : 'abajo'}
-                        class="relative h-full w-190 shrink-0"
+                        class="relative pl-12 lg:h-full lg:w-190 lg:shrink-0 lg:pl-0"
                     >
+                        <span
+                            data-timeline-seg
+                            aria-hidden="true"
+                            class:list={[
+                                'absolute left-4 w-1 bg-black lg:hidden',
+                                primero ? 'top-10' : 'top-0',
+                                ultimo ? 'bottom-0' : '-bottom-10',
+                            ]}
+                        />
+
                         <span
                             data-timeline-stem
                             aria-hidden="true"
-                            class="absolute left-1/2 -ml-0.5 h-12 w-1 bg-black"
-                            style={arriba ? 'bottom:50%' : 'top:50%'}
+                            class:list={[
+                                'absolute top-10 left-4.5 h-1 w-7.5 bg-black lg:left-1/2 lg:-ml-0.5 lg:h-12 lg:w-1',
+                                arriba ? 'lg:top-auto lg:bottom-1/2' : 'lg:top-1/2',
+                            ]}
                         />
 
                         <span
                             data-timeline-dot
                             aria-hidden="true"
-                            class="border-3 bg-lavander absolute top-1/2 left-1/2 z-10 -mt-2.5 -ml-2.5 size-5 rounded-full border-black"
+                            class="border-3 bg-lavander absolute top-8 left-2 z-10 size-5 rounded-full border-black lg:top-1/2 lg:left-1/2 lg:-mt-2.5 lg:-ml-2.5"
                         />
 
                         <div
-                            class="absolute left-1/2 w-170 -translate-x-1/2"
-                            style={arriba ? `bottom:${stem}` : `top:${stem}`}
+                            class:list={[
+                                'relative max-w-2xl lg:absolute lg:left-1/2 lg:w-170 lg:max-w-none lg:-translate-x-1/2',
+                                arriba
+                                    ? 'lg:bottom-[calc(50%+3rem)]'
+                                    : 'lg:top-[calc(50%+3rem)]',
+                            ]}
                         >
                             <div
                                 data-timeline-card
@@ -185,6 +202,7 @@ import experiencia from '@/data/experiencia.json';
     import gsap from 'gsap';
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import '@/scripts/lenis';
+    import { animarTitulo } from '@/scripts/titulo';
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -222,7 +240,10 @@ import experiencia from '@/data/experiencia.json';
             ctx?.revert();
             ctx = undefined;
 
-            if (window.innerWidth < 1024) return;
+            if (window.innerWidth < 1024) {
+                buildMovil();
+                return;
+            }
 
             ctx = gsap.context(() => {
                 const anchoItem = items[0]?.offsetWidth ?? 0;
@@ -413,21 +434,62 @@ import experiencia from '@/data/experiencia.json';
                 });
 
                 if (title) {
-                    gsap.fromTo(
-                        title,
-                        { opacity: 0, y: 60 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1.1,
-                            ease: 'power3.out',
-                            scrollTrigger: {
-                                trigger: section,
-                                start: 'top 70%',
-                            },
-                        }
-                    );
+                    animarTitulo(title, { trigger: section, start: 'top 70%' });
                 }
+            }, section);
+        };
+
+        const buildMovil = () => {
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            ctx = gsap.context(() => {
+                if (title) {
+                    animarTitulo(title, { trigger: title, start: 'top 85%' });
+                }
+
+                items.forEach((item) => {
+                    const seg = item.querySelector('[data-timeline-seg]');
+                    const dot = item.querySelector('[data-timeline-dot]');
+                    const stem = item.querySelector('[data-timeline-stem]');
+                    const card = item.querySelector('[data-timeline-card]');
+                    if (!seg || !dot || !stem || !card) return;
+
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 85%',
+                            once: true,
+                        },
+                    })
+                        .fromTo(
+                            seg,
+                            { scaleY: 0, transformOrigin: 'center top' },
+                            { scaleY: 1, duration: 0.9, ease: 'power2.inOut' }
+                        )
+                        .fromTo(
+                            dot,
+                            { scale: 0 },
+                            { scale: 1, duration: 0.4, ease: 'back.out(2.4)' },
+                            0
+                        )
+                        .fromTo(
+                            stem,
+                            { scaleX: 0, transformOrigin: 'left center' },
+                            { scaleX: 1, duration: 0.3, ease: 'power2.out' },
+                            0.15
+                        )
+                        .fromTo(
+                            card,
+                            { autoAlpha: 0, x: 40 },
+                            {
+                                autoAlpha: 1,
+                                x: 0,
+                                duration: 0.7,
+                                ease: 'back.out(1.4)',
+                            },
+                            0.25
+                        );
+                });
             }, section);
         };
 

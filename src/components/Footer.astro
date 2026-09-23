@@ -1,13 +1,36 @@
-<footer data-accent="yellow" class="px-30 py-10 bg-white flex flex-col gap-10">
-    <div class="flex flex-row justify-between items-center">
-        <a href="/">
-            <img
-                src="/logotipo.svg"
-                alt="Imagotipo de Francisco Jarusz"
-                class="w-30 h-auto scale-[0.984] hover:scale-102 active:scale-[0.951] transition-transform duration-300 will-change-transform backface-hidden"
-            />
-        </a>
+<!-- <footer data-accent="yellow" class="bg-white flex flex-col gap-10">
+    <div class="px-(--gutter) py-10 flex flex-row justify-between items-center"></div>
+    <div
+        class="px-(--gutter) py-10 flex flex-row justify-between items-center uppercase"
+    >
+        <p>Disponible para trabajar</p>
+        <p>© {new Date().getFullYear()} Francisco Jarusz - Fransz</p>
         <p>Buenos Aires, Argentina</p>
-        <p>© {new Date().getFullYear()} Francisco Jarusz - Fransz.</p>
     </div>
+    <a href="/">
+        <img
+            src="/logotipo.svg"
+            alt="Imagotipo de Francisco Jarusz"
+            class="w-fit h-auto hover:opacity-80 active:scale-97 transition-all duration-300"
+        />
+    </a>
+</footer> -->
+<footer
+    data-accent="yellow"
+    class="relative overflow-hidden py-10 bg-white flex flex-col gap-10"
+>
+    <div
+        class="px-(--gutter) flex flex-row justify-between items-center uppercase text-xs max-md:flex-col max-md:gap-2 max-md:text-center"
+    >
+        <p>Disponible para trabajar</p>
+        <p>© {new Date().getFullYear()} Francisco Jarusz - Fransz</p>
+        <p>Buenos Aires, Argentina</p>
+    </div>
+    <a href="/">
+        <img
+            src="/logotipo.svg"
+            alt="Imagotipo de Francisco Jarusz"
+            class="-mb-[calc(4.7%+2.5rem)] w-full h-auto hover:opacity-80 active:scale-97 transition-all duration-300"
+        />
+    </a>
 </footer>

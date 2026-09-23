@@ -30,22 +30,23 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
 <section
     id="proyectos"
     data-accent="yellow"
-    class="z-0 bg-white px-30 py-10 flex flex-col gap-20 justify-center items-center"
+    class="z-0 bg-white px-(--gutter) py-10 flex flex-col gap-12 lg:gap-20 justify-center items-center"
 >
     <h2
-        class="font-bold font-bricolage text-yellow text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] max-w-xl"
+        data-proyectos-title
+        class="font-bold font-bricolage text-yellow text-5xl sm:text-7xl lg:text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:5px] max-w-xl"
     >
         Proyectos
     </h2>
 
-    <div class="grid grid-cols-1 gap-16 lg:grid-cols-2">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         {
             proyectos.map((item) => {
                 const imagen =
                     imagenes[`/src/assets/projects/${item.imagen}`]?.default;
 
                 return (
-                    <article class="border-3 shadow-brutal flex flex-col overflow-hidden rounded-3xl border-black bg-white">
+                    <article data-proyecto class="border-3 shadow-brutal flex flex-col overflow-hidden rounded-3xl border-black bg-white">
                         <a
                             href={item.url}
                             target="_blank"
@@ -61,12 +62,12 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
                             )}
                         </a>
 
-                        <div class="flex flex-col gap-5 p-7">
+                        <div class="flex flex-col gap-5 p-5 sm:p-7">
                             <div class="flex flex-col gap-1.5">
                                 <p class="text-sm uppercase opacity-75">
                                     {item.categoria}
                                 </p>
-                                <h3 class="font-bricolage text-3xl font-bold">
+                                <h3 class="font-bricolage text-2xl font-bold sm:text-3xl">
                                     {item.nombre}
                                 </h3>
                             </div>
@@ -104,11 +105,55 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
     import gsap from 'gsap';
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import '@/scripts/lenis';
+    import { animarTitulo } from '@/scripts/titulo';
 
     gsap.registerPlugin(ScrollTrigger);
 
     const section = document.querySelector<HTMLElement>('#proyectos');
     const next = document.querySelector<HTMLElement>('#sobre-mi');
+    const titulo = document.querySelector<HTMLElement>('[data-proyectos-title]');
+    const cards = gsap.utils.toArray<HTMLElement>('[data-proyecto]');
+
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+        if (titulo) {
+            animarTitulo(titulo, { trigger: titulo, start: 'top 80%' });
+        }
+
+        gsap.set(cards, {
+            autoAlpha: 0,
+            y: 100,
+            rotation: (i: number) => (i % 2 ? 3 : -3),
+        });
+        gsap.set(section?.querySelectorAll('[data-proyecto] li') ?? [], {
+            scale: 0,
+        });
+
+        ScrollTrigger.batch(cards, {
+            start: 'top 85%',
+            once: true,
+            onEnter: (batch) => {
+                gsap.to(batch, {
+                    autoAlpha: 1,
+                    y: 0,
+                    rotation: 0,
+                    duration: 1,
+                    ease: 'back.out(1.4)',
+                    stagger: 0.15,
+                });
+
+                gsap.to(
+                    batch.flatMap((card) => [...card.querySelectorAll('li')]),
+                    {
+                        scale: 1,
+                        duration: 0.5,
+                        ease: 'back.out(2.5)',
+                        stagger: 0.04,
+                        delay: 0.5,
+                    }
+                );
+            },
+        });
+    });
 
     if (section && next) {
         const mm = gsap.matchMedia();

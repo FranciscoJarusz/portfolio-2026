@@ -50,6 +50,19 @@
 :root {
     --accent: var(--color-yellow);
     --accent-text: var(--color-black);
+    --gutter: 1rem;
+
+    @media (width >= 40rem) {
+        --gutter: 2rem;
+    }
+
+    @media (width >= 64rem) {
+        --gutter: 4rem;
+    }
+
+    @media (width >= 80rem) {
+        --gutter: 7.5rem;
+    }
 }
 
 html,
@@ -64,6 +77,7 @@ body {
 
 html {
     scroll-padding-top: calc(var(--header-h, 88px) + 1.5rem);
+    scrollbar-color: var(--color-yellow) transparent;
     transition: scrollbar-color 400ms ease;
 }
 
@@ -74,7 +88,10 @@ html {
 
 * {
     scrollbar-width: auto;
-    scrollbar-color: var(--accent) transparent;
+}
+
+body {
+    scrollbar-color: auto;
 }
 
 ::-webkit-scrollbar-track {

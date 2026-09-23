@@ -2,48 +2,81 @@
 import RollText from '@/components/ui/RollText';
 ---
 
+<script is:inline>
+    history.scrollRestoration = 'manual';
+
+    if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        const raiz = document.documentElement;
+        raiz.classList.add('hero-intro');
+        setTimeout(() => raiz.classList.remove('hero-intro'), 4000);
+    }
+</script>
+
 <section
     id="hero"
     data-accent="yellow"
-    class="relative flex min-h-dvh items-center px-30 pt-(--header-h,88px)"
+    class="relative flex min-h-dvh items-center px-(--gutter) pt-(--header-h,88px) max-2xl:pt-[calc(var(--header-h,88px)+2.5rem)] max-2xl:pb-16"
 >
-    <svg
+    <div
         data-hero-star
-        class="shadow-brutal-shape [--brutal-offset:12px] pointer-events-none absolute top-[15dvh] right-[-34%] z-0 w-310 will-change-transform"
-        viewBox="-1 -1 244.59 228.56"
+        data-hero-in
+        class="pointer-events-none absolute top-[15dvh] right-[-34%] z-0 w-310 will-change-transform max-2xl:top-auto max-2xl:right-0 max-2xl:bottom-0 max-2xl:w-[min(58vw,45rem)] max-2xl:translate-x-[35%] max-2xl:translate-y-[20%] max-lg:w-[90vw]"
         aria-hidden="true"
     >
-        <path
-            d="M75.98,226.56l-50.89-36.95,66.92-62.74-.7-4.18L0,105.96l18.82-60.65,82.96,46.01,2.79-2.79L89.93,0h62.74l-14.64,88.53,3.49,2.79,82.26-46.01,18.82,60.65-90.62,16.73-.7,3.49,69.01,62.74-50.19,36.95-46.01-80.17h-4.18l-43.92,80.86Z"
+        <svg
+            data-hero-star-giro
+            class="absolute inset-0 translate-3 will-change-transform"
+            viewBox="-1 -1 244.59 228.56"
+            fill="var(--color-black)"
+            stroke="var(--color-black)"
+        >
+            <use href="#hero-star"></use>
+        </svg>
+
+        <svg
+            data-hero-star-giro
+            class="relative block w-full will-change-transform"
+            viewBox="-1 -1 244.59 228.56"
             fill="var(--color-yellow)"
             stroke="var(--color-black)"
-            stroke-width="6"
-            stroke-linejoin="miter"
-            vector-effect="non-scaling-stroke"></path>
-    </svg>
+        >
+            <path
+                id="hero-star"
+                d="M75.98,226.56l-50.89-36.95,66.92-62.74-.7-4.18L0,105.96l18.82-60.65,82.96,46.01,2.79-2.79L89.93,0h62.74l-14.64,88.53,3.49,2.79,82.26-46.01,18.82,60.65-90.62,16.73-.7,3.49,69.01,62.74-50.19,36.95-46.01-80.17h-4.18l-43.92,80.86Z"
+                stroke-width="6"
+                stroke-linejoin="miter"
+                vector-effect="non-scaling-stroke"></path>
+        </svg>
+    </div>
 
-    <div class="flex justify-between items-center z-20">
+    <div
+        class="flex w-full justify-between items-center z-20 max-2xl:flex-col max-2xl:items-stretch max-2xl:gap-12"
+    >
         <div class="flex flex-col gap-7">
             <div class="flex flex-col gap-3.5">
-                <p class="text-sm text-black uppercase">
+                <p data-hero-in class="text-sm text-black uppercase">
                     Desarrollador Web & Diseñador UX/UI
                 </p>
 
                 <h1
-                    class="font-bricolage text-9xl leading-[0.85] font-extrabold text-black uppercase"
+                    data-hero-title
+                    class="font-bricolage text-5xl min-[400px]:text-6xl sm:text-8xl lg:text-9xl 2xl:text-[min(7.6vw,8rem)] max-2xl:max-w-[7em] leading-[0.85] font-extrabold text-black uppercase"
                 >
                     Francisco Jarusz
                 </h1>
             </div>
 
-            <p class="max-w-2xl text-lg text-black/75">
+            <p
+                data-hero-in
+                class="max-w-2xl text-lg text-black/75 max-sm:text-base"
+            >
                 +1 año de experiencia. Estudiante de la Licenciatura en Gestión
                 de Tecnología de la Información en UADE, Buenos Aires,
                 Argentina. Apasionado por el desarrollo de aplicaciones web
                 únicas.
             </p>
 
-            <div class="flex flex-wrap items-center gap-6">
+            <div data-hero-in class="flex flex-wrap items-center gap-6">
                 <a
                     href="#contacto"
                     class="bg-soft-green shadow-brutal-sm rounded-full border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
@@ -58,7 +91,9 @@ import RollText from '@/components/ui/RollText';
         </div>
 
         <svg
-            class="shadow-brutal-shape w-200 justify-self-center lg:justify-self-end"
+            data-hero-foto
+            data-hero-in
+            class="shadow-brutal-shape w-200 justify-self-center lg:justify-self-end max-2xl:w-full max-2xl:max-w-md lg:max-2xl:max-w-lg max-2xl:self-start"
             viewBox="-5 -5 796.3 797.9"
             role="img"
             aria-label="Foto de Francisco Jarusz"
@@ -110,4 +145,123 @@ import RollText from '@/components/ui/RollText';
         window.addEventListener('resize', setHeaderHeight);
         window.addEventListener('load', setHeaderHeight);
     })();
+</script>
+
+<style is:global>
+    .hero-intro [data-hero-in],
+    .hero-intro [data-hero-title] {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    import { partirLetras } from '@/scripts/titulo';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const raiz = document.documentElement;
+    const estrella = document.querySelector<HTMLElement>('[data-hero-star]');
+    const giros = gsap.utils.toArray<SVGElement>('[data-hero-star-giro]');
+    const foto = document.querySelector<SVGElement>('[data-hero-foto]');
+    const titulo = document.querySelector<HTMLElement>('[data-hero-title]');
+    const textos = gsap.utils.toArray<HTMLElement>(
+        '#hero [data-hero-in]:not(svg, [data-hero-star])'
+    );
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.to(giros, {
+            rotation: () => ScrollTrigger.maxScroll(window) * 0.1,
+            ease: 'none',
+            scrollTrigger: {
+                start: 0,
+                end: 'max',
+                scrub: true,
+                invalidateOnRefresh: true,
+            },
+        });
+    });
+
+    const entrada = async () => {
+        if (!raiz.classList.contains('hero-intro') || !titulo) return;
+
+        await document.fonts.ready;
+
+        const columnas = [titulo.parentElement?.parentElement, foto];
+        const anchos = columnas.map(
+            (el) => el?.getBoundingClientRect().width ?? 0
+        );
+        gsap.set(columnas, {
+            flex: 'none',
+            width: (i: number) => anchos[i],
+            autoRound: false,
+        });
+
+        const split = partirLetras(titulo);
+
+        const [subtitulo, ...resto] = textos;
+
+        gsap.set(titulo, { autoAlpha: 1 });
+
+        gsap.timeline({
+            defaults: { ease: 'power3.out' },
+            onComplete: () => {
+                split.revert();
+                gsap.set(columnas, { clearProps: 'flex,width' });
+                gsap.set(foto, { clearProps: 'all' });
+                raiz.classList.remove('hero-intro');
+            },
+        })
+            .fromTo(
+                estrella,
+                { autoAlpha: 0, scale: 0.6 },
+                {
+                    autoAlpha: 1,
+                    scale: 1,
+                    duration: 1.4,
+                    ease: 'back.out(1.4)',
+                },
+                0
+            )
+            .fromTo(
+                foto,
+                { autoAlpha: 0, scale: 0.8, rotation: -8 },
+                {
+                    autoAlpha: 1,
+                    scale: 1,
+                    rotation: 0,
+                    duration: 1.1,
+                    ease: 'back.out(1.6)',
+                },
+                0.15
+            )
+            .fromTo(
+                subtitulo,
+                { autoAlpha: 0, y: 20 },
+                { autoAlpha: 1, y: 0, duration: 0.6 },
+                0.2
+            )
+            .fromTo(
+                split.chars,
+                { yPercent: 110 },
+                {
+                    yPercent: 0,
+                    duration: 0.8,
+                    ease: 'power4.out',
+                    stagger: 0.035,
+                },
+                0.3
+            )
+            .fromTo(
+                resto,
+                { autoAlpha: 0, y: 24 },
+                { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.12 },
+                '-=0.4'
+            );
+    };
+
+    entrada();
 </script>
