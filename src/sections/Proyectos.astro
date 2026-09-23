@@ -2,7 +2,7 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import proyectos from '@/data/proyectos.json';
-import RollText from '@/components/ui/RollText.jsx';
+import RollText from '@/components/ui/RollText.astro';
 import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
 
 const imagenes = import.meta.glob<{ default: ImageMetadata }>(
@@ -89,7 +89,7 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <RollText text="Ver sitio" client:load />
+                                    <RollText text="Ver sitio" />
                                     <FlechaDibujo class="w-3" />
                                 </a>
                             </div>

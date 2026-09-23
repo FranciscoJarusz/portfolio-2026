@@ -1,3 +1,8 @@
+---
+import { Image } from 'astro:assets';
+import foto from '@/assets/foto.png';
+---
+
 <script is:inline>
     (() => {
         const setHeaderHeight = () => {
@@ -27,14 +32,18 @@
         Sobre Mí
     </h2>
 
-    <div class="flex min-h-[40dvh] w-full items-stretch gap-8 max-lg:flex-col lg:gap-15">
+    <div
+        class="flex min-h-[40dvh] w-full items-stretch gap-8 max-lg:flex-col lg:gap-15"
+    >
         <div
             data-sobre-foto
-            class="shadow-brutal relative basis-1/2 2xl:basis-[40%] shrink-0 self-stretch overflow-hidden max-lg:basis-auto max-lg:aspect-square sm:max-lg:aspect-[4/3] rounded-3xl border-4 border-black"
+            class="shadow-brutal relative basis-1/2 2xl:basis-[40%] shrink-0 self-stretch overflow-hidden max-lg:basis-auto max-lg:aspect-square sm:max-lg:aspect-4/3 rounded-3xl border-4 border-black"
         >
-            <img
-                src="/image.png"
+            <Image
+                src={foto}
                 alt="Francisco Jarusz"
+                widths={[400, 700, 1000]}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 class="absolute inset-0 h-full w-full object-cover"
             />
         </div>

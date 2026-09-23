@@ -1,0 +1,112 @@
+---
+interface Props {
+    sparkColor?: string;
+    sparkSize?: number;
+    sparkRadius?: number;
+    sparkCount?: number;
+    duration?: number;
+}
+
+const {
+    sparkColor = '#fff',
+    sparkSize = 10,
+    sparkRadius = 15,
+    sparkCount = 8,
+    duration = 400,
+} = Astro.props;
+---
+
+<canvas
+    data-click-spark
+    data-color={sparkColor}
+    data-size={sparkSize}
+    data-radius={sparkRadius}
+    data-count={sparkCount}
+    data-duration={duration}
+    class="block fixed inset-0 w-screen h-screen select-none pointer-events-none z-9999"
+></canvas>
+
+<slot />
+
+<script>
+    const canvas = document.querySelector<HTMLCanvasElement>(
+        '[data-click-spark]'
+    );
+    const ctx = canvas?.getContext('2d');
+
+    if (canvas && ctx) {
+        const color = canvas.dataset.color ?? '#fff';
+        const size = Number(canvas.dataset.size);
+        const radius = Number(canvas.dataset.radius);
+        const count = Number(canvas.dataset.count);
+        const duration = Number(canvas.dataset.duration);
+
+        type Chispa = { x: number; y: number; angle: number; inicio: number };
+        let chispas: Chispa[] = [];
+        let raf: number | null = null;
+
+        // El canvas va fijo al viewport, así el efecto funciona en toda la
+        // página sin importar cuánto scroll haya.
+        const ajustar = () => {
+            if (canvas.width !== innerWidth || canvas.height !== innerHeight) {
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+            }
+        };
+
+        let pendiente: number | undefined;
+        window.addEventListener('resize', () => {
+            clearTimeout(pendiente);
+            pendiente = window.setTimeout(ajustar, 100);
+        });
+        ajustar();
+
+        const dibujar = (ahora: number) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            chispas = chispas.filter((chispa) => {
+                const pasado = ahora - chispa.inicio;
+                if (pasado >= duration) return false;
+
+                const t = pasado / duration;
+                const suave = t * (2 - t);
+                const distancia = suave * radius;
+                const largo = size * (1 - suave);
+
+                const cos = Math.cos(chispa.angle);
+                const sin = Math.sin(chispa.angle);
+
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(chispa.x + distancia * cos, chispa.y + distancia * sin);
+                ctx.lineTo(
+                    chispa.x + (distancia + largo) * cos,
+                    chispa.y + (distancia + largo) * sin
+                );
+                ctx.stroke();
+
+                return true;
+            });
+
+            // Sin chispas no hay nada que dibujar: el loop se corta hasta el
+            // próximo clic en vez de repintar el canvas 60 veces por segundo.
+            raf = chispas.length ? requestAnimationFrame(dibujar) : null;
+        };
+
+        document.addEventListener('click', (evento) => {
+            const inicio = performance.now();
+
+            for (let i = 0; i < count; i++) {
+                chispas.push({
+                    x: evento.clientX,
+                    y: evento.clientY,
+                    angle: (2 * Math.PI * i) / count,
+                    inicio,
+                });
+            }
+
+            raf ??= requestAnimationFrame(dibujar);
+        });
+    }
+</script>

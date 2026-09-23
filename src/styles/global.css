@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import '@fontsource-variable/bricolage-grotesque/opsz.css';
+@import '@fontsource-variable/work-sans/wght.css';
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
@@ -17,7 +18,7 @@
     --color-white: #f8f9fa;
     --color-black: #1a1a1a;
 
-    --font-bricolage: 'Bricolage Grotesque', sans-serif;
+    --font-bricolage: 'Bricolage Grotesque Variable', sans-serif;
 }
 
 @utility shadow-brutal {
@@ -67,7 +68,7 @@
 
 html,
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Work Sans Variable', sans-serif;
     margin: 0;
     width: 100%;
     min-height: 100%;

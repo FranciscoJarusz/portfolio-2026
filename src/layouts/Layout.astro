@@ -1,6 +1,8 @@
 ---
 import '@/styles/global.css';
-import ClickSpark from '@/components/ClickSpark.jsx';
+import ClickSpark from '@/components/ClickSpark.astro';
+import bricolage from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2?url';
+import workSans from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 ---
 
 <!doctype html>
@@ -10,6 +12,21 @@ import ClickSpark from '@/components/ClickSpark.jsx';
         <meta name="viewport" content="width=device-width" />
 
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <link
+            rel="preload"
+            href={bricolage}
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href={workSans}
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
 
         <title>Fransz</title>
     </head>
@@ -21,7 +38,6 @@ import ClickSpark from '@/components/ClickSpark.jsx';
             sparkRadius={22}
             sparkCount={8}
             duration={450}
-            client:load
         >
             <slot />
         </ClickSpark>

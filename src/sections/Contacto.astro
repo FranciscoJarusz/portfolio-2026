@@ -1,5 +1,5 @@
 ---
-import RollText from '@/components/ui/RollText.jsx';
+import RollText from '@/components/ui/RollText.astro';
 import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
 import IconoRed from '@/components/ui/IconoRed.astro';
 
@@ -69,9 +69,7 @@ const campos = [
                                 ) : (
                                     <>
                                         <RollText
-                                            text={red.nombre}
-                                            client:load
-                                        />
+                                            text={red.nombre} />
                                     </>
                                 )}
                             </a>
@@ -174,7 +172,7 @@ const campos = [
                         type="submit"
                         class="cursor-pointer ml-auto text-md font-bold py-2 px-7 uppercase text-black bg-orange border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
                     >
-                        <RollText text="Enviar" client:load />
+                        <RollText text="Enviar" />
                     </button>
                 </div>
             </form>

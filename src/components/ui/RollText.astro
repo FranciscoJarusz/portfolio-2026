@@ -1,0 +1,90 @@
+---
+interface Props {
+    text: string;
+    class?: string;
+}
+
+const { text, class: className = '' } = Astro.props;
+
+const letras = text.split('').map((letra) => (letra === ' ' ? ' ' : letra));
+---
+
+<span
+    data-roll-text
+    class:list={['relative inline-flex overflow-hidden', className]}
+>
+    <span class="relative flex">
+        <span class="first-text flex">
+            {letras.map((letra) => <span class="letter inline-block">{letra}</span>)}
+        </span>
+        <span class="second-text absolute inset-0 flex" aria-hidden="true">
+            {letras.map((letra) => <span class="letter inline-block">{letra}</span>)}
+        </span>
+    </span>
+</span>
+
+<script>
+    import gsap from 'gsap';
+
+    const STAGGER = 0.03;
+
+    for (const container of document.querySelectorAll<HTMLElement>(
+        '[data-roll-text]'
+    )) {
+        const hoverTarget = container.closest('a, button') ?? container;
+        const primeras = container.querySelectorAll('.first-text .letter');
+        const segundas = container.querySelectorAll('.second-text .letter');
+
+        gsap.set(segundas, { y: '100%' });
+
+        const tl = gsap
+            .timeline({ paused: true })
+            .to(
+                primeras,
+                {
+                    y: '-100%',
+                    duration: 0.5,
+                    ease: 'power2.inOut',
+                    stagger: STAGGER,
+                },
+                0
+            )
+            .to(
+                segundas,
+                {
+                    y: '0%',
+                    duration: 0.5,
+                    ease: 'power2.inOut',
+                    stagger: STAGGER,
+                },
+                0
+            );
+
+        // Una vuelta completa disparada desde afuera (el header la usa cuando
+        // entras a la seccion). Las dos copias dicen lo mismo, asi que volver a
+        // cero al terminar no se ve.
+        let solo = false;
+
+        tl.eventCallback('onComplete', () => {
+            if (!solo) return;
+            solo = false;
+            tl.pause(0);
+        });
+
+        hoverTarget.addEventListener('mouseenter', () => {
+            solo = false;
+            tl.play();
+        });
+
+        hoverTarget.addEventListener('mouseleave', () => {
+            solo = false;
+            tl.reverse();
+        });
+
+        hoverTarget.addEventListener('rolltext:play', () => {
+            if (tl.isActive()) return;
+            solo = true;
+            tl.play(0);
+        });
+    }
+</script>
