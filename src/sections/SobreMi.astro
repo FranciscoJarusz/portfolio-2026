@@ -8,10 +8,10 @@ import foto from '@/assets/foto.png';
         const setHeaderHeight = () => {
             const header = document.getElementById('site-header');
             if (!header) return;
-            document.documentElement.style.setProperty(
-                '--header-h',
-                header.getBoundingClientRect().height + 'px'
-            );
+            const alto = header.getBoundingClientRect().height + 'px';
+            const raiz = document.documentElement;
+            if (raiz.style.getPropertyValue('--header-h') === alto) return;
+            raiz.style.setProperty('--header-h', alto);
         };
         setHeaderHeight();
         window.addEventListener('resize', setHeaderHeight);
@@ -23,7 +23,7 @@ import foto from '@/assets/foto.png';
     id="sobre-mi"
     data-accent="sky-blue"
     data-accent-antes="25"
-    class="relative z-10 border-t-4 min-h-dvh border-black bg-sky-blue bg-[url('/fondo.svg')] bg-size-[100%_100%] max-xl:bg-cover bg-center bg-no-repeat px-(--gutter) py-10 flex flex-col gap-6 justify-center items-center"
+    class="relative z-10 border-t-4 min-h-svh border-black bg-sky-blue bg-[url('/fondo.svg')] bg-size-[100%_100%] max-xl:bg-cover bg-center bg-no-repeat px-(--gutter) py-10 flex flex-col gap-6 justify-center items-center"
 >
     <h2
         data-sobre-title
@@ -33,7 +33,7 @@ import foto from '@/assets/foto.png';
     </h2>
 
     <div
-        class="flex min-h-[40dvh] w-full items-stretch gap-8 max-lg:flex-col lg:gap-15"
+        class="flex min-h-[40svh] w-full items-stretch gap-8 max-lg:flex-col lg:gap-15"
     >
         <div
             data-sobre-foto

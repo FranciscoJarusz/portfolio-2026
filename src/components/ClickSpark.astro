@@ -23,7 +23,7 @@ const {
     data-radius={sparkRadius}
     data-count={sparkCount}
     data-duration={duration}
-    class="block fixed inset-0 w-screen h-screen select-none pointer-events-none z-9999"
+    class="block fixed top-0 left-0 select-none pointer-events-none z-9999"
 ></canvas>
 
 <slot />
@@ -46,12 +46,16 @@ const {
         let raf: number | null = null;
 
         // El canvas va fijo al viewport, así el efecto funciona en toda la
-        // página sin importar cuánto scroll haya.
+        // página sin importar cuánto scroll haya. En iOS la barra de Safari
+        // dispara resize en cada scroll: solo se recrea si cambia el ancho o
+        // si el alto supera al que ya tiene.
         const ajustar = () => {
-            if (canvas.width !== innerWidth || canvas.height !== innerHeight) {
-                canvas.width = innerWidth;
-                canvas.height = innerHeight;
-            }
+            if (canvas.width === innerWidth && canvas.height >= innerHeight)
+                return;
+            canvas.width = innerWidth;
+            canvas.height = Math.max(innerHeight, canvas.height);
+            canvas.style.width = `${canvas.width}px`;
+            canvas.style.height = `${canvas.height}px`;
         };
 
         let pendiente: number | undefined;

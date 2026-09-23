@@ -21,7 +21,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 <section
     id="hero"
     data-accent="yellow"
-    class="relative flex min-h-dvh items-center px-(--gutter) pt-(--header-h,88px) max-2xl:pt-[calc(var(--header-h,88px)+2.5rem)] max-2xl:pb-16"
+    class="relative flex min-h-svh items-center px-(--gutter) pt-(--header-h,88px) max-2xl:pt-[calc(var(--header-h,88px)+2.5rem)] max-2xl:pb-16"
 >
     <div
         data-hero-star
@@ -150,10 +150,10 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
         const setHeaderHeight = () => {
             const header = document.getElementById('site-header');
             if (!header) return;
-            document.documentElement.style.setProperty(
-                '--header-h',
-                header.getBoundingClientRect().height + 'px'
-            );
+            const alto = header.getBoundingClientRect().height + 'px';
+            const raiz = document.documentElement;
+            if (raiz.style.getPropertyValue('--header-h') === alto) return;
+            raiz.style.setProperty('--header-h', alto);
         };
         setHeaderHeight();
         window.addEventListener('resize', setHeaderHeight);

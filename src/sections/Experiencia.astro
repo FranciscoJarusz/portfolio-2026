@@ -7,10 +7,10 @@ import experiencia from '@/data/experiencia.json';
         const setHeaderHeight = () => {
             const header = document.getElementById('site-header');
             if (!header) return;
-            document.documentElement.style.setProperty(
-                '--header-h',
-                header.getBoundingClientRect().height + 'px'
-            );
+            const alto = header.getBoundingClientRect().height + 'px';
+            const raiz = document.documentElement;
+            if (raiz.style.getPropertyValue('--header-h') === alto) return;
+            raiz.style.setProperty('--header-h', alto);
         };
         setHeaderHeight();
         window.addEventListener('resize', setHeaderHeight);
