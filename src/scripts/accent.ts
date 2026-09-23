@@ -55,14 +55,26 @@ const actualizar = () => {
 
         seccionActual = seccion;
         marcarEnlace(seccion);
-        raiz.style.setProperty('--accent', `var(--color-${accent})`);
-        raiz.style.setProperty(
-            '--accent-text',
-            accentText ? `var(--color-${accentText})` : 'var(--color-black)'
-        );
+        raiz.style.scrollbarColor = `var(--color-${accent}) transparent`;
         return;
     }
 };
+
+// Cambiar --accent en :root recalcula el estilo de toda la página, así que el
+// color de selección se actualiza recién cuando alguien empieza a seleccionar.
+let seleccionAplicada: HTMLElement | null = null;
+
+document.addEventListener('selectstart', () => {
+    if (!seccionActual || seccionActual === seleccionAplicada) return;
+    seleccionAplicada = seccionActual;
+
+    const { accent, accentText } = seccionActual.dataset;
+    raiz.style.setProperty('--accent', `var(--color-${accent})`);
+    raiz.style.setProperty(
+        '--accent-text',
+        accentText ? `var(--color-${accentText})` : 'var(--color-black)'
+    );
+});
 
 const pedirActualizacion = () => {
     if (pendiente) return;

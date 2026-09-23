@@ -92,7 +92,6 @@ export default function RollText({
             <span
                 key={`${key}-${index}`}
                 className="letter inline-block"
-                style={{ willChange: 'transform' }}
             >
                 {char === ' ' ? '\u00A0' : char}
             </span>
