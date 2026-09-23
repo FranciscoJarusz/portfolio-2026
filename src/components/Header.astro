@@ -2,22 +2,28 @@
 import RollText from '@/components/ui/RollText.jsx';
 ---
 
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 py-6 px-30">
+<header
+    id="site-header"
+    class="group fixed inset-x-0 top-0 z-50 py-4 px-(--gutter) lg:py-6"
+>
     <div
-        class="flex justify-between items-center gap-8 py-3 pl-8 pr-3 rounded-full border-2 border-black bg-white bg-clip-padding shadow-brutal"
+        class="relative flex justify-between items-center gap-4 lg:gap-8 py-2 pl-5 pr-2 lg:py-3 lg:pl-8 lg:pr-3 rounded-full border-2 border-black bg-white bg-clip-padding shadow-brutal-sm"
     >
         <a href="/">
             <img
                 src="/logotipo.svg"
                 alt="Imagotipo de Francisco Jarusz"
-                class="w-30 h-auto scale-[0.984] hover:scale-102 active:scale-[0.951] transition-transform duration-300 will-change-transform backface-hidden"
+                class="w-24 lg:w-30 h-auto scale-[0.984] hover:scale-102 active:scale-[0.951] transition-transform duration-300 will-change-transform backface-hidden"
             />
         </a>
 
-        <div class="flex gap-18 items-center justify-center">
+        <div
+            id="menu-movil"
+            class="absolute inset-x-0 top-full mt-3 flex-col gap-6 rounded-3xl border-2 border-black bg-white bg-clip-padding p-6 shadow-brutal-sm flex origin-top invisible lg:visible lg:static lg:mt-0 lg:flex lg:flex-row lg:items-center lg:justify-center lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+        >
             <nav class="nav-link">
                 <ul
-                    class="flex gap-12 *:text-md *:text-black/75 *:hover:text-black *:transition-all *:duration-300"
+                    class="flex flex-col gap-4 lg:flex-row lg:gap-8 xl:gap-12 text-md *:text-black/75 *:hover:text-black *:transition-colors *:duration-300"
                 >
                     <li>
                         <a
@@ -49,12 +55,126 @@ import RollText from '@/components/ui/RollText.jsx';
                     </li>
                 </ul>
             </nav>
+
+            <div class="sm:hidden self-start">
+                <a
+                    href="#contacto"
+                    class="block text-md font-bold py-2 px-7 uppercase text-black bg-yellow border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300"
+                    ><RollText text="Contacto" client:load /></a
+                >
+            </div>
         </div>
 
-        <a
-            href="#contacto"
-            class="text-md font-bold py-2 px-7 uppercase text-black bg-yellow border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300"
-            ><RollText text="Contacto" client:load /></a
-        >
+        <div class="flex items-center gap-2">
+            <a
+                href="#contacto"
+                class="hidden sm:block text-md font-bold py-2 px-7 uppercase text-black bg-yellow border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300"
+                ><RollText text="Contacto" client:load /></a
+            >
+
+            <button
+                id="boton-menu"
+                type="button"
+                aria-controls="menu-movil"
+                aria-expanded="false"
+                aria-label="Abrir menú"
+                class="lg:hidden cursor-pointer grid size-11 place-items-center rounded-full border-2 border-black bg-white bg-clip-padding shadow-brutal-sm active:scale-97 active:shadow-none transition-all duration-300"
+            >
+                <span
+                    class="flex w-5 flex-col gap-1 *:h-0.5 *:rounded-full *:bg-black *:transition-all *:duration-300"
+                >
+                    <span
+                        class="group-data-open:translate-y-1.5 group-data-open:rotate-45"
+                    ></span>
+                    <span class="group-data-open:opacity-0"></span>
+                    <span
+                        class="group-data-open:-translate-y-1.5 group-data-open:-rotate-45"
+                    ></span>
+                </span>
+            </button>
+        </div>
     </div>
 </header>
+
+<script>
+    import { gsap } from 'gsap';
+
+    const header = document.getElementById('site-header');
+    const boton = document.getElementById('boton-menu');
+    const menu = document.getElementById('menu-movil');
+
+    let animacionMenu: gsap.core.Timeline | null = null;
+
+    const mm = gsap.matchMedia();
+
+    mm.add(
+        {
+            movil: '(max-width: 63.99rem)',
+            reducido: '(prefers-reduced-motion: reduce)',
+        },
+        ({ conditions }) => {
+            if (!conditions?.movil || !menu) return;
+
+            const items = menu.querySelectorAll('li, :scope > div');
+
+            animacionMenu = gsap
+                .timeline({
+                    paused: true,
+                    defaults: { duration: conditions.reducido ? 0 : 0.4 },
+                })
+                .fromTo(
+                    menu,
+                    { autoAlpha: 0, y: -12, scale: 0.95 },
+                    { autoAlpha: 1, y: 0, scale: 1, ease: 'back.out(1.7)' }
+                )
+                .fromTo(
+                    items,
+                    { autoAlpha: 0, y: 10 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        ease: 'power2.out',
+                        stagger: conditions.reducido ? 0 : 0.05,
+                    },
+                    '<0.1'
+                );
+
+            return () => {
+                animacionMenu = null;
+            };
+        }
+    );
+
+    const abrir = (abierto: boolean) => {
+        if (abierto) animacionMenu?.timeScale(1).play();
+        else if (header?.hasAttribute('data-open'))
+            animacionMenu?.timeScale(1.6).reverse();
+
+        header?.toggleAttribute('data-open', abierto);
+        boton?.setAttribute('aria-expanded', String(abierto));
+        boton?.setAttribute(
+            'aria-label',
+            abierto ? 'Cerrar menú' : 'Abrir menú'
+        );
+    };
+
+    boton?.addEventListener('click', () =>
+        abrir(!header?.hasAttribute('data-open'))
+    );
+
+    menu?.addEventListener('click', (evento) => {
+        if ((evento.target as HTMLElement).closest('a')) abrir(false);
+    });
+
+    document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape') abrir(false);
+    });
+
+    document.addEventListener('click', (evento) => {
+        if (!header?.contains(evento.target as Node)) abrir(false);
+    });
+
+    matchMedia('(min-width: 64rem)').addEventListener('change', () =>
+        abrir(false)
+    );
+</script>
