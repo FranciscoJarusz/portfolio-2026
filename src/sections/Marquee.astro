@@ -22,7 +22,7 @@ const copias = Array.from({ length: COPIAS }, () => tecnologias);
     <div
         class="bg-yellow shadow-brutal relative -left-[5vw] w-[110vw] -rotate-3 border-4 border-black py-2 sm:py-3 bg-clip-padding"
     >
-        <div class="marquee-track flex w-max" style={`--copias:${COPIAS}`}>
+        <div class="marquee-track flex w-max">
             {
                 copias.map((lista, copia) => (
                     <ul
@@ -49,19 +49,33 @@ const copias = Array.from({ length: COPIAS }, () => tecnologias);
 </section>
 
 <style>
-    .marquee-track {
+    .marquee-track > ul {
         animation: marquee 60s linear infinite;
     }
 
     @keyframes marquee {
         to {
-            transform: translateX(calc(-100% / var(--copias)));
+            transform: translateX(-100%);
         }
     }
 
+    .marquee-pausado .marquee-track > ul {
+        animation-play-state: paused;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .marquee-track {
+        .marquee-track > ul {
             animation: none;
         }
     }
 </style>
+
+<script>
+    const marquee = document.querySelector('section[aria-label="Tecnologias"]');
+
+    if (marquee) {
+        new IntersectionObserver(([entrada]) => {
+            marquee.classList.toggle('marquee-pausado', !entrada.isIntersecting);
+        }).observe(marquee);
+    }
+</script>
