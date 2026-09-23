@@ -106,6 +106,7 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import '@/scripts/lenis';
     import { animarTitulo } from '@/scripts/titulo';
+    import { MOVIL, aparecer } from '@/scripts/aparecer';
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -114,46 +115,56 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
     const titulo = document.querySelector<HTMLElement>('[data-proyectos-title]');
     const cards = gsap.utils.toArray<HTMLElement>('[data-proyecto]');
 
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
-        if (titulo) {
-            animarTitulo(titulo, { trigger: titulo, start: 'top 80%' });
+    gsap.matchMedia().add(
+        { movil: MOVIL, animar: '(prefers-reduced-motion: no-preference)' },
+        ({ conditions }) => {
+            if (!conditions?.animar) return;
+
+            if (titulo) {
+                animarTitulo(titulo, { trigger: titulo, start: 'top 80%' });
+            }
+
+            if (conditions.movil) {
+                aparecer(cards);
+                return;
+            }
+
+            gsap.set(cards, {
+                autoAlpha: 0,
+                y: 100,
+                rotation: (i: number) => (i % 2 ? 3 : -3),
+            });
+            gsap.set(section?.querySelectorAll('[data-proyecto] li') ?? [], {
+                scale: 0,
+            });
+
+            ScrollTrigger.batch(cards, {
+                start: 'top 85%',
+                once: true,
+                onEnter: (batch) => {
+                    gsap.to(batch, {
+                        autoAlpha: 1,
+                        y: 0,
+                        rotation: 0,
+                        duration: 1,
+                        ease: 'back.out(1.4)',
+                        stagger: 0.15,
+                    });
+
+                    gsap.to(
+                        batch.flatMap((card) => [...card.querySelectorAll('li')]),
+                        {
+                            scale: 1,
+                            duration: 0.5,
+                            ease: 'back.out(2.5)',
+                            stagger: 0.04,
+                            delay: 0.5,
+                        }
+                    );
+                },
+            });
         }
-
-        gsap.set(cards, {
-            autoAlpha: 0,
-            y: 100,
-            rotation: (i: number) => (i % 2 ? 3 : -3),
-        });
-        gsap.set(section?.querySelectorAll('[data-proyecto] li') ?? [], {
-            scale: 0,
-        });
-
-        ScrollTrigger.batch(cards, {
-            start: 'top 85%',
-            once: true,
-            onEnter: (batch) => {
-                gsap.to(batch, {
-                    autoAlpha: 1,
-                    y: 0,
-                    rotation: 0,
-                    duration: 1,
-                    ease: 'back.out(1.4)',
-                    stagger: 0.15,
-                });
-
-                gsap.to(
-                    batch.flatMap((card) => [...card.querySelectorAll('li')]),
-                    {
-                        scale: 1,
-                        duration: 0.5,
-                        ease: 'back.out(2.5)',
-                        stagger: 0.04,
-                        delay: 0.5,
-                    }
-                );
-            },
-        });
-    });
+    );
 
     if (section && next) {
         const mm = gsap.matchMedia();

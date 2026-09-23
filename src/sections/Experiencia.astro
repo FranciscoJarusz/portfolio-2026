@@ -203,6 +203,7 @@ import experiencia from '@/data/experiencia.json';
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import '@/scripts/lenis';
     import { animarTitulo } from '@/scripts/titulo';
+    import { aparecer } from '@/scripts/aparecer';
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -447,49 +448,7 @@ import experiencia from '@/data/experiencia.json';
                     animarTitulo(title, { trigger: title, start: 'top 85%' });
                 }
 
-                items.forEach((item) => {
-                    const seg = item.querySelector('[data-timeline-seg]');
-                    const dot = item.querySelector('[data-timeline-dot]');
-                    const stem = item.querySelector('[data-timeline-stem]');
-                    const card = item.querySelector('[data-timeline-card]');
-                    if (!seg || !dot || !stem || !card) return;
-
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: item,
-                            start: 'top 85%',
-                            once: true,
-                        },
-                    })
-                        .fromTo(
-                            seg,
-                            { scaleY: 0, transformOrigin: 'center top' },
-                            { scaleY: 1, duration: 0.9, ease: 'power2.inOut' }
-                        )
-                        .fromTo(
-                            dot,
-                            { scale: 0 },
-                            { scale: 1, duration: 0.4, ease: 'back.out(2.4)' },
-                            0
-                        )
-                        .fromTo(
-                            stem,
-                            { scaleX: 0, transformOrigin: 'left center' },
-                            { scaleX: 1, duration: 0.3, ease: 'power2.out' },
-                            0.15
-                        )
-                        .fromTo(
-                            card,
-                            { autoAlpha: 0, x: 40 },
-                            {
-                                autoAlpha: 1,
-                                x: 0,
-                                duration: 0.7,
-                                ease: 'back.out(1.4)',
-                            },
-                            0.25
-                        );
-                });
+                aparecer(items);
             }, section);
         };
 

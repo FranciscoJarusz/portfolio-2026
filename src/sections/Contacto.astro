@@ -342,6 +342,7 @@ const campos = [
     import gsap from 'gsap';
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import { animarTitulo } from '@/scripts/titulo';
+    import { MOVIL, aparecer } from '@/scripts/aparecer';
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -351,58 +352,71 @@ const campos = [
     const email = contacto?.querySelector('[data-contacto-email]');
     const formulario = contacto?.querySelector('[data-form-contacto]');
 
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
-        if (!contacto || !titulo || !redes || !email || !formulario) return;
+    gsap.matchMedia().add(
+        { movil: MOVIL, animar: '(prefers-reduced-motion: no-preference)' },
+        ({ conditions }) => {
+            if (!conditions?.animar) return;
+            if (!contacto || !titulo || !redes || !email || !formulario) return;
 
-        animarTitulo(titulo, { trigger: contacto, start: 'top 60%' });
+            animarTitulo(titulo, { trigger: contacto, start: 'top 60%' });
 
-        gsap.timeline({
-            scrollTrigger: { trigger: contacto, start: 'top 60%' },
-        })
-            .fromTo(
-                redes,
-                { autoAlpha: 0, scale: 0 },
-                {
-                    autoAlpha: 1,
-                    scale: 1,
-                    duration: 0.5,
-                    ease: 'back.out(2.5)',
-                    stagger: 0.08,
-                },
-                0.3
-            )
-            .fromTo(
-                email,
-                { autoAlpha: 0, y: 40 },
-                { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-                0.4
-            );
+            if (conditions.movil) {
+                aparecer([
+                    contacto.querySelector('[data-contacto-redes]'),
+                    email,
+                    formulario,
+                ]);
+                return;
+            }
 
-        gsap.timeline({
-            scrollTrigger: { trigger: formulario, start: 'top 85%' },
-        })
-            .fromTo(
-                formulario,
-                { autoAlpha: 0, y: 100, rotation: 2 },
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    rotation: 0,
-                    duration: 1,
-                    ease: 'back.out(1.4)',
-                }
-            )
-            .fromTo(
-                formulario.querySelectorAll(':scope > .grid > div, :scope > .flex'),
-                { autoAlpha: 0, y: 24 },
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.6,
-                    ease: 'power3.out',
-                    stagger: 0.1,
-                },
-                '<0.35'
-            );
-    });
+            gsap.timeline({
+                scrollTrigger: { trigger: contacto, start: 'top 60%' },
+            })
+                .fromTo(
+                    redes,
+                    { autoAlpha: 0, scale: 0 },
+                    {
+                        autoAlpha: 1,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: 'back.out(2.5)',
+                        stagger: 0.08,
+                    },
+                    0.3
+                )
+                .fromTo(
+                    email,
+                    { autoAlpha: 0, y: 40 },
+                    { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+                    0.4
+                );
+
+            gsap.timeline({
+                scrollTrigger: { trigger: formulario, start: 'top 85%' },
+            })
+                .fromTo(
+                    formulario,
+                    { autoAlpha: 0, y: 100, rotation: 2 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        rotation: 0,
+                        duration: 1,
+                        ease: 'back.out(1.4)',
+                    }
+                )
+                .fromTo(
+                    formulario.querySelectorAll(':scope > .grid > div, :scope > .flex'),
+                    { autoAlpha: 0, y: 24 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        stagger: 0.1,
+                    },
+                    '<0.35'
+                );
+        }
+    );
 </script>

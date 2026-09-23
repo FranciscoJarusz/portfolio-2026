@@ -183,6 +183,21 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
             backwards;
     }
 
+    @media (max-width: 63.99rem) {
+        .hero-intro [data-hero-star],
+        .hero-intro [data-hero-foto] {
+            animation-name: hero-aparecer;
+            animation-duration: 0.7s;
+            animation-timing-function: ease-out;
+        }
+    }
+
+    @keyframes hero-aparecer {
+        from {
+            opacity: 0;
+        }
+    }
+
     @keyframes hero-subir {
         from {
             opacity: 0;
@@ -219,7 +234,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 
     const mm = gsap.matchMedia();
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    mm.add('(min-width: 64rem) and (prefers-reduced-motion: no-preference)', () => {
         gsap.to(giros, {
             rotation: () => ScrollTrigger.maxScroll(window) * 0.1,
             ease: 'none',
