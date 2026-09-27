@@ -186,7 +186,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 
     /* Con la fuente de reemplazo el párrafo corta en otra cantidad de líneas:
        si la foto ya estaba a la vista, saltaba al llegar la fuente real. */
-    .hero-intro:not(.hero-fuentes) :is([data-hero-in], [data-hero-star], [data-hero-foto]) {
+    .hero-intro:not(.hero-fuentes) :is([data-hero-in], [data-hero-foto]) {
         animation-play-state: paused;
     }
 

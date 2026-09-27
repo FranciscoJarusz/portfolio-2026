@@ -421,7 +421,10 @@ import experiencia from '@/data/experiencia.json';
                     });
 
                     if (star) {
-                        gsap.set(star, { x: -corrido, y: scroll });
+                        // scale: 1 explícito: si la estrella todavía está
+                        // entrando, gsap leería su escala a mitad de camino
+                        // y la dejaría fija en el estilo inline.
+                        gsap.set(star, { x: -corrido, y: scroll, scale: 1 });
                     }
                 };
 

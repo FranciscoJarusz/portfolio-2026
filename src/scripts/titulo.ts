@@ -28,9 +28,15 @@ const posiciones = (el: HTMLElement) => {
 export const partirLetras = (titulo: HTMLElement, mascaras?: gsap.TweenVars) => {
     const antes = posiciones(titulo);
 
+    // En Safari las máscaras (inline-block con overflow) bajan la línea base y
+    // el título crece unos px mientras está partido: al revertir, todo lo de
+    // abajo saltaba para arriba. Se fija el alto hasta que se revierte.
+    gsap.set(titulo, { height: titulo.getBoundingClientRect().height });
+
     const split = SplitText.create(titulo, {
         type: 'words,chars',
         mask: 'chars',
+        onRevert: () => gsap.set(titulo, { clearProps: 'height' }),
     });
 
     if (mascaras) gsap.set(split.masks, mascaras);
