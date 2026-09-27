@@ -14,6 +14,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
     if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
         const raiz = document.documentElement;
         raiz.classList.add('hero-intro');
+        document.fonts.ready.then(() => raiz.classList.add('hero-fuentes'));
         setTimeout(() => raiz.classList.remove('hero-intro'), 4000);
     }
 </script>
@@ -26,7 +27,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
     <div
         data-hero-star
         data-hero-in
-        class="pointer-events-none absolute top-[15dvh] right-[-34%] z-0 w-310 will-change-transform max-2xl:top-auto max-2xl:right-0 max-2xl:bottom-0 max-2xl:w-[min(58vw,45rem)] max-2xl:translate-x-[35%] max-2xl:translate-y-[20%] max-lg:w-[90vw]"
+        class="pointer-events-none absolute top-[15dvh] right-[-34%] z-0 w-310 will-change-transform max-lg:top-auto max-lg:right-0 max-lg:bottom-0 max-lg:w-[90vw] max-lg:translate-x-[35%] max-lg:translate-y-[20%]"
         aria-hidden="true"
     >
         <svg
@@ -183,6 +184,12 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
             backwards;
     }
 
+    /* Con la fuente de reemplazo el párrafo corta en otra cantidad de líneas:
+       si la foto ya estaba a la vista, saltaba al llegar la fuente real. */
+    .hero-intro:not(.hero-fuentes) :is([data-hero-in], [data-hero-star], [data-hero-foto]) {
+        animation-play-state: paused;
+    }
+
     @media (max-width: 63.99rem) {
         .hero-intro [data-hero-star],
         .hero-intro [data-hero-foto] {
@@ -234,18 +241,21 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 64rem) and (prefers-reduced-motion: no-preference)', () => {
-        gsap.to(giros, {
-            rotation: () => ScrollTrigger.maxScroll(window) * 0.1,
-            ease: 'none',
-            scrollTrigger: {
-                start: 0,
-                end: 'max',
-                scrub: true,
-                invalidateOnRefresh: true,
-            },
-        });
-    });
+    mm.add(
+        '(min-width: 64rem) and (prefers-reduced-motion: no-preference)',
+        () => {
+            gsap.to(giros, {
+                rotation: () => ScrollTrigger.maxScroll(window) * 0.1,
+                ease: 'none',
+                scrollTrigger: {
+                    start: 0,
+                    end: 'max',
+                    scrub: true,
+                    invalidateOnRefresh: true,
+                },
+            });
+        }
+    );
 
     const entrada = async () => {
         if (!raiz.classList.contains('hero-intro') || !titulo) return;
@@ -272,18 +282,17 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
                 split.revert();
                 gsap.set(columnas, { clearProps: 'flex,width' });
             },
-        })
-            .fromTo(
-                split.chars,
-                { yPercent: 110 },
-                {
-                    yPercent: 0,
-                    duration: 0.8,
-                    ease: 'power4.out',
-                    stagger: 0.035,
-                },
-                0.3
-            );
+        }).fromTo(
+            split.chars,
+            { yPercent: 110 },
+            {
+                yPercent: 0,
+                duration: 0.8,
+                ease: 'power4.out',
+                stagger: 0.035,
+            },
+            0.3
+        );
     };
 
     entrada();
