@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import foto from '@/assets/foto.png';
 ---
 
@@ -39,8 +39,9 @@ import foto from '@/assets/foto.png';
             data-sobre-foto
             class="shadow-brutal relative basis-1/2 2xl:basis-[40%] shrink-0 self-stretch overflow-hidden max-lg:basis-auto max-lg:aspect-square sm:max-lg:aspect-4/3 rounded-3xl border-4 border-black"
         >
-            <Image
+            <Picture
                 src={foto}
+                formats={['avif', 'webp']}
                 alt="Francisco Jarusz"
                 widths={[400, 700, 1000]}
                 sizes="(min-width: 1024px) 50vw, 100vw"
