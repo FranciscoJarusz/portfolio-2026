@@ -453,26 +453,35 @@ import experiencia from '@/data/experiencia.json';
                 // La línea no se mueve: cada tramo se dibuja con el scroll y
                 // empalma con el siguiente, así se lee como una sola línea.
                 items.forEach((item) => {
-                    const seg = item.querySelector('[data-timeline-seg]');
+                    const seg = item.querySelector<HTMLElement>(
+                        '[data-timeline-seg]'
+                    );
                     const stem = item.querySelector('[data-timeline-stem]');
                     const dot = item.querySelector('[data-timeline-dot]');
                     const card = item.querySelector('[data-timeline-card]');
 
-                    gsap.fromTo(
-                        seg,
-                        { scaleY: 0 },
-                        {
-                            scaleY: 1,
-                            ease: 'none',
-                            transformOrigin: 'top',
-                            scrollTrigger: {
-                                trigger: seg,
-                                start: 'top 75%',
-                                end: 'bottom 75%',
-                                scrub: true,
-                            },
-                        }
-                    );
+                    // El trigger es el artículo con la posición del tramo: si
+                    // fuera el tramo, ScrollTrigger lo mediría ya con
+                    // scaleY 0 (alto 0) y la línea aparecería de golpe.
+                    if (seg) {
+                        gsap.fromTo(
+                            seg,
+                            { scaleY: 0 },
+                            {
+                                scaleY: 1,
+                                ease: 'none',
+                                transformOrigin: 'top',
+                                scrollTrigger: {
+                                    trigger: item,
+                                    start: () => `top+=${seg.offsetTop} 75%`,
+                                    end: () =>
+                                        `top+=${seg.offsetTop + seg.offsetHeight} 75%`,
+                                    scrub: true,
+                                    invalidateOnRefresh: true,
+                                },
+                            }
+                        );
+                    }
 
                     gsap.timeline({
                         scrollTrigger: { trigger: dot, start: 'top 75%' },
