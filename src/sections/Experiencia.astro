@@ -203,7 +203,6 @@ import experiencia from '@/data/experiencia.json';
     import ScrollTrigger from 'gsap/ScrollTrigger';
     import '@/scripts/lenis';
     import { animarTitulo } from '@/scripts/titulo';
-    import { aparecer } from '@/scripts/aparecer';
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -451,7 +450,54 @@ import experiencia from '@/data/experiencia.json';
                     animarTitulo(title, { trigger: title, start: 'top 85%' });
                 }
 
-                aparecer(items);
+                // La línea no se mueve: cada tramo se dibuja con el scroll y
+                // empalma con el siguiente, así se lee como una sola línea.
+                items.forEach((item) => {
+                    const seg = item.querySelector('[data-timeline-seg]');
+                    const stem = item.querySelector('[data-timeline-stem]');
+                    const dot = item.querySelector('[data-timeline-dot]');
+                    const card = item.querySelector('[data-timeline-card]');
+
+                    gsap.fromTo(
+                        seg,
+                        { scaleY: 0 },
+                        {
+                            scaleY: 1,
+                            ease: 'none',
+                            transformOrigin: 'top',
+                            scrollTrigger: {
+                                trigger: seg,
+                                start: 'top 75%',
+                                end: 'bottom 75%',
+                                scrub: true,
+                            },
+                        }
+                    );
+
+                    gsap.timeline({
+                        scrollTrigger: { trigger: dot, start: 'top 75%' },
+                    })
+                        .fromTo(
+                            dot,
+                            { scale: 0 },
+                            { scale: 1, duration: 0.3, ease: 'back.out(2)' }
+                        )
+                        .fromTo(
+                            stem,
+                            { scaleX: 0 },
+                            {
+                                scaleX: 1,
+                                duration: 0.2,
+                                ease: 'none',
+                                transformOrigin: 'left',
+                            }
+                        )
+                        .fromTo(
+                            card,
+                            { autoAlpha: 0 },
+                            { autoAlpha: 1, duration: 0.4, ease: 'power2.out' }
+                        );
+                });
             }, section);
         };
 
