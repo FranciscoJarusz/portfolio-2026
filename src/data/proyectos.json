@@ -1,5 +1,13 @@
 [
     {
+        "categoria": "ARQUITECTURA Y CONSTRUCCIÓN",
+        "nombre": "SOMMA",
+        "descripcion": "Sitio institucional para una constructora de locales comerciales, con fichas de obra generadas a partir de datos. Resolví un hosting limitado (IIS + PHP 5.6) con un formulario de contacto propio, con SMTP y anti-spam, y correos diseñados en React Email que se convierten a plantillas HTML en el build. Se suman animaciones con GSAP y Lenis.",
+        "imagen": "Somma.png",
+        "tecnologias": ["Astro", "TypeScript", "Tailwind", "GSAP"],
+        "url": "https://somma.com.ar/"
+    },
+    {
         "categoria": "Estudio creativo",
         "nombre": "Dalú  Marketing Digital",
         "descripcion": "Sitio completo para un estudio de marketing digital y producción audiovisual. Construí un <strong>sistema de animaciones con GSAP, ScrollTrigger y Lenis</strong> —hero fijado con video, scroll horizontal y entradas encadenadas— y un <strong>flujo de contacto con Nodemailer y React Email</strong> que dispara aviso interno y confirmación al usuario.",

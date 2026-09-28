@@ -3,8 +3,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// En celulares las entradas son solo un fade con una subida corta: las
-// versiones con rotaciones, rebotes y elementos de a uno se trababan en iOS.
 export const MOVIL = '(max-width: 63.99rem)';
 
 export const aparecer = (elementos: Iterable<Element | null | undefined>) => {
