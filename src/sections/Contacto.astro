@@ -58,7 +58,7 @@ const campos = [
                                 download={red.descarga ? '' : undefined}
                                 aria-label={red.icono ? red.nombre : undefined}
                                 class:list={[
-                                    'shadow-brutal-sm rounded-full border-2 border-black bg-white bg-clip-padding text-black transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none',
+                                    'shadow-brutal-sm rounded-button border-2 border-black bg-white bg-clip-padding text-black transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none',
                                     red.icono
                                         ? 'grid size-10 place-items-center will-change-transform backface-hidden'
                                         : 'inline-flex items-center gap-4 px-6 py-2 text-sm font-bold uppercase',
@@ -91,7 +91,7 @@ const campos = [
                 type="button"
                 data-copiar
                 data-email={email}
-                class="cursor-pointer border-2 shadow-brutal-sm shrink-0 rounded-full border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                class="cursor-pointer border-2 shadow-brutal-sm shrink-0 rounded-button border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
             >
                 Copiar
             </button>
@@ -170,7 +170,7 @@ const campos = [
 
                     <button
                         type="submit"
-                        class="cursor-pointer ml-auto text-md font-bold py-2 px-7 uppercase text-black bg-orange border-2 border-black shadow-brutal-sm rounded-full bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
+                        class="cursor-pointer ml-auto text-md font-bold py-2 px-7 uppercase text-black bg-orange border-2 border-black shadow-brutal-sm rounded-button bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
                     >
                         <RollText text="Enviar" />
                     </button>
