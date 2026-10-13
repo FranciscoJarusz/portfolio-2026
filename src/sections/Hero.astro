@@ -3,10 +3,40 @@ import { getImage } from 'astro:assets';
 import RollText from '@/components/ui/RollText.astro';
 import foto from '@/assets/foto.png';
 
+// Los valores por defecto son los de la home; la 404 usa el mismo hero con
+// otros textos y sin la foto.
+interface Props {
+    etiqueta?: string;
+    titulo?: string;
+    texto?: string;
+    botones?: { texto: string; href: string; color: string }[];
+    conFoto?: boolean;
+}
+
+const {
+    etiqueta = 'Desarrollador Web & Diseñador UX/UI',
+    titulo = 'Francisco Jarusz',
+    texto = '+1 año de experiencia. Estudiante de la Licenciatura en Gestión de Tecnología de la Información en UADE, Buenos Aires, Argentina. Apasionado por el desarrollo de aplicaciones web únicas.',
+    botones = [
+        { texto: 'Trabajemos juntos', href: '#contacto', color: 'bg-soft-green' },
+        { texto: 'Ver proyectos', href: '#proyectos', color: 'bg-coral-pink' },
+    ],
+    conFoto = true,
+} = Astro.props;
+
 const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 ---
 
-<link rel="preload" as="image" href={fotoHero.src} fetchpriority="high" />
+{
+    conFoto && (
+        <link
+            rel="preload"
+            as="image"
+            href={fotoHero.src}
+            fetchpriority="high"
+        />
+    )
+}
 
 <script is:inline>
     history.scrollRestoration = 'manual';
@@ -66,14 +96,14 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
                     style="--hero-delay: 0.2s"
                     class="text-sm text-black uppercase"
                 >
-                    Desarrollador Web & Diseñador UX/UI
+                    {etiqueta}
                 </p>
 
                 <h1
                     data-hero-title
                     class="font-bricolage text-5xl min-[400px]:text-6xl sm:text-8xl lg:text-9xl 2xl:text-[min(7.6vw,8rem)] max-2xl:max-w-[7em] leading-[0.85] font-extrabold text-black uppercase"
                 >
-                    Francisco Jarusz
+                    {titulo}
                 </h1>
             </div>
 
@@ -82,10 +112,7 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
                 style="--hero-delay: 0.9s"
                 class="max-w-2xl text-lg text-black/75 max-sm:text-base"
             >
-                +1 año de experiencia. Estudiante de la Licenciatura en Gestión
-                de Tecnología de la Información en UADE, Buenos Aires,
-                Argentina. Apasionado por el desarrollo de aplicaciones web
-                únicas.
+                {texto}
             </p>
 
             <div
@@ -93,19 +120,22 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
                 style="--hero-delay: 1.02s"
                 class="flex flex-wrap items-center gap-6"
             >
-                <a
-                    href="#contacto"
-                    class="bg-soft-green shadow-brutal-sm rounded-button border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
-                    ><RollText text="Trabajemos juntos" /></a
-                >
-                <a
-                    href="#proyectos"
-                    class="bg-coral-pink shadow-brutal-sm rounded-button border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
-                    ><RollText text="Ver proyectos" /></a
-                >
+                {
+                    botones.map((boton) => (
+                        <a
+                            href={boton.href}
+                            class:list={[
+                                boton.color,
+                                'shadow-brutal-sm rounded-button border-2 border-black bg-clip-padding px-7 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none',
+                            ]}
+                            ><RollText text={boton.texto} /></a
+                        >
+                    ))
+                }
             </div>
         </div>
 
+        {conFoto && (
         <svg
             data-hero-foto
             class="shadow-brutal-shape w-200 justify-self-center lg:justify-self-end max-2xl:w-full max-2xl:max-w-md lg:max-2xl:max-w-lg max-2xl:self-start"
@@ -143,24 +173,9 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
                 stroke-linejoin="round"
                 vector-effect="non-scaling-stroke"></use>
         </svg>
+        )}
     </div>
 </section>
-
-<script is:inline>
-    (() => {
-        const setHeaderHeight = () => {
-            const header = document.getElementById('site-header');
-            if (!header) return;
-            const alto = header.getBoundingClientRect().height + 'px';
-            const raiz = document.documentElement;
-            if (raiz.style.getPropertyValue('--header-h') === alto) return;
-            raiz.style.setProperty('--header-h', alto);
-        };
-        setHeaderHeight();
-        window.addEventListener('resize', setHeaderHeight);
-        window.addEventListener('load', setHeaderHeight);
-    })();
-</script>
 
 <style is:global>
     .hero-intro [data-hero-title] {
@@ -263,9 +278,12 @@ const fotoHero = await getImage({ src: foto, width: 1000, format: 'webp' });
 
         await document.fonts.ready;
 
-        const columnas = [titulo.parentElement?.parentElement, foto];
+        // Sin foto (en la 404) queda una sola columna
+        const columnas = [titulo.parentElement?.parentElement, foto].filter(
+            (el): el is HTMLElement | SVGElement => !!el
+        );
         const anchos = columnas.map((el) =>
-            el ? parseFloat(getComputedStyle(el).width) : 0
+            parseFloat(getComputedStyle(el).width)
         );
         gsap.set(columnas, {
             flex: 'none',

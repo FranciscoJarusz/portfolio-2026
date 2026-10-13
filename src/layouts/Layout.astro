@@ -4,7 +4,16 @@ import ClickSpark from '@/components/ClickSpark.astro';
 import bricolage from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2?url';
 import workSans from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 
-const titulo = 'Francisco Jarusz - Desarrollador web y diseñador UX/UI';
+interface Props {
+    titulo?: string;
+    // false en páginas como la 404: sin canonical y con noindex
+    indexar?: boolean;
+}
+
+const {
+    titulo = 'Francisco Jarusz - Desarrollador web y diseñador UX/UI',
+    indexar = true,
+} = Astro.props;
 const descripcion =
     'Francisco Jarusz, desarrollador web y diseñador UX/UI en Buenos Aires. Sitios y aplicaciones web con Astro, TypeScript y GSAP.';
 const canonica = new URL(Astro.url.pathname, Astro.site);
@@ -38,7 +47,13 @@ const persona = {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <meta name="description" content={descripcion} />
-        <link rel="canonical" href={canonica} />
+        {
+            indexar ? (
+                <link rel="canonical" href={canonica} />
+            ) : (
+                <meta name="robots" content="noindex" />
+            )
+        }
         <meta name="theme-color" content="#f8f9fa" />
 
         <meta property="og:type" content="website" />

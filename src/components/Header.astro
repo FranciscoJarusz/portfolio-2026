@@ -29,28 +29,28 @@ import RollText from '@/components/ui/RollText.astro';
                 >
                     <li>
                         <a
-                            href="#hero"
+                            href="/#hero"
                             class="aria-[current]:text-black aria-[current]:font-semibold"
                             ><RollText text="Inicio" /></a
                         >
                     </li>
                     <li>
                         <a
-                            href="#experiencia"
+                            href="/#experiencia"
                             class="aria-[current]:text-black aria-[current]:font-semibold"
                             ><RollText text="Experiencia" /></a
                         >
                     </li>
                     <li>
                         <a
-                            href="#proyectos"
+                            href="/#proyectos"
                             class="aria-[current]:text-black aria-[current]:font-semibold"
                             ><RollText text="Proyectos" /></a
                         >
                     </li>
                     <li>
                         <a
-                            href="#sobre-mi"
+                            href="/#sobre-mi"
                             class="aria-[current]:text-black aria-[current]:font-semibold"
                             ><RollText text="Sobre mí" /></a
                         >
@@ -60,7 +60,7 @@ import RollText from '@/components/ui/RollText.astro';
 
             <div class="sm:hidden self-start">
                 <a
-                    href="#contacto"
+                    href="/#contacto"
                     class="block text-md font-bold py-2 px-7 uppercase text-black bg-yellow border-2 border-black shadow-brutal-sm rounded-button bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300"
                     ><RollText text="Contacto" /></a
                 >
@@ -69,7 +69,7 @@ import RollText from '@/components/ui/RollText.astro';
 
         <div class="flex items-center gap-2">
             <a
-                href="#contacto"
+                href="/#contacto"
                 class="hidden sm:block text-md font-bold py-2 px-7 uppercase text-black bg-yellow border-2 border-black shadow-brutal-sm rounded-button bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300"
                 ><RollText text="Contacto" /></a
             >
@@ -97,6 +97,24 @@ import RollText from '@/components/ui/RollText.astro';
         </div>
     </div>
 </header>
+
+<!-- Inline y justo después del header: las secciones usan --header-h para su
+     padding y así ya está definido antes de que se pinten. -->
+<script is:inline>
+    (() => {
+        const setHeaderHeight = () => {
+            const header = document.getElementById('site-header');
+            if (!header) return;
+            const alto = header.getBoundingClientRect().height + 'px';
+            const raiz = document.documentElement;
+            if (raiz.style.getPropertyValue('--header-h') === alto) return;
+            raiz.style.setProperty('--header-h', alto);
+        };
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+    })();
+</script>
 
 <script>
     import { gsap } from 'gsap';

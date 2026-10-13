@@ -3,22 +3,6 @@ import { Picture } from 'astro:assets';
 import foto from '@/assets/foto.png';
 ---
 
-<script is:inline>
-    (() => {
-        const setHeaderHeight = () => {
-            const header = document.getElementById('site-header');
-            if (!header) return;
-            const alto = header.getBoundingClientRect().height + 'px';
-            const raiz = document.documentElement;
-            if (raiz.style.getPropertyValue('--header-h') === alto) return;
-            raiz.style.setProperty('--header-h', alto);
-        };
-        setHeaderHeight();
-        window.addEventListener('resize', setHeaderHeight);
-        window.addEventListener('load', setHeaderHeight);
-    })();
-</script>
-
 <section
     id="sobre-mi"
     data-accent="sky-blue"
@@ -42,6 +26,7 @@ import foto from '@/assets/foto.png';
             <Picture
                 src={foto}
                 formats={['avif', 'webp']}
+                fallbackFormat="webp"
                 alt="Francisco Jarusz"
                 widths={[400, 700, 1000]}
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -63,7 +48,7 @@ import foto from '@/assets/foto.png';
                 </p>
                 <p>
                     Hoy, cursando el segundo año de la Licenciatura en Gestión
-                    de Tecnología de la Información en la Univseridad Argentina
+                    de Tecnología de la Información en la Universidad Argentina
                     de la Empresa (UADE), encontré en el Front-end y el diseño
                     UX/UI el punto de equilibrio perfecto: el ecosistema donde
                     la creatividad y la lógica conviven sin tener que elegir

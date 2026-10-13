@@ -11,22 +11,6 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
 );
 ---
 
-<script is:inline>
-    (() => {
-        const setHeaderHeight = () => {
-            const header = document.getElementById('site-header');
-            if (!header) return;
-            const alto = header.getBoundingClientRect().height + 'px';
-            const raiz = document.documentElement;
-            if (raiz.style.getPropertyValue('--header-h') === alto) return;
-            raiz.style.setProperty('--header-h', alto);
-        };
-        setHeaderHeight();
-        window.addEventListener('resize', setHeaderHeight);
-        window.addEventListener('load', setHeaderHeight);
-    })();
-</script>
-
 <section
     id="proyectos"
     data-accent="yellow"
@@ -57,6 +41,7 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>(
                                 <Picture
                                     src={imagen}
                                     formats={['avif', 'webp']}
+                                    fallbackFormat="webp"
                                     pictureAttributes={{ class: 'block' }}
                                     alt={`Captura del sitio ${item.nombre}`}
                                     widths={[480, 800, 1200, 1600]}

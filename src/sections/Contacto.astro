@@ -1,6 +1,5 @@
 ---
 import RollText from '@/components/ui/RollText.astro';
-import FlechaDibujo from '@/components/ui/FlechaDibujo.astro';
 import IconoRed from '@/components/ui/IconoRed.astro';
 
 const email = 'franszdev.web@gmail.com';
@@ -22,9 +21,13 @@ const redes = [
     },
 ];
 
+const turnstile = import.meta.env.DEV
+    ? '1x00000000000000000000AA'
+    : (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '');
+
 const campos = [
-    { id: 'nombre', label: 'Nombre', tipo: 'text', auto: 'name' },
-    { id: 'email', label: 'Email', tipo: 'email', auto: 'email' },
+    { id: 'nombre', label: 'Nombre', tipo: 'text', auto: 'name', max: 100 },
+    { id: 'email', label: 'Email', tipo: 'email', auto: 'email', max: 200 },
 ];
 ---
 
@@ -35,7 +38,9 @@ const campos = [
     class="bg-orange px-(--gutter) py-16 lg:py-24 border-t-4 border-b-4 border-black min-h-screen"
 >
     <div class="flex flex-col gap-12">
-        <div class="flex flex-row justify-between items-center max-sm:flex-col max-sm:items-start max-sm:gap-6">
+        <div
+            class="flex flex-row justify-between items-center max-sm:flex-col max-sm:items-start max-sm:gap-6"
+        >
             <h2
                 data-contacto-title
                 class="font-bold font-bricolage text-white text-5xl sm:text-7xl lg:text-8xl text-stroke-brutal text-shadow-brutal [--brutal-offset:0.052em] [--stroke-width:0.073em]"
@@ -68,8 +73,7 @@ const campos = [
                                     <IconoRed nombre={red.icono} />
                                 ) : (
                                     <>
-                                        <RollText
-                                            text={red.nombre} />
+                                        <RollText text={red.nombre} />
                                     </>
                                 )}
                             </a>
@@ -91,7 +95,7 @@ const campos = [
                 type="button"
                 data-copiar
                 data-email={email}
-                class="cursor-pointer border-2 shadow-brutal-sm shrink-0 rounded-button border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
+                class="cursor-pointer border-2 shadow-brutal-sm shrink-0 rounded-[12px] border-black bg-white bg-clip-padding px-6 py-2 text-sm font-bold text-black uppercase transition-all duration-300 hover:scale-102 active:scale-97 active:shadow-none"
             >
                 Copiar
             </button>
@@ -129,10 +133,13 @@ const campos = [
                                     name={campo.id}
                                     type={campo.tipo as 'text' | 'email'}
                                     autocomplete={campo.auto}
+                                    maxlength={campo.max}
                                     required
-                                    class="campo border-3 rounded-2xl border-black bg-white px-5 py-3 text-base transition-[translate,box-shadow,background-color] duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
+                                    aria-describedby={`error-${campo.id}`}
+                                    class="campo border-3 rounded-[12px] border-black bg-white px-5 py-3 text-base transition-[translate,box-shadow,background-color] duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
                                 />
                                 <p
+                                    id={`error-${campo.id}`}
                                     data-error-de={campo.id}
                                     class="hidden text-xs font-bold"
                                 />
@@ -152,19 +159,27 @@ const campos = [
                         id="mensaje"
                         name="mensaje"
                         rows="5"
+                        maxlength="5000"
                         required
-                        class="campo border-3 resize-none overflow-hidden focus:overflow-auto rounded-2xl border-black bg-white px-5 py-3 text-base transition-[translate,box-shadow,background-color] duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
+                        aria-describedby="error-mensaje"
+                        class="campo border-3 resize-none overflow-hidden focus:overflow-auto rounded-[12px] border-black bg-white px-5 py-3 text-base transition-[translate,box-shadow,background-color] duration-300 outline-none focus:shadow-brutal focus:-translate-x-1 focus:-translate-y-1"
                     ></textarea>
-                    <p data-error-de="mensaje" class="hidden text-xs font-bold">
+                    <p
+                        id="error-mensaje"
+                        data-error-de="mensaje"
+                        class="hidden text-xs font-bold"
+                    >
                     </p>
                 </div>
+
+                <div data-turnstile={turnstile} hidden></div>
 
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <p
                         data-estado
                         role="status"
                         aria-live="polite"
-                        class="border-2 hidden rounded-full border-black px-4 py-1.5 text-sm"
+                        class="border-2 hidden rounded-[12px] border-black px-4 py-1.5 text-sm"
                     >
                     </p>
 
@@ -172,7 +187,8 @@ const campos = [
                         type="submit"
                         class="cursor-pointer ml-auto text-md font-bold py-2 px-7 uppercase text-black bg-orange border-2 border-black shadow-brutal-sm rounded-button bg-clip-padding hover:scale-102 active:scale-97 active:shadow-none transition-all duration-300 disabled:pointer-events-none disabled:opacity-60"
                     >
-                        <RollText text="Enviar" />
+                        <span data-texto-listo><RollText text="Enviar" /></span>
+                        <span data-texto-enviando hidden>Enviando...</span>
                     </button>
                 </div>
             </form>
@@ -217,11 +233,107 @@ const campos = [
         const enviar = form.querySelector<HTMLButtonElement>(
             'button[type="submit"]'
         )!;
+        const textoListo =
+            enviar.querySelector<HTMLElement>('[data-texto-listo]')!;
+        const textoEnviando = enviar.querySelector<HTMLElement>(
+            '[data-texto-enviando]'
+        )!;
+
+        // Se alterna entre dos spans en vez de pisar el texto del botón: con
+        // textContent se borraba el markup de RollText y perdía la animación.
+        const ocupado = (enviando: boolean) => {
+            enviar.disabled = enviando;
+            textoListo.hidden = enviando;
+            textoEnviando.hidden = !enviando;
+        };
         const campos = [
             ...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
                 '.campo'
             ),
         ];
+
+        // Turnstile se carga recién cuando el form se acerca a la pantalla
+        // para no sumarle peso a la carga inicial. Con interaction-only no se
+        // ve nada salvo que Cloudflare dude y pida un click.
+        const verificacion =
+            form.querySelector<HTMLElement>('[data-turnstile]')!;
+        type Turnstile = {
+            render: (
+                contenedor: HTMLElement,
+                opciones: Record<string, unknown>
+            ) => string | undefined;
+            reset: (widget: string) => void;
+        };
+        const api = () =>
+            (window as unknown as { turnstile?: Turnstile }).turnstile;
+
+        let widget: string | undefined;
+        let token = '';
+        let alLlegarToken: (() => void) | null = null;
+
+        const cargarVerificacion = () => {
+            const sitekey = verificacion.dataset.turnstile;
+            if (!sitekey || document.getElementById('turnstile-api')) return;
+
+            const script = document.createElement('script');
+            script.id = 'turnstile-api';
+            script.src =
+                'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+            script.async = true;
+            script.onload = () => {
+                widget = api()?.render(verificacion, {
+                    sitekey,
+                    language: 'es',
+                    theme: 'light',
+                    appearance: 'interaction-only',
+                    'response-field': false,
+                    callback: (nuevo: string) => {
+                        token = nuevo;
+                        alLlegarToken?.();
+                    },
+                    'expired-callback': () => (token = ''),
+                    'error-callback': () => {
+                        token = '';
+                    },
+                    'before-interactive-callback': () =>
+                        (verificacion.hidden = false),
+                    'after-interactive-callback': () =>
+                        (verificacion.hidden = true),
+                });
+            };
+            document.head.append(script);
+        };
+
+        new IntersectionObserver(
+            ([entrada], observador) => {
+                if (!entrada.isIntersecting) return;
+                observador.disconnect();
+                cargarVerificacion();
+            },
+            { rootMargin: '600px 0px' }
+        ).observe(form);
+        form.addEventListener('focusin', cargarVerificacion, { once: true });
+
+        const esperarToken = (ms: number) =>
+            token
+                ? Promise.resolve(token)
+                : new Promise<string>((resolver) => {
+                      const limite = setTimeout(() => {
+                          alLlegarToken = null;
+                          resolver('');
+                      }, ms);
+                      alLlegarToken = () => {
+                          clearTimeout(limite);
+                          alLlegarToken = null;
+                          resolver(token);
+                      };
+                  });
+
+        // Cada token sirve una sola vez: después de usarlo se pide otro
+        const renovarToken = () => {
+            token = '';
+            if (widget) api()?.reset(widget);
+        };
 
         const mostrarEstado = (texto: string, ok: boolean) => {
             estado.textContent = texto;
@@ -315,15 +427,38 @@ const campos = [
             const datos = new FormData(form);
             if (datos.get('sitio-web')) return;
 
-            enviar.disabled = true;
-            enviar.textContent = 'Enviando...';
+            ocupado(true);
+            cargarVerificacion();
+
+            const turnstile = await esperarToken(10000);
+            if (!turnstile) {
+                mostrarEstado(
+                    verificacion.hidden
+                        ? 'No pudimos verificar que no seas un bot. Probá de nuevo'
+                        : 'Completá la verificación y volvé a enviar',
+                    false
+                );
+                ocupado(false);
+                return;
+            }
 
             try {
                 const res = await fetch('/api/contacto', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(Object.fromEntries(datos)),
+                    body: JSON.stringify({
+                        ...Object.fromEntries(datos),
+                        turnstile,
+                    }),
+                    signal: AbortSignal.timeout(15000),
                 });
+                if (res.status === 403) {
+                    mostrarEstado(
+                        'No pudimos verificar que no seas un bot. Probá de nuevo',
+                        false
+                    );
+                    return;
+                }
                 if (!res.ok) throw new Error(String(res.status));
 
                 form.reset();
@@ -331,8 +466,8 @@ const campos = [
             } catch {
                 mostrarEstado('No se pudo enviar. Escribime por mail', false);
             } finally {
-                enviar.disabled = false;
-                enviar.textContent = 'Enviar';
+                renovarToken();
+                ocupado(false);
             }
         });
     }
@@ -347,7 +482,9 @@ const campos = [
     gsap.registerPlugin(ScrollTrigger);
 
     const contacto = document.getElementById('contacto');
-    const titulo = contacto?.querySelector<HTMLElement>('[data-contacto-title]');
+    const titulo = contacto?.querySelector<HTMLElement>(
+        '[data-contacto-title]'
+    );
     const redes = contacto?.querySelectorAll('[data-contacto-redes] li');
     const email = contacto?.querySelector('[data-contacto-email]');
     const formulario = contacto?.querySelector('[data-form-contacto]');
@@ -406,7 +543,9 @@ const campos = [
                     }
                 )
                 .fromTo(
-                    formulario.querySelectorAll(':scope > .grid > div, :scope > .flex'),
+                    formulario.querySelectorAll(
+                        ':scope > .grid > div, :scope > .flex'
+                    ),
                     { autoAlpha: 0, y: 24 },
                     {
                         autoAlpha: 1,

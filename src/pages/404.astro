@@ -1,0 +1,27 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Hero from '@/sections/Hero.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<Layout titulo="Página no encontrada - Francisco Jarusz" indexar={false}>
+    <Header />
+    <main>
+        <Hero
+            etiqueta="Error 404"
+            titulo="Página no encontrada"
+            texto="Puede que el link esté mal escrito o que la página se haya mudado. Lo que buscás seguro está en el inicio."
+            botones={[
+                { texto: 'Volver al inicio', href: '/', color: 'bg-soft-green' },
+                {
+                    texto: 'Ver proyectos',
+                    href: '/#proyectos',
+                    color: 'bg-coral-pink',
+                },
+            ]}
+            conFoto={false}
+        />
+    </main>
+    <Footer />
+</Layout>

@@ -2,22 +2,6 @@
 import experiencia from '@/data/experiencia.json';
 ---
 
-<script is:inline>
-    (() => {
-        const setHeaderHeight = () => {
-            const header = document.getElementById('site-header');
-            if (!header) return;
-            const alto = header.getBoundingClientRect().height + 'px';
-            const raiz = document.documentElement;
-            if (raiz.style.getPropertyValue('--header-h') === alto) return;
-            raiz.style.setProperty('--header-h', alto);
-        };
-        setHeaderHeight();
-        window.addEventListener('resize', setHeaderHeight);
-        window.addEventListener('load', setHeaderHeight);
-    })();
-</script>
-
 <section
     id="experiencia"
     data-accent="yellow"
@@ -160,7 +144,7 @@ import experiencia from '@/data/experiencia.json';
                                                     src="/arrow.svg"
                                                     width="185"
                                                     height="184"
-                                                    alt="Flecha mirando hacia la derecha"
+                                                    alt=""
                                                     class="w-3 -rotate-45 transition-transform duration-300 group-hover:rotate-0"
                                                 />
                                             </a>

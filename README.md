@@ -1,46 +1,51 @@
-# Astro Starter Kit: Basics
+# Fransz — Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+Portfolio de **Francisco Jarusz**, desarrollador web y diseñador UX/UI en Buenos Aires.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+🔗 [franszdev.com](https://franszdev.com)
 
-## 🚀 Project Structure
+![Francisco Jarusz — Desarrollador web & diseñador UX/UI](public/og.png)
 
-Inside of your Astro project, you'll see the following folders and files:
+## Stack
+
+- **[Astro](https://astro.build)** — sitio estático de una página, con imágenes optimizadas a AVIF/WebP.
+- **[Tailwind CSS 4](https://tailwindcss.com)** — estética neobrutalista con utilidades propias (`shadow-brutal`, `text-stroke-brutal`).
+- **[GSAP](https://gsap.com) + ScrollTrigger + SplitText** — animaciones de entrada, línea de tiempo con scroll y títulos letra por letra.
+- **[Lenis](https://lenis.darkroom.engineering)** — scroll suave, desactivado con `prefers-reduced-motion`.
+- **[Resend](https://resend.com)** — envío del formulario de contacto, con aviso interno y confirmación al visitante.
+- **[Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/)** — verificación anti-bots, invisible salvo que haga falta.
+- **[Vercel](https://vercel.com)** — hosting y función serverless del formulario.
+
+## Estructura
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+api/
+├── contacto.ts      # Endpoint del formulario: valida, verifica Turnstile y envía con Resend
+└── _emails.ts       # Plantillas HTML de los mails (tablas y estilos en línea)
+src/
+├── components/      # Header, Footer y piezas de UI (RollText, FlechaDibujo, ...)
+├── data/            # Experiencia y proyectos en JSON
+├── layouts/         # Layout con SEO, Open Graph y JSON-LD
+├── scripts/         # Lenis, acento por sección y animaciones compartidas
+├── sections/        # Hero, Experiencia, Proyectos, Sobre mí, Contacto
+└── styles/          # Tema y utilidades de Tailwind
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Desarrollo
 
-## 🧞 Commands
+```sh
+npm install
+npm run dev       # Solo el sitio, en localhost:4321 (sin /api)
+vercel dev        # Sitio + función del formulario
+npm run build     # Build de producción en ./dist
+```
 
-All commands are run from the root of the project, from a terminal:
+En local, el formulario y el endpoint usan las claves de prueba de Turnstile, así que se puede probar sin configurar nada más que Resend.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Variables de entorno
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Variable                    | Uso                                                |
+| :-------------------------- | :------------------------------------------------- |
+| `RESEND_API_KEY`            | Envío de mails desde `contacto@franszdev.com`      |
+| `PUBLIC_TURNSTILE_SITE_KEY` | Clave pública del widget (se lee en el build)      |
+| `TURNSTILE_SECRET_KEY`      | Verificación del token en el endpoint              |

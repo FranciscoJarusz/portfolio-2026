@@ -2,10 +2,6 @@
 @import '@fontsource-variable/work-sans/wght.css';
 
 @import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
-
-@custom-variant dark (&:is(.dark *));
 
 @theme {
     --color-yellow: #ffd23f;
@@ -99,4 +95,23 @@ body {
 
 ::-webkit-scrollbar-track {
     background: var(--color-black) !important;
+}
+
+/* Fundido al pasar de una página a otra (ej. de la 404 al inicio) en vez del
+   corte en blanco. Es nativo del navegador: donde no hay soporte se navega
+   como siempre. El header tiene nombre propio para quedar quieto. */
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+}
+
+#site-header {
+    view-transition-name: header;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.35s;
+    animation-timing-function: ease-out;
 }
