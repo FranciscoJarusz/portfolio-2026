@@ -24,3 +24,7 @@ pnpm-debug.log*
 .idea/
 .vercel
 .env*
+
+# skills de Claude Code
+.agents/
+skills-lock.json

@@ -11,12 +11,11 @@
         "link": false,
         "url": "#"
     },
-
     {
         "fecha": "Jul 2025 - Nov 2025",
-        "cargo": "Desarrollador Front-end y Diseñador de identidad",
+        "cargo": "Desarrollador Web y Diseñador de identidad",
         "empresa": "Synerbio",
-        "descripcion": "<strong>Lideré el desarrollo </strong> de la identidad digital y una plataforma optimizada para la <strong>captación de leads</strong>. Creé el <strong>ecosistema visual de la marca</strong> y una arquitectura técnica robusta, logrando <strong>maximizar la conversión</strong> y asegurando una experiencia fluida en todos los dispositivos.",
+        "descripcion": "Diseñé la <strong>identidad visual</strong> y construí el sitio bilingüe de Synerbio, una empresa de comercio exterior de insumos médicos, para que clínicas y hospitales <strong>consulten el catálogo</strong> y le escriban por formulario o WhatsApp.",
         "color": "#f8f9fa",
         "colorTexto": "#1a1a1a",
         "colorBoton": "#b8a9fa",
@@ -25,10 +24,10 @@
         "url": "https://www.synerbio.us/es/"
     },
     {
-        "fecha": "Jul 2025 - Actualidad",
-        "cargo": "Desarrollador Web Full Stack",
+        "fecha": "Nov 2025 - Mar 2026",
+        "cargo": "Desarrollador Web",
         "empresa": "Ethigy",
-        "descripcion": "<strong>Lideré el desarrollo integral</strong> del sitio desde cero y actualmente encabezo su <strong>mantenimiento y optimización</strong>. Implementé una arquitectura moderna que eliminó deuda técnica, logrando un rendimiento de <strong>100/100 en Lighthouse</strong> y consolidando una plataforma <strong>altamente eficiente, escalable y centrada en el rendimiento</strong>.",
+        "descripcion": "Diseñé y construí el sitio de Ethigy, una empresa de servicios IT, para presentar sus <strong>servicios y metodología</strong> y recibir consultas. Sumé un <strong>globo interactivo</strong> que le da identidad y logré <strong>100/100 en Lighthouse</strong>.",
         "color": "#f8f9fa",
         "colorTexto": "#1a1a1a",
         "colorBoton": "#b8a9fa",
@@ -40,7 +39,7 @@
         "fecha": "Ene 2026 - Actualidad",
         "cargo": "Desarrollador Front-end y Diseñador gráfico",
         "empresa": "Cirugía JF S.A.",
-        "descripcion": "Lideré la evolución de la <strong>identidad visual</strong> y la <strong>optimización técnica</strong> del sitio institucional. Logré elevar el rendimiento en <strong>Lighthouse de 86 a 100 puntos</strong> y estandaricé la <strong>línea gráfica</strong> para el lanzamiento de <strong>canales oficiales en redes sociales</strong>, asegurando una experiencia de usuario fluida y profesional.",
+        "descripcion": "Mantengo el sitio institucional de Cirugía JF, donde llevé el rendimiento de <strong>86 a 100 en Lighthouse</strong>, y diseño las <strong>publicaciones de sus redes sociales</strong> con una <strong>línea gráfica unificada</strong>.",
         "color": "#f8f9fa",
         "colorTexto": "#1a1a1a",
         "colorBoton": "#b8a9fa",

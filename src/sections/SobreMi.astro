@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import foto from '@/assets/foto.png';
+import foto from '@/assets/francisco-jarusz.png';
 ---
 
 <section
@@ -21,7 +21,7 @@ import foto from '@/assets/foto.png';
     >
         <div
             data-sobre-foto
-            class="shadow-brutal relative basis-1/2 2xl:basis-[40%] shrink-0 self-stretch overflow-hidden max-lg:basis-auto max-lg:aspect-square sm:max-lg:aspect-4/3 rounded-3xl border-4 border-black"
+            class="shadow-brutal relative basis-1/2 xl:basis-[35%] 2xl:basis-[30%] shrink-0 self-stretch aspect-square overflow-hidden max-lg:basis-auto max-lg:w-full max-lg:max-w-md max-lg:self-center rounded-3xl border-4 border-black"
         >
             <Picture
                 src={foto}
@@ -30,16 +30,16 @@ import foto from '@/assets/foto.png';
                 alt="Francisco Jarusz"
                 widths={[400, 700, 1000]}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                class="absolute inset-0 h-full w-full object-cover"
+                class="absolute inset-0 h-full w-full object-cover object-[50%_30%]"
             />
         </div>
 
         <div
             data-sobre-texto
-            class="shadow-brutal relative flex flex-col justify-center rounded-3xl border-4 border-black bg-white px-6 py-8 sm:px-10 sm:py-15"
+            class="shadow-brutal relative flex flex-1 flex-col justify-center rounded-3xl border-4 border-black bg-white px-6 py-8 sm:px-10 sm:py-15"
         >
             <div
-                class="flex flex-col items-center justify-center h-full gap-6 text-base max-w-3xl"
+                class="flex flex-col items-center justify-center h-full gap-6 text-base 2xl:text-lg"
             >
                 <p>
                     ¡Hola! Soy Francisco Jarusz. Mi pasión por lo visual empezó
@@ -47,19 +47,16 @@ import foto from '@/assets/foto.png';
                     programación supe que quería dedicarme a la tecnología.
                 </p>
                 <p>
-                    Hoy, cursando el segundo año de la Licenciatura en Gestión
-                    de Tecnología de la Información en la Universidad Argentina
-                    de la Empresa (UADE), encontré en el Front-end y el diseño
-                    UX/UI el punto de equilibrio perfecto: el ecosistema donde
-                    la creatividad y la lógica conviven sin tener que elegir
-                    una.
+                    Hoy estudio Gestión de Tecnología de la Información en UADE,
+                    y en el Front-end y el diseño UX/UI encontré mi punto de
+                    equilibrio: un lugar donde la creatividad y la lógica
+                    conviven sin tener que elegir una.
                 </p>
                 <p>
-                    Creo que los detalles no son un extra, son lo que define a
-                    una buena experiencia. Esa atención es lo que hace que un
-                    proyecto pase de sentirse simplemente bien, a sentirse
-                    terminado. Esa última parte es la parte que más disfruto de
-                    mi trabajo.
+                    Creo que los detalles no son un extra, son lo que define una
+                    buena experiencia. Esa atención es lo que hace que un
+                    proyecto pase de sentirse bien a sentirse terminado, y es la
+                    parte que más disfruto de mi trabajo.
                 </p>
             </div>
         </div>

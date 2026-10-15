@@ -406,9 +406,6 @@ import experiencia from '@/data/experiencia.json';
                     });
 
                     if (star) {
-                        // scale: 1 explícito: si la estrella todavía está
-                        // entrando, gsap leería su escala a mitad de camino
-                        // y la dejaría fija en el estilo inline.
                         gsap.set(star, { x: -corrido, y: scroll, scale: 1 });
                     }
                 };
@@ -436,8 +433,6 @@ import experiencia from '@/data/experiencia.json';
                     animarTitulo(title, { trigger: title, start: 'top 85%' });
                 }
 
-                // La línea no se mueve: cada tramo se dibuja con el scroll y
-                // empalma con el siguiente, así se lee como una sola línea.
                 items.forEach((item) => {
                     const seg = item.querySelector<HTMLElement>(
                         '[data-timeline-seg]'
@@ -446,9 +441,6 @@ import experiencia from '@/data/experiencia.json';
                     const dot = item.querySelector('[data-timeline-dot]');
                     const card = item.querySelector('[data-timeline-card]');
 
-                    // El trigger es el artículo con la posición del tramo: si
-                    // fuera el tramo, ScrollTrigger lo mediría ya con
-                    // scaleY 0 (alto 0) y la línea aparecería de golpe.
                     if (seg) {
                         gsap.fromTo(
                             seg,

@@ -22,15 +22,9 @@ const posiciones = (el: HTMLElement) => {
     return rects;
 };
 
-// Partir en letras pierde el kerning: cada letra queda en su caja. Se corre
-// cada máscara a donde estaba la letra en el texto original para que al
-// revertir el split no se note ningún salto.
 export const partirLetras = (titulo: HTMLElement, mascaras?: gsap.TweenVars) => {
     const antes = posiciones(titulo);
 
-    // En Safari las máscaras (inline-block con overflow) bajan la línea base y
-    // el título crece unos px mientras está partido: al revertir, todo lo de
-    // abajo saltaba para arriba. Se fija el alto hasta que se revierte.
     gsap.set(titulo, { height: titulo.getBoundingClientRect().height });
 
     const split = SplitText.create(titulo, {

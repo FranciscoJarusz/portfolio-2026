@@ -3,7 +3,9 @@ const secciones = [...document.querySelectorAll<HTMLElement>('[data-accent]')];
 
 const enlaces = [
     ...document.querySelectorAll<HTMLAnchorElement>('header nav a[href*="#"]'),
-];
+].filter((enlace) => enlace.pathname === location.pathname);
+
+const conBarra = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 let seccionActual: HTMLElement | null = null;
 let pendiente = false;
@@ -55,13 +57,13 @@ const actualizar = () => {
 
         seccionActual = seccion;
         marcarEnlace(seccion);
-        raiz.style.scrollbarColor = `var(--color-${accent}) transparent`;
+        if (conBarra) {
+            raiz.style.scrollbarColor = `var(--color-${accent}) transparent`;
+        }
         return;
     }
 };
 
-// Cambiar --accent en :root recalcula el estilo de toda la página, así que el
-// color de selección se actualiza recién cuando alguien empieza a seleccionar.
 let seleccionAplicada: HTMLElement | null = null;
 
 document.addEventListener('selectstart', () => {

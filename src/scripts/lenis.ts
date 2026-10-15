@@ -7,8 +7,6 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Con movimiento reducido la rueda queda nativa y los saltos a anclas son
-// instantáneos: Lenis sigue solo para que ScrollTrigger se entere del scroll.
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

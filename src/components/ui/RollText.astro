@@ -13,11 +13,12 @@ const letras = text.split('').map((letra) => (letra === ' ' ? ' ' : letra));
     data-roll-text
     class:list={['relative inline-flex overflow-hidden', className]}
 >
-    <span class="relative flex">
+    <span class="sr-only">{text}</span>
+    <span class="relative flex" aria-hidden="true">
         <span class="first-text flex">
             {letras.map((letra) => <span class="letter inline-block">{letra}</span>)}
         </span>
-        <span class="second-text absolute inset-0 flex" aria-hidden="true">
+        <span class="second-text absolute inset-0 flex">
             {letras.map((letra) => <span class="letter inline-block">{letra}</span>)}
         </span>
     </span>
@@ -60,9 +61,6 @@ const letras = text.split('').map((letra) => (letra === ' ' ? ' ' : letra));
                 0
             );
 
-        // Una vuelta completa disparada desde afuera (el header la usa cuando
-        // entras a la seccion). Las dos copias dicen lo mismo, asi que volver a
-        // cero al terminar no se ve.
         let solo = false;
 
         tl.eventCallback('onComplete', () => {

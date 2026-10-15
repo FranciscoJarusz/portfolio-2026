@@ -1,20 +1,15 @@
 import { Resend } from 'resend';
 import { aviso, confirmacion } from './_emails.js';
 
-// Sin comillas, <>, comas ni ; para que no rompa el replyTo
 const EMAIL_VALIDO = /^[^\s@<>",;]+@[^\s@<>",;]+\.[^\s@<>",;]+$/;
 const DESTINO = 'franszdev.web@gmail.com';
 
 const texto = (valor: unknown, max: number) =>
     typeof valor === 'string' ? valor.trim().slice(0, max) : '';
 
-// El nombre va al asunto y al replyTo: un salto de línea o un <> ahí hace que
-// Resend rechace el envío aunque el resto esté bien.
 const unaLinea = (valor: string) =>
     valor.replace(/[\r\n\t]+/g, ' ').replace(/["<>]/g, '').trim();
 
-// Un navegador siempre manda Origin en un POST: así otro sitio no puede usar
-// el endpoint desde su página. Un script puede falsificarlo, no es anti-bots.
 const mismoOrigen = (request: Request) => {
     const origen = request.headers.get('origin');
     if (!origen) return false;
@@ -25,8 +20,34 @@ const mismoOrigen = (request: Request) => {
     }
 };
 
-// Turnstile responde si el token lo generó una persona en este sitio. Cada
-// token sirve una sola vez, por eso el form pide uno nuevo después de enviar.
+const VENTANA = 10 * 60 * 1000;
+const MAXIMO = 3;
+const intentos = new Map<string, number[]>();
+
+const limitado = (clave: string) => {
+    const ahora = Date.now();
+    const recientes = (intentos.get(clave) ?? []).filter(
+        (momento) => ahora - momento < VENTANA
+    );
+
+    if (recientes.length >= MAXIMO) {
+        intentos.set(clave, recientes);
+        return true;
+    }
+
+    recientes.push(ahora);
+    intentos.set(clave, recientes);
+
+    if (intentos.size > 1000) {
+        for (const [otra, momentos] of intentos) {
+            if (momentos.every((momento) => ahora - momento >= VENTANA))
+                intentos.delete(otra);
+        }
+    }
+
+    return false;
+};
+
 const esHumano = async (token: string, secreto: string, ip: string | null) => {
     const cuerpo = new URLSearchParams({ secret: secreto, response: token });
     if (ip) cuerpo.set('remoteip', ip);
@@ -56,7 +77,6 @@ export async function POST(request: Request) {
         return Response.json({ error: 'Datos inválidos' }, { status: 400 });
     }
 
-    // El campo trampa solo lo completan los bots: se responde ok sin enviar
     if (datos['sitio-web']) return Response.json({ ok: true });
 
     const nombre = unaLinea(texto(datos.nombre, 100));
@@ -68,11 +88,8 @@ export async function POST(request: Request) {
     }
 
     const clave = process.env.RESEND_API_KEY;
-    // En local el form usa la clave de prueba, así que acá también. Vercel
-    // enruta por host: un pedido con host localhost nunca llega a producción.
-    const local = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(
-        request.headers.get('host') ?? ''
-    );
+    const entorno = process.env.VERCEL_ENV;
+    const local = !entorno || entorno === 'development';
     const secreto = local
         ? '1x0000000000000000000000000000000AA'
         : process.env.TURNSTILE_SECRET_KEY;
@@ -81,15 +98,21 @@ export async function POST(request: Request) {
         return Response.json({ error: 'No se pudo enviar' }, { status: 500 });
     }
 
-    const token = texto(datos.turnstile, 2048);
     const ip = request.headers.get('x-real-ip');
+    if (
+        (ip && limitado(`ip:${ip}`)) ||
+        limitado(`email:${email.toLowerCase()}`)
+    ) {
+        return Response.json({ error: 'Demasiados envíos' }, { status: 429 });
+    }
+
+    const token = texto(datos.turnstile, 2048);
     if (!token || !(await esHumano(token, secreto, ip))) {
         return Response.json({ error: 'Verificación fallida' }, { status: 403 });
     }
 
     const resend = new Resend(clave);
 
-    // Resend no tira excepción si falla el envío: devuelve el error
     const { error } = await resend.emails.send({
         from: 'Portfolio <contacto@franszdev.com>',
         to: DESTINO,
@@ -104,15 +127,13 @@ export async function POST(request: Request) {
         return Response.json({ error: 'No se pudo enviar' }, { status: 500 });
     }
 
-    // El mensaje ya llegó: si falla la confirmación no se le avisa error al
-    // usuario, solo queda en el log.
     const { error: errorConfirmacion } = await resend.emails.send({
         from: 'Francisco Jarusz <contacto@franszdev.com>',
         to: email,
         replyTo: DESTINO,
         subject: 'Recibí tu mensaje',
         html: confirmacion({ nombre }),
-        text: `¡Gracias, ${nombre.split(' ')[0]}!\n\nRecibí tu mensaje y te respondo a la brevedad. Si querés sumar algo más, respondé este mail y me llega directo.\n\nFrancisco Jarusz\nDesarrollador web & diseñador UX/UI\nhttps://franszdev.com`,
+        text: `¡Gracias, ${nombre.split(' ')[0].slice(0, 30)}!\n\nRecibí tu mensaje y te respondo a la brevedad. Si querés sumar algo más, respondé este mail y me llega directo.\n\nFrancisco Jarusz\nDesarrollador web & diseñador UX/UI\nhttps://franszdev.com`,
     });
 
     if (errorConfirmacion) console.error(errorConfirmacion);

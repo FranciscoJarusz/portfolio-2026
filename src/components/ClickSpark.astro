@@ -45,17 +45,19 @@ const {
         let chispas: Chispa[] = [];
         let raf: number | null = null;
 
-        // El canvas va fijo al viewport, así el efecto funciona en toda la
-        // página sin importar cuánto scroll haya. En iOS la barra de Safari
-        // dispara resize en cada scroll: solo se recrea si cambia el ancho o
-        // si el alto supera al que ya tiene.
+        const densidad = Math.min(window.devicePixelRatio || 1, 2);
+        let ancho = 0;
+        let alto = 0;
+
         const ajustar = () => {
-            if (canvas.width === innerWidth && canvas.height >= innerHeight)
-                return;
-            canvas.width = innerWidth;
-            canvas.height = Math.max(innerHeight, canvas.height);
-            canvas.style.width = `${canvas.width}px`;
-            canvas.style.height = `${canvas.height}px`;
+            if (ancho === innerWidth && alto >= innerHeight) return;
+            ancho = innerWidth;
+            alto = Math.max(innerHeight, alto);
+            canvas.width = ancho * densidad;
+            canvas.height = alto * densidad;
+            canvas.style.width = `${ancho}px`;
+            canvas.style.height = `${alto}px`;
+            ctx.setTransform(densidad, 0, 0, densidad, 0, 0);
         };
 
         let pendiente: number | undefined;
@@ -66,7 +68,7 @@ const {
         ajustar();
 
         const dibujar = (ahora: number) => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, ancho, alto);
 
             chispas = chispas.filter((chispa) => {
                 const pasado = ahora - chispa.inicio;
@@ -93,8 +95,6 @@ const {
                 return true;
             });
 
-            // Sin chispas no hay nada que dibujar: el loop se corta hasta el
-            // próximo clic en vez de repintar el canvas 60 veces por segundo.
             raf = chispas.length ? requestAnimationFrame(dibujar) : null;
         };
 

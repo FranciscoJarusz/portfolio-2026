@@ -35,7 +35,7 @@ const campos = [
     id="contacto"
     data-accent="orange"
     data-accent-antes="25"
-    class="bg-orange px-(--gutter) py-16 lg:py-24 border-t-4 border-b-4 border-black min-h-screen"
+    class="bg-orange px-(--gutter) py-16 lg:py-24 border-t-4 border-b-4 border-black min-h-svh"
 >
     <div class="flex flex-col gap-12">
         <div
@@ -239,8 +239,6 @@ const campos = [
             '[data-texto-enviando]'
         )!;
 
-        // Se alterna entre dos spans en vez de pisar el texto del botón: con
-        // textContent se borraba el markup de RollText y perdía la animación.
         const ocupado = (enviando: boolean) => {
             enviar.disabled = enviando;
             textoListo.hidden = enviando;
@@ -252,9 +250,6 @@ const campos = [
             ),
         ];
 
-        // Turnstile se carga recién cuando el form se acerca a la pantalla
-        // para no sumarle peso a la carga inicial. Con interaction-only no se
-        // ve nada salvo que Cloudflare dude y pida un click.
         const verificacion =
             form.querySelector<HTMLElement>('[data-turnstile]')!;
         type Turnstile = {
@@ -329,7 +324,6 @@ const campos = [
                       };
                   });
 
-        // Cada token sirve una sola vez: después de usarlo se pide otro
         const renovarToken = () => {
             token = '';
             if (widget) api()?.reset(widget);
@@ -455,6 +449,13 @@ const campos = [
                 if (res.status === 403) {
                     mostrarEstado(
                         'No pudimos verificar que no seas un bot. Probá de nuevo',
+                        false
+                    );
+                    return;
+                }
+                if (res.status === 429) {
+                    mostrarEstado(
+                        'Mandaste varios mensajes seguidos. Probá de nuevo en unos minutos',
                         false
                     );
                     return;

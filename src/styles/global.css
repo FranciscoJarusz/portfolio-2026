@@ -77,7 +77,6 @@ body {
 html {
     scroll-padding-top: calc(var(--header-h, 88px) + 1.5rem);
     scrollbar-color: var(--color-yellow) transparent;
-    transition: scrollbar-color 400ms ease;
 }
 
 ::selection {
@@ -97,9 +96,6 @@ body {
     background: var(--color-black) !important;
 }
 
-/* Fundido al pasar de una página a otra (ej. de la 404 al inicio) en vez del
-   corte en blanco. Es nativo del navegador: donde no hay soporte se navega
-   como siempre. El header tiene nombre propio para quedar quieto. */
 @media (prefers-reduced-motion: no-preference) {
     @view-transition {
         navigation: auto;

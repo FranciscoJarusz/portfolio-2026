@@ -6,7 +6,6 @@ import workSans from '@fontsource-variable/work-sans/files/work-sans-latin-wght-
 
 interface Props {
     titulo?: string;
-    // false en páginas como la 404: sin canonical y con noindex
     indexar?: boolean;
 }
 
@@ -15,7 +14,7 @@ const {
     indexar = true,
 } = Astro.props;
 const descripcion =
-    'Francisco Jarusz, desarrollador web y diseñador UX/UI en Buenos Aires. Sitios y aplicaciones web con Astro, TypeScript y GSAP.';
+    'Francisco Jarusz, desarrollador web y diseñador UX/UI en Buenos Aires. Diseño y desarrollo sitios web a medida para negocios, con identidad propia.';
 const canonica = new URL(Astro.url.pathname, Astro.site);
 const imagenOg = new URL('/og.png', Astro.site);
 
@@ -45,7 +44,7 @@ const persona = {
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={descripcion} />
         {
             indexar ? (

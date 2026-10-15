@@ -1,40 +1,48 @@
 [
     {
+        "categoria": "Colegio",
+        "nombre": "Colegio Thomas Jefferson",
+        "descripcion": "El Colegio Thomas Jefferson, de Temperley, necesitaba una web nueva. Diseñé el sitio en Figma, lo desarrollé y pasé la <strong>inscripción a online</strong>: la familia completa la ficha y adjunta el comprobante de pago. Además, el colegio <strong>elige los reels de Instagram</strong> de la portada desde un <strong>panel propio</strong>.",
+        "imagen": "ColegioThomasJefferson.png",
+        "tecnologias": ["Astro", "Cloudflare Workers", "Resend", "Figma"],
+        "url": "https://colegiothomasjefferson.edu.ar/"
+    },
+    {
         "categoria": "Arquitectura y construcción",
         "nombre": "SOMMA",
-        "descripcion": "Sitio institucional para una constructora de locales comerciales, con <strong>fichas de obra generadas a partir de datos</strong>. Resolví un <strong>hosting limitado (IIS + PHP 5.6)</strong> con un formulario de contacto propio, con SMTP y anti-spam, y <strong>correos diseñados en React Email</strong> que se convierten a plantillas HTML en el build. Se suman animaciones con GSAP y Lenis.",
+        "descripcion": "SOMMA construye locales comerciales para marcas como Carrefour, Cetrogar y Avalian, y necesitaba renovar su web sin cambiar de hosting. Diseñé y desarrollé un sitio con sus <strong>11 obras con ficha y galería</strong>, y adapté el formulario de contacto para que funcione en <strong>el servidor que ya pagaban</strong>.",
         "imagen": "Somma.png",
         "tecnologias": ["Astro", "TypeScript", "Tailwind", "GSAP"],
         "url": "https://somma.com.ar/"
     },
     {
-        "categoria": "Estudio creativo",
-        "nombre": "Dalú Marketing Digital",
-        "descripcion": "Sitio completo para un estudio de marketing digital y producción audiovisual. Construí un <strong>sistema de animaciones con GSAP, ScrollTrigger y Lenis</strong> —hero fijado con video, scroll horizontal y entradas encadenadas— y un <strong>flujo de contacto con Nodemailer y React Email</strong> que dispara aviso interno y confirmación al usuario.",
+        "categoria": "Agencia de marketing",
+        "nombre": "Dalú",
+        "descripcion": "Dalú es un estudio de marketing y producción audiovisual de Málaga que necesitaba su primera web. Diseñé su sitio y lo desarrollé con <strong>animaciones que acompañan el scroll</strong> y un formulario que <strong>responde al instante</strong> con un mail de la marca. Además, sus campañas de Google y Meta <strong>saben qué anuncio trajo cada consulta</strong>.",
         "imagen": "Dalú.png",
         "tecnologias": ["Astro", "TypeScript", "Tailwind", "GSAP"],
         "url": "https://dalustudios.com/"
     },
     {
-        "categoria": "Turismo",
+        "categoria": "Turismo rural",
         "nombre": "Villa Huertecilla",
-        "descripcion": "Landing page para una casa de campo en España con <strong>reservas integradas sin servicios externos</strong>. Integré la <strong>API de Google Calendar con OAuth y JWT</strong> para exponer la disponibilidad en tiempo real desde un endpoint propio, bloqueando las fechas ocupadas en el calendario del formulario y armando la consulta lista para enviar por WhatsApp.",
+        "descripcion": "Villa Huertecilla es una casa rural para 7 personas en Málaga que necesitaba presencia online y ordenar mejor sus reservas. Hice el diseño y el desarrollo del sitio, con un <strong>calendario conectado a su Google Calendar</strong>: los huéspedes ven los días ocupados y mandan la consulta <strong>con las fechas por WhatsApp</strong>. Con su agenda al día, <strong>la web se actualiza sola</strong>.",
         "imagen": "VillaHuertecilla.png",
         "tecnologias": ["Astro", "TypeScript", "Tailwind", "Google Calendar"],
         "url": "https://www.villahuertecilla.com/"
     },
     {
-        "categoria": "Plataforma Web3",
-        "nombre": "Primal Cult Cultomizer",
-        "descripcion": "Plataforma de personalización de activos Web3 que tomé en su etapa final para rescatar el proyecto y saldar la deuda técnica. Implementé <strong>autenticación por firma de wallet y verificación de propiedad on-chain (ApeChain)</strong>, <strong>composición server-side de GIFs animados</strong> con optimización de paleta que redujo el peso a la mitad, y la publicación de metadata que hace que la personalización se vea en la wallet del holder. Migré los ~2 GB de assets de la colección y me encargué del despliegue integral (Vercel + Railway).",
-        "imagen": "Cultomizer.png",
-        "tecnologias": ["Next.js", "TypeScript", "React", "Tailwind"],
-        "url": "https://cultomizer.primalcult.xyz/customizer?tokenId=1"
+        "categoria": "Colección NFT",
+        "nombre": "Primal Cult",
+        "descripcion": "Primal Cult es una colección de 2.712 NFTs que buscaba darles a sus dueños motivos para volver. Empecé rescatando su editor de personajes y terminé <strong>rediseñando y unificando toda su web</strong>: hoy cada dueño personaliza su personaje, <strong>el cambio aparece en su billetera</strong> y el equipo suma <strong>una nueva fuente de ingresos</strong>.",
+        "imagen": "PrimalCult.png",
+        "tecnologias": ["Astro", "React", "Node.js", "Web3"],
+        "url": "https://primalcult.xyz/"
     },
     {
         "categoria": "Tienda online",
         "nombre": "B&B Kicks",
-        "descripcion": "Plataforma web para una marca de sneakers y streetwear, partiendo de una base propia que adapté a la identidad del cliente. Integré <strong>Supabase para productos, talles, stock e imágenes en tiempo real</strong> y desarrollé un <strong>panel de administración</strong> para que el cliente cargue y edite contenido sin tocar código.",
+        "descripcion": "B&B Kicks, una tienda de sneakers y streetwear de Buenos Aires, necesitaba vender su stock y tomar encargos de lo que no tiene. Diseñé y desarrollé la tienda con un <strong>panel de administración propio</strong>: el dueño carga fotos, talles y precios, y cada pedido le llega <strong>ordenado a su WhatsApp</strong>.",
         "imagen": "B&BKicks.png",
         "tecnologias": ["Astro", "React", "Tailwind", "Supabase"],
         "url": "https://www.bybkicks.com/"

@@ -2,7 +2,10 @@
 const tecnologias = [
     'ASTRO',
     'REACT',
+    'NEXT.JS',
     'TAILWIND',
+    'SUPABASE',
+    'FIGMA',
     'JAVASCRIPT',
     'TYPESCRIPT',
     'GSAP',
@@ -15,7 +18,7 @@ const copias = Array.from({ length: COPIAS }, () => tecnologias);
 ---
 
 <section
-    aria-label="Tecnologias"
+    aria-label="Tecnologías"
     data-accent="yellow"
     class="overflow-hidden py-10 sm:py-16"
 >
@@ -71,7 +74,7 @@ const copias = Array.from({ length: COPIAS }, () => tecnologias);
 </style>
 
 <script>
-    const marquee = document.querySelector('section[aria-label="Tecnologias"]');
+    const marquee = document.querySelector('section[aria-label="Tecnologías"]');
 
     if (marquee) {
         new IntersectionObserver(([entrada]) => {
