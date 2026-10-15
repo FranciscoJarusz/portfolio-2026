@@ -138,7 +138,7 @@ import RollText from '@/components/ui/RollText.astro';
             animacionMenu = gsap
                 .timeline({
                     paused: true,
-                    defaults: { duration: conditions.reducido ? 0 : 0.4 },
+                    defaults: { duration: conditions.reducido ? 0.001 : 0.4 },
                 })
                 .fromTo(
                     menu,
